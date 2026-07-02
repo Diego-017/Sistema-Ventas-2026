@@ -1,4 +1,4 @@
-# VentasPro — Sistema de Ventas Profesional con Laravel 11
+# Ventas — Sistema de Ventas Profesional
 
 ## Instalación (5 pasos)
 
