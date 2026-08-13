@@ -1,4 +1,4 @@
-# VentasPro — Sistema de Ventas Profesional con Laravel 11
+# VentasPro — Sistema de Ventas Profesional con Laravel 11 Julio -Agosto 2026
 
 ## Instalación (5 pasos)
 
