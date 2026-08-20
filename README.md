@@ -1,4 +1,4 @@
-# VentasPro — Sistema de Ventas Profesional con Laravel 11 Julio -Agosto 2026
+# Sistema de Ventas Profesional con Laravel 11 Julio -Agosto 2026
 
 <img width="959" height="407" alt="Captura de pantalla 2026-07-21 214922" src="https://github.com/user-attachments/assets/9a537f77-252e-4885-a450-d5bff6e36ed4" />
 
