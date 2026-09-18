@@ -147,6 +147,12 @@
           <a href="{{ route('inventario.stock_lote') }}" class="nav-subitem {{ request()->is('inventario/stock-lote') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Consulta de Stock Lote</span>
           </a>
+          <a href="{{ route('inventario.margenes') }}" class="nav-subitem {{ request()->is('inventario/margenes') ? 'active':'' }}">
+            <span class="nav-dot"></span><span>Tabla de Márgenes</span>
+          </a>
+          <a href="{{ route('inventario.vencimientos') }}" class="nav-subitem {{ request()->is('inventario/vencimientos') ? 'active':'' }}">
+            <span class="nav-dot"></span><span>Vencimientos</span>
+          </a>
           <a href="{{ route('inventario.traslados') }}" class="nav-subitem {{ request()->is('inventario/traslados') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Administrar Traslados</span>
           </a>
@@ -181,22 +187,25 @@
       </div>
       @endif
 
-      {{-- CAJAS --}}
+      {{-- CAJAS Y CAJA CHICA --}}
       <div class="nav-group {{ $openCajas ? 'open':'' }}" data-group="cajas">
         <button type="button" class="nav-group-header {{ $openCajas ? 'active':'' }}" onclick="toggleNavGroup(this)">
-          <span class="nav-icon">🧮</span><span class="nav-label">Cajas</span>
+          <span class="nav-icon">🧮</span><span class="nav-label">Cajas y Finanzas</span>
           @if($cajaAbiertaNav)<span class="badge-nav success">Abierta</span>@endif
           <span class="nav-chevron">❯</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
+          <a href="{{ route('caja.chica') }}" class="nav-subitem {{ request()->is('caja/chica') ? 'active':'' }}">
+            <span class="nav-dot"></span><span>Caja Chica</span>
+          </a>
+          <a href="{{ route('caja.cuadraturas') }}" class="nav-subitem {{ request()->is('caja/cuadraturas') ? 'active':'' }}">
+            <span class="nav-dot"></span><span>Cuadraturas</span>
+          </a>
           <a href="{{ route('caja.index') }}" class="nav-subitem {{ request()->is('caja') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Administrar Cajas</span>
           </a>
           <a href="{{ route('caja.historial') }}" class="nav-subitem {{ request()->is('caja/historial') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Administrar Corte</span>
-          </a>
-          <a href="{{ route('caja.movimientos') }}" class="nav-subitem {{ request()->is('caja/movimientos') ? 'active':'' }}">
-            <span class="nav-dot"></span><span>Administrar Movimientos</span>
           </a>
         </div></div>
       </div>

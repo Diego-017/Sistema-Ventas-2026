@@ -73,6 +73,8 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/inventario/stock-lote',             [InventarioController::class, 'stockLote'])->name('inventario.stock_lote');
     Route::get('/inventario/traslados',              [InventarioController::class, 'traslados'])->name('inventario.traslados');
     Route::post('/inventario/traslados',             [InventarioController::class, 'storeTraslado'])->name('inventario.traslados.store');
+    Route::get('/inventario/margenes',               [InventarioController::class, 'margenes'])->name('inventario.margenes');
+    Route::get('/inventario/vencimientos',           [InventarioController::class, 'vencimientos'])->name('inventario.vencimientos');
 
     // ── PROVEEDORES ─────────────────────────────────────────────
     Route::get('/proveedores',           [ProveedorController::class, 'index'])->name('proveedores.index');
@@ -99,8 +101,13 @@ Route::middleware('auth.session')->group(function () {
     Route::delete('/impresoras/{id}',    [ImpresoraController::class, 'destroy'])->name('impresoras.eliminar');
     Route::get('/impresoras/ticket/{id}',[ImpresoraController::class, 'ticket'])->name('impresoras.ticket');
 
-    // ── CAJA ─────────────────────────────────────────────────────
+    // ── CAJA Y CAJA CHICA ────────────────────────────────────────
     Route::get('/caja',                  [CajaController::class, 'index'])->name('caja.index');
+    Route::get('/caja/chica',            [CajaController::class, 'cajaChica'])->name('caja.chica');
+    Route::post('/caja/movimiento',      [CajaController::class, 'storeMovimiento'])->name('caja.movimiento.store');
+    Route::post('/caja/voucher',         [CajaController::class, 'storeVoucher'])->name('caja.voucher.store');
+    Route::get('/caja/cuadraturas',      [CajaController::class, 'cuadraturasIndex'])->name('caja.cuadraturas');
+    Route::post('/caja/cuadraturas',     [CajaController::class, 'storeCuadratura'])->name('caja.cuadraturas.store');
     Route::post('/caja/abrir',           [CajaController::class, 'abrir'])->name('caja.abrir');
     Route::post('/caja/cerrar',          [CajaController::class, 'cerrar'])->name('caja.cerrar');
     Route::post('/caja/gasto',           [CajaController::class, 'registrarGasto'])->name('caja.gasto');

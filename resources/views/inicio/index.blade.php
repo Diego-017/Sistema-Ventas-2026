@@ -38,22 +38,28 @@
     </div>
   </div>
   <div class="stat-card stat-warning">
-    <div class="stat-icon-wrap">⚠️</div>
+    <div class="stat-icon-wrap">💳</div>
     <div class="stat-info">
-      <div class="stat-value">{{ $stockBajo->count() }}</div>
-      <div class="stat-label">Stock Bajo</div>
-      <div class="stat-sub"><a href="{{ route('inventario.stock') }}" style="color:inherit">Ver inventario →</a></div>
+      <div class="stat-value">${{ number_format($vouchersHoy,2) }}</div>
+      <div class="stat-label">Vouchers Tarjeta</div>
+      <div class="stat-sub"><a href="{{ route('caja.chica') }}" style="color:inherit">Ver Caja Chica →</a></div>
     </div>
   </div>
 </div>
 
-<div class="stats-grid" style="grid-template-columns:1fr 1fr 1fr">
+<div class="stats-grid" style="grid-template-columns:1fr 1fr 1fr 1fr">
+  <div class="stat-card stat-info">
+    <div class="stat-icon-wrap">🟢</div>
+    <div class="stat-info">
+      <div class="stat-value">+${{ number_format($ingresosCaja,2) }}</div>
+      <div class="stat-label">Ingresos Caja Chica</div>
+    </div>
+  </div>
   <div class="stat-card stat-danger">
     <div class="stat-icon-wrap">🔴</div>
     <div class="stat-info">
-      <div class="stat-value">{{ $creditosVencidos }}</div>
-      <div class="stat-label">Créditos Vencidos</div>
-      <div class="stat-sub"><a href="{{ route('creditos.index') }}" style="color:inherit">Administrar →</a></div>
+      <div class="stat-value">-${{ number_format($egresosCaja,2) }}</div>
+      <div class="stat-label">Egresos Caja Chica</div>
     </div>
   </div>
   <div class="stat-card stat-warning">
@@ -83,6 +89,51 @@
     <div class="card-body"><canvas id="chartTop" height="110"></canvas></div>
   </div>
 </div>
+
+{{-- AUDITORÍA EN TIEMPO REAL / FEED DEL ADMINISTRADOR --}}
+@if(session('user.rol') === 'admin')
+<div class="card" style="background:#fff; border-radius:12px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,0.1); margin-bottom:25px; border-left: 5px solid #2563eb;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+    <h3 style="margin:0; font-size:1.1rem; color:#0f172a; font-weight:800; display:flex; align-items:center; gap:8px;">
+      🔔 Actividad Reciente en Tiempo Real (Panel de Administración)
+    </h3>
+    <span style="font-size:0.8rem; color:#64748b; background:#f1f5f9; padding:4px 8px; border-radius:4px; font-weight:600;">Supervisión Global</span>
+  </div>
+
+  <div style="overflow-x:auto;">
+    <table class="table" style="width:100%; font-size:0.85rem;">
+      <thead>
+        <tr style="background:#f8fafc; color:#475569;">
+          <th style="padding:8px;">Hora</th>
+          <th style="padding:8px;">Usuario</th>
+          <th style="padding:8px;">Módulo</th>
+          <th style="padding:8px;">Acción</th>
+          <th style="padding:8px;">Detalle</th>
+          <th style="padding:8px;">Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($actividadesRecientes as $act)
+        <tr style="border-bottom:1px solid #f1f5f9;">
+          <td style="padding:8px; color:#64748b; font-weight:600;">{{ $act->created_at->format('H:i:s') }}</td>
+          <td style="padding:8px; font-weight:700; color:#0f172a;">{{ $act->usuario->nombre ?? 'Sistema' }}</td>
+          <td style="padding:8px;"><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:700; font-size:0.75rem;">{{ $act->modulo }}</span></td>
+          <td style="padding:8px; font-weight:600;">{{ $act->accion }}</td>
+          <td style="padding:8px; color:#475569;">{{ $act->detalle }}</td>
+          <td style="padding:8px; font-weight:800; color:#16a34a;">
+            {{ $act->monto ? '$'.number_format($act->monto, 2) : '-' }}
+          </td>
+        </tr>
+        @empty
+        <tr>
+          <td colspan="6" class="text-center text-muted" style="padding:15px;">No hay actividades registradas en la bitácora aún.</td>
+        </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
+</div>
+@endif
 
 <div class="grid-2">
   <div class="card">
