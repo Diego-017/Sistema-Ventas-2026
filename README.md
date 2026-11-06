@@ -1,6 +1,6 @@
 # Sistema de Ventas Profesional con Laravel 11 Julio -Agosto 2026
 
-<img width="959" height="407" alt="Captura de pantalla 2026-07-21 214922" src="https://github.com/user-attachments/assets/9a537f77-252e-4885-a450-d5bff6e36ed4" />
+<img width="959" height="410" alt="image" src="https://github.com/user-attachments/assets/2b563887-da4b-4621-ac20-6330624bc2d9" />
 
 
 ## Instalación (5 pasos)
