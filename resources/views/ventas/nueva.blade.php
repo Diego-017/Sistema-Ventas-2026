@@ -3898,15 +3898,19 @@ function confirmarYGuardarVenta(){
     /* ITEMS */
 
     const items =
-        ids.map(id => ({
-
-            id:cart[id].id,
-
-            cantidad:cart[id].cantidad,
-
-            precio:cart[id].precio_venta
-
-        }));
+        ids.map(id => {
+            const c = cart[id];
+            const subtotal = parseFloat(c.precio_venta) * c.cantidad;
+            return {
+                producto_id: c.id,
+                nombre: c.nombre || '',
+                cantidad: c.cantidad,
+                precio: c.precio_venta,
+                subtotal: subtotal,
+                descuento_item: c.descuento_item || 0,
+                exento: c.exento || false
+            };
+        });
 
 
     document.getElementById(

@@ -28,9 +28,10 @@ class VentaController extends Controller
 
         // Validar stock
         foreach ($items as $item) {
-            $p = Producto::find($item['producto_id']);
+            $p = Producto::find($item['producto_id'] ?? $item['id'] ?? null);
             if (!$p || $p->stock < $item['cantidad']) {
-                return response()->json(['error'=>"Stock insuficiente: {$item['nombre']}"],422);
+                $nombre = $item['nombre'] ?? 'producto';
+                return response()->json(['error'=>"Stock insuficiente: {$nombre}"],422);
             }
         }
 
@@ -73,14 +74,14 @@ class VentaController extends Controller
             foreach ($items as $item) {
                 VentaItem::create([
                     'venta_id'        => $venta->id,
-                    'producto_id'     => $item['producto_id'],
-                    'nombre_producto' => $item['nombre'],
+                    'producto_id'     => $item['producto_id'] ?? $item['id'],
+                    'nombre_producto' => $item['nombre'] ?? '',
                     'cantidad'        => (int)$item['cantidad'],
                     'precio_unitario' => (float)$item['precio'],
                     'descuento'       => (float)($item['descuento_item'] ?? 0),
-                    'subtotal'        => (float)$item['subtotal'],
+                    'subtotal'        => (float)($item['subtotal'] ?? (float)$item['precio'] * (int)$item['cantidad']),
                 ]);
-                Producto::where('id',$item['producto_id'])->decrement('stock',(int)$item['cantidad']);
+                Producto::where('id',$item['producto_id'] ?? $item['id'])->decrement('stock',(int)$item['cantidad']);
             }
 
             // Si es crédito, crear registro (usa los días de crédito propios del cliente si los tiene)
