@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Venta, Producto, Caja, Compra, Credito, Cotizacion, AuditoriaActividad, VoucherPos, MovimientoCaja};
+use App\Models\{Venta, Producto, Caja, Compra, Credito, Cotizacion};
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DashboardController extends Controller
 {
@@ -13,11 +14,6 @@ class DashboardController extends Controller
         $totalHoy   = Venta::where('estado', 'completada')->whereDate('created_at', today())->sum('total');
         $ventasHoy  = Venta::where('estado', 'completada')->whereDate('created_at', today())->count();
         $gastoHoy   = Compra::where('estado', 'completada')->whereDate('created_at', today())->sum('total');
-
-        // Vouchers y Movimientos de Caja Chica hoy
-        $vouchersHoy  = VoucherPos::whereDate('created_at', today())->sum('monto');
-        $ingresosCaja = MovimientoCaja::whereDate('created_at', today())->where('tipo', 'ingreso')->sum('monto');
-        $egresosCaja  = MovimientoCaja::whereDate('created_at', today())->where('tipo', 'egreso')->sum('monto');
 
         // Comparativa mes
         $ventasMes    = Venta::where('estado', 'completada')
@@ -64,10 +60,6 @@ class DashboardController extends Controller
         $ultimasVentas = Venta::with(['cliente', 'usuario'])
             ->where('estado', 'completada')->latest('created_at')->limit(6)->get();
 
-        // Feed de Auditoría en Tiempo Real (para el Panel Administrador)
-        $actividadesRecientes = AuditoriaActividad::with('usuario')
-            ->latest('created_at')->limit(10)->get();
-
         // Caja activa
         $caja = Caja::abierta();
 
@@ -76,9 +68,6 @@ class DashboardController extends Controller
             'ventasHoy',
             'gastoHoy',
             'margenHoy',
-            'vouchersHoy',
-            'ingresosCaja',
-            'egresosCaja',
             'ventasMes',
             'ventasMesAnt',
             'variacion',
@@ -89,7 +78,6 @@ class DashboardController extends Controller
             'ventasSemana',
             'topProductos',
             'ultimasVentas',
-            'actividadesRecientes',
             'caja'
         ));
     }

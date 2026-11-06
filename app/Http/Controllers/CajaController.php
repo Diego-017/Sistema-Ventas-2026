@@ -1,7 +1,8 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use App\Models\{Caja, Gasto, CorteCaja, Venta, MovimientoCaja, VoucherPos, CuadraturaCaja, AuditoriaActividad};
+use App\Models\{Caja, Gasto, CorteCaja, Venta};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,192 +15,125 @@ class CajaController extends Controller
         return view('caja.index', compact('caja', 'gastos'));
     }
 
-    // ── CAJA CHICA AVANZADA (Segunda Vista / Modulo Especial) ───────────
-    public function cajaChica(Request $request)
+    // ── ADMINISTRAR CORTE DE CAJA (CORTE X & CORTE Z) ───────────────
+    public function administrarCorte(Request $request)
     {
-        $caja = Caja::abierta();
-        $fecha = $request->get('fecha', date('Y-m-d'));
-        $verTodos = $request->boolean('ver_todos', false);
-        $rol = session('user.rol');
+        $sucursales = ['LAS PALMERAS', 'VISTA HERMOSA', 'BODEGA', 'LAS UNIDAS'];
+        $sucursalSeleccionada = $request->get('sucursal', 'LAS PALMERAS');
 
-        $query = MovimientoCaja::with('usuario')
-            ->whereDate('created_at', $fecha);
-
-        // Si no es admin o no activó 'ver_todos', filtra solo sus movimientos
-        if ($rol !== 'admin' || !$verTodos) {
-            $query->where('usuario_id', $this->userId());
+        $cajas = Caja::orderBy('id')->get();
+        if ($cajas->isEmpty()) {
+            Caja::create([
+                'nombre'          => 'CAJA 1lp',
+                'usuario_id'      => $this->userId(),
+                'monto_apertura'  => 0,
+                'estado'          => 'cerrada',
+            ]);
+            Caja::create([
+                'nombre'          => 'CAJA 2lp',
+                'usuario_id'      => $this->userId(),
+                'monto_apertura'  => 0,
+                'estado'          => 'cerrada',
+            ]);
+            $cajas = Caja::orderBy('id')->get();
         }
 
-        $movimientos = $query->latest('created_at')->paginate(25);
-        $vouchers = VoucherPos::whereDate('created_at', $fecha)->latest('created_at')->get();
+        $cajaSeleccionadaId = $request->get('caja_id', $cajas->first()->id);
+        $cajaActual = $cajas->firstWhere('id', $cajaSeleccionadaId) ?? $cajas->first();
 
-        // Métricas de Caja Chica
-        $totalIngresos = MovimientoCaja::whereDate('created_at', $fecha)->where('tipo', 'ingreso')->sum('monto');
-        $totalEgresos  = MovimientoCaja::whereDate('created_at', $fecha)->where('tipo', 'egreso')->sum('monto');
-        $totalVouchers = VoucherPos::whereDate('created_at', $fecha)->sum('monto');
+        $datosLectura = null;
+        if ($cajaActual && $cajaActual->estado === 'abierta') {
+            $ventasDesglose = Venta::where('caja_id', $cajaActual->id)
+                ->where('estado', 'completada')
+                ->selectRaw('metodo_pago, SUM(total) as total, COUNT(*) as cantidad')
+                ->groupBy('metodo_pago')
+                ->get()
+                ->keyBy('metodo_pago');
 
-        return view('caja.chica', compact(
-            'caja',
-            'movimientos',
-            'vouchers',
-            'fecha',
-            'verTodos',
-            'totalIngresos',
-            'totalEgresos',
-            'totalVouchers'
+            $ingresosExtra = Gasto::where('caja_id', $cajaActual->id)->where('tipo', 'ingreso')->sum('monto');
+            $egresosGastos = Gasto::where('caja_id', $cajaActual->id)->whereIn('tipo', ['egreso', 'retiro'])->sum('monto');
+
+            $efectivoVentas = $ventasDesglose['efectivo']->total ?? 0;
+            $tarjetaVentas  = $ventasDesglose['tarjeta']->total ?? 0;
+            $transfVentas   = $ventasDesglose['transferencia']->total ?? 0;
+            $creditoVentas  = $ventasDesglose['credito']->total ?? 0;
+
+            $totalEnGavetaEsperado = $cajaActual->monto_apertura + $efectivoVentas + $ingresosExtra - $egresosGastos;
+
+            $datosLectura = [
+                'efectivo_ventas'       => $efectivoVentas,
+                'tarjeta_ventas'        => $tarjetaVentas,
+                'transf_ventas'         => $transfVentas,
+                'credito_ventas'        => $creditoVentas,
+                'ingresos_extra'        => $ingresosExtra,
+                'egresos_gastos'        => $egresosGastos,
+                'total_gaveta_esperado' => $totalEnGavetaEsperado,
+                'total_transacciones'   => Venta::where('caja_id', $cajaActual->id)->where('estado', 'completada')->count(),
+                'total_ventas_bruto'    => $cajaActual->total_ventas,
+            ];
+        }
+
+        return view('caja.corte_admin', compact(
+            'sucursales',
+            'sucursalSeleccionada',
+            'cajas',
+            'cajaActual',
+            'datosLectura'
         ));
     }
 
-    public function storeMovimiento(Request $request)
+    // ── CORTE X (LECTURA PARCIAL DE TURNO) ─────────────────────────
+    public function corteX(int $id)
     {
-        $request->validate([
-            'tipo'        => 'required|in:ingreso,egreso',
-            'categoria'   => 'required|string|max:100',
-            'descripcion' => 'required|string|max:255',
-            'monto'       => 'required|numeric|min:0.01',
-            'comprobante' => 'nullable|string|max:100',
-            'pago_a'      => 'nullable|string|max:150',
-        ]);
+        $caja = Caja::with(['usuario', 'ventas' => function ($q) {
+            $q->where('estado', 'completada');
+        }])->findOrFail($id);
 
-        $caja = Caja::abierta();
-        $movimiento = MovimientoCaja::create([
-            'caja_id'     => $caja?->id,
-            'usuario_id'  => $this->userId(),
-            'tipo'        => $request->tipo,
-            'categoria'   => $request->categoria,
-            'descripcion' => $request->descripcion,
-            'comprobante' => $request->comprobante,
-            'monto'       => $request->monto,
-            'pago_a'      => $request->pago_a,
-            'estado'      => 'aprobado',
-        ]);
-
-        if ($caja && $request->tipo === 'egreso') {
-            $caja->increment('total_gastos', $request->monto);
+        if ($caja->estado !== 'abierta') {
+            return back()->with('error', 'La caja seleccionada no está abierta.');
         }
 
-        // Registrar en Auditoría en tiempo real para el Admin
-        AuditoriaActividad::registrar(
-            'Caja Chica',
-            'Registro ' . ucfirst($request->tipo),
-            "{$request->categoria}: {$request->descripcion} (Pago a: " . ($request->pago_a ?? 'N/A') . ")",
-            $request->monto
-        );
+        $ventasDesglose = Venta::where('caja_id', $caja->id)
+            ->where('estado', 'completada')
+            ->selectRaw('metodo_pago, SUM(total) as total, COUNT(*) as cantidad')
+            ->groupBy('metodo_pago')
+            ->get()
+            ->keyBy('metodo_pago');
 
-        return back()->with('success', '✅ Movimiento de ' . $request->tipo . ' registrado correctamente.');
-    }
+        $ingresosExtra = Gasto::where('caja_id', $caja->id)->where('tipo', 'ingreso')->sum('monto');
+        $egresosGastos = Gasto::where('caja_id', $caja->id)->whereIn('tipo', ['egreso', 'retiro'])->sum('monto');
 
-    public function storeVoucher(Request $request)
-    {
-        $request->validate([
-            'banco'          => 'required|string|max:100',
-            'numero_lote'    => 'required|string|max:50',
-            'numero_voucher' => 'required|string|max:50',
-            'monto'          => 'required|numeric|min:0.01',
-            'comision'       => 'nullable|numeric|min:0',
-        ]);
+        $efectivoVentas = $ventasDesglose['efectivo']->total ?? 0;
+        $tarjetaVentas  = $ventasDesglose['tarjeta']->total ?? 0;
+        $transfVentas   = $ventasDesglose['transferencia']->total ?? 0;
+        $creditoVentas  = $ventasDesglose['credito']->total ?? 0;
 
-        $caja = Caja::abierta();
-        $monto = (float) $request->monto;
-        $comisionPorcentaje = (float) ($request->comision ?? 2.5); // 2.5% por defecto si no se especifica
-        $comisionMonto = round(($monto * $comisionPorcentaje) / 100, 2);
-        $montoNeto = $monto - $comisionMonto;
+        $efectivoEsperado = $caja->monto_apertura + $efectivoVentas + $ingresosExtra - $egresosGastos;
 
-        VoucherPos::create([
-            'caja_id'             => $caja?->id,
-            'usuario_id'          => $this->userId(),
-            'banco'               => $request->banco,
-            'numero_lote'         => $request->numero_lote,
-            'numero_voucher'      => $request->numero_voucher,
-            'monto'               => $monto,
-            'comision_porcentaje' => $comisionPorcentaje,
-            'comision_monto'      => $comisionMonto,
-            'monto_neto'          => $montoNeto,
-            'estado'              => 'registrado',
-        ]);
-
-        AuditoriaActividad::registrar(
-            'Vouchers POS',
-            'Registro Voucher Tarjeta',
-            "Banco: {$request->banco} | Lote: {$request->numero_lote} | Voucher: {$request->numero_voucher}",
-            $monto
-        );
-
-        return back()->with('success', '💳 Voucher de tarjeta registrado correctamente.');
-    }
-
-    public function cuadraturasIndex()
-    {
-        $caja = Caja::abierta();
-        $cuadraturas = CuadraturaCaja::with(['caja', 'usuario'])->latest('created_at')->paginate(20);
-
-        // Totales de hoy del sistema
-        $efectivoSistema = $caja ? Venta::where('caja_id', $caja->id)->where('estado', 'completada')->where('metodo_pago', 'efectivo')->sum('total') : 0;
-        $tarjetaSistema  = $caja ? Venta::where('caja_id', $caja->id)->where('estado', 'completada')->where('metodo_pago', 'tarjeta')->sum('total') : 0;
-        $vouchersRegistrados = $caja ? VoucherPos::where('caja_id', $caja->id)->sum('monto') : 0;
-
-        return view('caja.cuadraturas', compact(
+        return view('caja.corte_x', compact(
             'caja',
-            'cuadraturas',
-            'efectivoSistema',
-            'tarjetaSistema',
-            'vouchersRegistrados'
+            'ventasDesglose',
+            'ingresosExtra',
+            'egresosGastos',
+            'efectivoVentas',
+            'tarjetaVentas',
+            'transfVentas',
+            'creditoVentas',
+            'efectivoEsperado'
         ));
-    }
-
-    public function storeCuadratura(Request $request)
-    {
-        $caja = Caja::abierta();
-        if (!$caja) return back()->with('error', 'No hay caja abierta para realizar cuadratura.');
-
-        $request->validate([
-            'efectivo_real'         => 'required|numeric|min:0',
-            'tarjeta_real_vouchers' => 'required|numeric|min:0',
-        ]);
-
-        $efectivoSistema = Venta::where('caja_id', $caja->id)->where('estado', 'completada')->where('metodo_pago', 'efectivo')->sum('total');
-        $tarjetaSistema  = Venta::where('caja_id', $caja->id)->where('estado', 'completada')->where('metodo_pago', 'tarjeta')->sum('total');
-
-        $difEfectivo = $request->efectivo_real - $efectivoSistema;
-        $difTarjeta  = $request->tarjeta_real_vouchers - $tarjetaSistema;
-        $diferenciaTotal = $difEfectivo + $difTarjeta;
-
-        $estadoCuadratura = ($diferenciaTotal == 0) ? 'cuadrada' : 'con_descuadre';
-
-        CuadraturaCaja::create([
-            'caja_id'               => $caja->id,
-            'usuario_id'            => $this->userId(),
-            'efectivo_sistema'      => $efectivoSistema,
-            'efectivo_real'         => $request->efectivo_real,
-            'tarjeta_sistema'       => $tarjetaSistema,
-            'tarjeta_real_vouchers' => $request->tarjeta_real_vouchers,
-            'diferencia'            => $diferenciaTotal,
-            'estado_cuadratura'     => $estadoCuadratura,
-            'observaciones'         => $request->observaciones,
-        ]);
-
-        AuditoriaActividad::registrar(
-            'Cuadratura Caja',
-            'Arqueo y Conciliación',
-            "Estado: {$estadoCuadratura} | Diferencia: $" . number_format($diferenciaTotal, 2),
-            $diferenciaTotal
-        );
-
-        return back()->with('success', '⚖️ Cuadratura de caja procesada correctamente.');
     }
 
     public function abrir(Request $request)
     {
         if (Caja::abierta()) return back()->with('error', 'Ya hay una caja abierta.');
         $request->validate(['monto_apertura' => 'required|numeric|min:0']);
-        $caja = Caja::create([
-            'nombre'          => $request->nombre ?? 'Caja Principal',
+
+        Caja::create([
+            'nombre'          => $request->nombre ?? 'CAJA 1lp',
             'usuario_id'      => $this->userId(),
             'monto_apertura'  => $request->monto_apertura,
             'notas_apertura'  => $request->notas_apertura,
         ]);
-
-        AuditoriaActividad::registrar('Caja', 'Apertura de Caja', 'Fondo Inicial de Caja', $request->monto_apertura);
 
         return back()->with('success', '✅ Caja abierta correctamente.');
     }
@@ -241,10 +175,8 @@ class CajaController extends Controller
             ]);
         });
 
-        AuditoriaActividad::registrar('Caja', 'Cierre de Caja', 'Cierre y arqueo final de turno', $contado);
-
-        return redirect()->route('caja.corte', $caja->id)
-            ->with('success', 'Caja cerrada. Revisa el corte.');
+        return redirect()->route('caja.administrar_corte')
+            ->with('success', '✅ Caja cerrada correctamente (Corte Z finalizado).');
     }
 
     public function registrarGasto(Request $request)
@@ -254,6 +186,7 @@ class CajaController extends Controller
             'monto'    => 'required|numeric|min:0.01',
             'tipo'     => 'required|in:egreso,retiro,ingreso',
         ]);
+
         $caja = Caja::abierta();
         Gasto::create([
             'caja_id'    => $caja?->id,
@@ -262,13 +195,12 @@ class CajaController extends Controller
             'monto'      => $request->monto,
             'tipo'       => $request->tipo,
         ]);
+
         if ($caja && in_array($request->tipo, ['egreso', 'retiro'])) {
             $caja->increment('total_gastos', $request->monto);
         }
 
-        AuditoriaActividad::registrar('Caja', 'Gasto Rápido', $request->concepto, $request->monto);
-
-        return back()->with('success', 'Movimiento registrado.');
+        return back()->with('success', 'Movimiento registrado correctamente.');
     }
 
     public function corte(int $cajaId)
@@ -286,10 +218,10 @@ class CajaController extends Controller
 
     public function movimientos(Request $request)
     {
-        $query = Gasto::with(['usuario','caja'])->latest('created_at');
+        $query = Gasto::with(['usuario', 'caja'])->latest('created_at');
 
         if ($request->filled('buscar')) {
-            $query->where('concepto', 'like', '%'.$request->buscar.'%');
+            $query->where('concepto', 'like', '%' . $request->buscar . '%');
         }
         if ($request->filled('caja_id')) {
             $query->where('caja_id', $request->caja_id);
@@ -303,134 +235,21 @@ class CajaController extends Controller
 
         $movimientos = $query->paginate(20)->withQueryString();
         $caja        = Caja::abierta();
-        $cajas       = Caja::orderByDesc('abierta_at')->get(['id','nombre']);
+        $cajas       = Caja::orderByDesc('abierta_at')->get(['id', 'nombre']);
 
-        return view('caja.movimientos', compact('movimientos','caja','cajas'));
+        return view('caja.movimientos', compact('movimientos', 'caja', 'cajas'));
     }
 
     public function eliminarMovimiento(int $id)
     {
         $gasto = Gasto::findOrFail($id);
 
-        // Si la caja del movimiento sigue abierta, revertir el impacto en total_gastos
-        if ($gasto->caja && $gasto->caja->estado === 'abierta' && in_array($gasto->tipo, ['egreso','retiro'])) {
+        if ($gasto->caja && $gasto->caja->estado === 'abierta' && in_array($gasto->tipo, ['egreso', 'retiro'])) {
             $gasto->caja->decrement('total_gastos', $gasto->monto);
         }
 
         $gasto->delete();
 
         return back()->with('success', 'Movimiento eliminado correctamente.');
-    }
-
-    public function administrarCorte(Request $request)
-    {
-        $sucursales = ['LAS PALMERAS', 'VISTA HERMOSA', 'BODEGA', 'LAS UNIDAS'];
-        $sucursalSeleccionada = $request->get('sucursal', 'LAS PALMERAS');
-
-        $cajas = Caja::orderBy('id')->get();
-        if ($cajas->isEmpty()) {
-            Caja::create([
-                'nombre'          => 'CAJA 1lp',
-                'usuario_id'      => $this->userId(),
-                'monto_apertura'  => 0,
-                'estado'          => 'cerrada',
-            ]);
-            Caja::create([
-                'nombre'          => 'CAJA 2lp',
-                'usuario_id'      => $this->userId(),
-                'monto_apertura'  => 0,
-                'estado'          => 'cerrada',
-            ]);
-            $cajas = Caja::orderBy('id')->get();
-        }
-
-        $cajaSeleccionadaId = $request->get('caja_id', $cajas->first()->id);
-        $cajaActual = $cajas->firstWhere('id', $cajaSeleccionadaId) ?? $cajas->first();
-
-        $datosLectura = null;
-        if ($cajaActual && $cajaActual->estado === 'abierta') {
-            $ventasDesglose = Venta::where('caja_id', $cajaActual->id)
-                ->where('estado', 'completada')
-                ->selectRaw('metodo_pago, SUM(total) as total, COUNT(*) as cantidad')
-                ->groupBy('metodo_pago')
-                ->get()
-                ->keyBy('metodo_pago');
-
-            $ingresosExtra = Gasto::where('caja_id', $cajaActual->id)->where('tipo', 'ingreso')->sum('monto');
-            $egresosGastos = Gasto::where('caja_id', $cajaActual->id)->whereIn('tipo', ['egreso', 'retiro'])->sum('monto');
-            $vouchersCount = VoucherPos::where('caja_id', $cajaActual->id)->count();
-            $vouchersTotal = VoucherPos::where('caja_id', $cajaActual->id)->sum('monto');
-
-            $efectivoVentas = $ventasDesglose['efectivo']->total ?? 0;
-            $tarjetaVentas  = $ventasDesglose['tarjeta']->total ?? 0;
-            $transfVentas   = $ventasDesglose['transferencia']->total ?? 0;
-            $creditoVentas  = $ventasDesglose['credito']->total ?? 0;
-
-            $totalEnGavetaEsperado = $cajaActual->monto_apertura + $efectivoVentas + $ingresosExtra - $egresosGastos;
-
-            $datosLectura = [
-                'efectivo_ventas'       => $efectivoVentas,
-                'tarjeta_ventas'        => $tarjetaVentas,
-                'transf_ventas'         => $transfVentas,
-                'credito_ventas'        => $creditoVentas,
-                'ingresos_extra'        => $ingresosExtra,
-                'egresos_gastos'        => $egresosGastos,
-                'vouchers_count'        => $vouchersCount,
-                'vouchers_total'        => $vouchersTotal,
-                'total_gaveta_esperado' => $totalEnGavetaEsperado,
-                'total_transacciones'   => Venta::where('caja_id', $cajaActual->id)->where('estado', 'completada')->count(),
-                'total_ventas_bruto'    => $cajaActual->total_ventas,
-            ];
-        }
-
-        return view('caja.corte_admin', compact(
-            'sucursales',
-            'sucursalSeleccionada',
-            'cajas',
-            'cajaActual',
-            'datosLectura'
-        ));
-    }
-
-    public function corteX(int $id)
-    {
-        $caja = Caja::with(['usuario', 'ventas' => function($q) {
-            $q->where('estado', 'completada');
-        }])->findOrFail($id);
-
-        if ($caja->estado !== 'abierta') {
-            return back()->with('error', 'La caja seleccionada no está abierta.');
-        }
-
-        $ventasDesglose = Venta::where('caja_id', $caja->id)
-            ->where('estado', 'completada')
-            ->selectRaw('metodo_pago, SUM(total) as total, COUNT(*) as cantidad')
-            ->groupBy('metodo_pago')
-            ->get()
-            ->keyBy('metodo_pago');
-
-        $ingresosExtra = Gasto::where('caja_id', $caja->id)->where('tipo', 'ingreso')->sum('monto');
-        $egresosGastos = Gasto::where('caja_id', $caja->id)->whereIn('tipo', ['egreso', 'retiro'])->sum('monto');
-        $vouchersTotal = VoucherPos::where('caja_id', $caja->id)->sum('monto');
-
-        $efectivoVentas = $ventasDesglose['efectivo']->total ?? 0;
-        $tarjetaVentas  = $ventasDesglose['tarjeta']->total ?? 0;
-        $transfVentas   = $ventasDesglose['transferencia']->total ?? 0;
-        $creditoVentas  = $ventasDesglose['credito']->total ?? 0;
-
-        $efectivoEsperado = $caja->monto_apertura + $efectivoVentas + $ingresosExtra - $egresosGastos;
-
-        return view('caja.corte_x', compact(
-            'caja',
-            'ventasDesglose',
-            'ingresosExtra',
-            'egresosGastos',
-            'vouchersTotal',
-            'efectivoVentas',
-            'tarjetaVentas',
-            'transfVentas',
-            'creditoVentas',
-            'efectivoEsperado'
-        ));
     }
 }

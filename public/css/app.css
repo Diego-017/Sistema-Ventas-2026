@@ -1893,3 +1893,25 @@ body {
 .tile-dark   { background: linear-gradient(135deg, #334155 0%, #1e293b 100%); }
 .tile-slate  { background: linear-gradient(135deg, #475569 0%, #334155 100%); }
 .tile-red    { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+
+/* ==============================================================
+   MODO BLANCO Y NEGRO / ALTO CONTRASTE (POS MONOCHROME)
+   ============================================================== */
+body.monochrome-mode {
+  filter: grayscale(100%) contrast(110%);
+}
+body.monochrome-mode .sidebar {
+  background: #1a1a1a !important;
+  border-right: 1px solid #444 !important;
+}
+body.monochrome-mode .top-bar {
+  background: #ffffff !important;
+  border-bottom: 2px solid #333 !important;
+}
+body.monochrome-mode .top-icon-btn.active-mono {
+  background: #333;
+  color: #fff;
+}
+body.monochrome-mode .ent-tile {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+}

@@ -101,15 +101,10 @@ Route::middleware('auth.session')->group(function () {
     Route::delete('/impresoras/{id}',    [ImpresoraController::class, 'destroy'])->name('impresoras.eliminar');
     Route::get('/impresoras/ticket/{id}',[ImpresoraController::class, 'ticket'])->name('impresoras.ticket');
 
-    // ── CAJA Y CAJA CHICA ────────────────────────────────────────
+    // ── CAJA Y CORTE ─────────────────────────────────────────────
     Route::get('/caja',                  [CajaController::class, 'index'])->name('caja.index');
     Route::get('/caja/corte-admin',      [CajaController::class, 'administrarCorte'])->name('caja.administrar_corte');
     Route::get('/caja/corte-x/{id}',     [CajaController::class, 'corteX'])->name('caja.corte_x');
-    Route::get('/caja/chica',            [CajaController::class, 'cajaChica'])->name('caja.chica');
-    Route::post('/caja/movimiento',      [CajaController::class, 'storeMovimiento'])->name('caja.movimiento.store');
-    Route::post('/caja/voucher',         [CajaController::class, 'storeVoucher'])->name('caja.voucher.store');
-    Route::get('/caja/cuadraturas',      [CajaController::class, 'cuadraturasIndex'])->name('caja.cuadraturas');
-    Route::post('/caja/cuadraturas',     [CajaController::class, 'storeCuadratura'])->name('caja.cuadraturas.store');
     Route::post('/caja/abrir',           [CajaController::class, 'abrir'])->name('caja.abrir');
     Route::post('/caja/cerrar',          [CajaController::class, 'cerrar'])->name('caja.cerrar');
     Route::post('/caja/gasto',           [CajaController::class, 'registrarGasto'])->name('caja.gasto');

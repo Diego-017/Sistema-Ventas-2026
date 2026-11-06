@@ -2,6 +2,18 @@
 
 const SIDEBAR_COLLAPSED_KEY = 'digitalspos_sidebar_collapsed';
 const NAV_STATE_KEY         = 'digitalspos_nav_open_groups';
+const MONOCHROME_KEY        = 'digitalspos_monochrome_mode';
+
+// ── Toggle de Modo Blanco y Negro / Alto Contraste ────────────────
+function toggleMonochromeMode() {
+  const isMono = document.body.classList.toggle('monochrome-mode');
+  localStorage.setItem(MONOCHROME_KEY, isMono ? '1' : '0');
+  const btn = document.getElementById('monochromeToggleBtn');
+  if (btn) {
+    btn.classList.toggle('active-mono', isMono);
+    btn.title = isMono ? 'Desactivar Modo Blanco y Negro' : 'Activar Modo Blanco y Negro';
+  }
+}
 
 // ── Toggle de barra lateral (3 barras / Hamburguesa) ─────────────
 function toggleSidebar() {
@@ -65,6 +77,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Restaurar estado colapsado en desktop si el usuario lo guardó
   if (window.innerWidth > 768 && localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === '1') {
     if (wrapper) wrapper.classList.add('sidebar-collapsed');
+  }
+
+  // Restaurar Modo Blanco y Negro
+  if (localStorage.getItem(MONOCHROME_KEY) === '1') {
+    document.body.classList.add('monochrome-mode');
+    const monoBtn = document.getElementById('monochromeToggleBtn');
+    if (monoBtn) {
+      monoBtn.classList.add('active-mono');
+      monoBtn.title = 'Desactivar Modo Blanco y Negro';
+    }
   }
 
   // Reabrir grupos que el usuario dejó abiertos

@@ -204,12 +204,6 @@
           <a href="{{ route('caja.movimientos') }}" class="nav-subitem {{ request()->is('caja/movimientos') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Administrar Movimientos</span>
           </a>
-          <a href="{{ route('caja.chica') }}" class="nav-subitem {{ request()->is('caja/chica') ? 'active':'' }}">
-            <span class="nav-dot"></span><span>Caja Chica</span>
-          </a>
-          <a href="{{ route('caja.cuadraturas') }}" class="nav-subitem {{ request()->is('caja/cuadraturas') ? 'active':'' }}">
-            <span class="nav-dot"></span><span>Cuadraturas</span>
-          </a>
           <a href="{{ route('caja.historial') }}" class="nav-subitem {{ request()->is('caja/historial') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Historial de Cortes</span>
           </a>
@@ -316,6 +310,10 @@
             @endif
           </div>
         </div>
+
+        <button type="button" class="top-icon-btn" id="monochromeToggleBtn" onclick="toggleMonochromeMode()" title="Modo Blanco y Negro / Alto Contraste">
+          🌓
+        </button>
 
         <button type="button" class="top-icon-btn" onclick="toggleFullScreen()" title="Pantalla completa (Modo POS)">
           ⛶
