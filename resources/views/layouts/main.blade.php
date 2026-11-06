@@ -342,7 +342,7 @@
           <button onclick="this.parentElement.remove()">✕</button>
         </div>
       @endif
-      @if($errors->any())
+      @if(isset($errors) && $errors->any())
         <div class="alert alert-error">
           <ul style="margin:0;padding-left:16px">
             @foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach

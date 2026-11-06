@@ -89,35 +89,38 @@
     </div>
   </div>
   <div class="stat-card stat-warning">
-    <div class="stat-icon-wrap">💳</div>
+    <div class="stat-icon-wrap">🛍️</div>
     <div class="stat-info">
-      <div class="stat-value">${{ number_format($vouchersHoy,2) }}</div>
-      <div class="stat-label">Vouchers Tarjeta</div>
-      <div class="stat-sub"><a href="{{ route('caja.chica') }}" style="color:inherit">Ver Caja Chica →</a></div>
+      <div class="stat-value">${{ number_format($gastoHoy,2) }}</div>
+      <div class="stat-label">Compras Hoy</div>
+      <div class="stat-sub"><a href="{{ route('compras.index') }}" style="color:inherit">Ver compras →</a></div>
     </div>
   </div>
 </div>
 
 <div class="stats-grid" style="grid-template-columns:1fr 1fr 1fr 1fr">
-  <div class="stat-card stat-info">
-    <div class="stat-icon-wrap">🟢</div>
-    <div class="stat-info">
-      <div class="stat-value">+${{ number_format($ingresosCaja,2) }}</div>
-      <div class="stat-label">Ingresos Caja Chica</div>
-    </div>
-  </div>
   <div class="stat-card stat-danger">
-    <div class="stat-icon-wrap">🔴</div>
+    <div class="stat-icon-wrap">⚠️</div>
     <div class="stat-info">
-      <div class="stat-value">-${{ number_format($egresosCaja,2) }}</div>
-      <div class="stat-label">Egresos Caja Chica</div>
+      <div class="stat-value">{{ count($stockBajo) }}</div>
+      <div class="stat-label">Stock Bajo</div>
+      <div class="stat-sub"><a href="{{ route('inventario.stock') }}" style="color:inherit">Revisar inventario →</a></div>
     </div>
   </div>
   <div class="stat-card stat-warning">
-    <div class="stat-icon-wrap">⏳</div>
+    <div class="stat-icon-wrap">💳</div>
     <div class="stat-info">
       <div class="stat-value">{{ $creditosPendientes }}</div>
       <div class="stat-label">Créditos Pendientes</div>
+      <div class="stat-sub"><a href="{{ route('creditos.index') }}" style="color:inherit">Ver créditos →</a></div>
+    </div>
+  </div>
+  <div class="stat-card stat-danger">
+    <div class="stat-icon-wrap">🚨</div>
+    <div class="stat-info">
+      <div class="stat-value">{{ $creditosVencidos }}</div>
+      <div class="stat-label">Créditos Vencidos</div>
+      <div class="stat-sub"><a href="{{ route('creditos.index') }}" style="color:inherit">Gestionar cobro →</a></div>
     </div>
   </div>
   <div class="stat-card stat-info">
@@ -125,7 +128,7 @@
     <div class="stat-info">
       <div class="stat-value">{{ $cotizacionesVigentes }}</div>
       <div class="stat-label">Cotizaciones Vigentes</div>
-      <div class="stat-sub"><a href="{{ route('cotizaciones.index') }}" style="color:inherit">Ver →</a></div>
+      <div class="stat-sub"><a href="{{ route('cotizaciones.index') }}" style="color:inherit">Ver cotizaciones →</a></div>
     </div>
   </div>
 </div>
