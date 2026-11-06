@@ -119,7 +119,10 @@
           <span class="nav-chevron">❯</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
-          <a href="{{ route('productos.index') }}" class="nav-subitem {{ request()->routeIs('productos.*') ? 'active':'' }}">
+          <a href="{{ route('productos.crear') }}" class="nav-subitem {{ request()->routeIs('productos.crear') ? 'active':'' }}">
+            <span class="nav-dot"></span><span>Nuevo Producto</span>
+          </a>
+          <a href="{{ route('productos.index') }}" class="nav-subitem {{ request()->routeIs('productos.index') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Administrar Productos</span>
           </a>
           <a href="{{ route('categorias.index') }}" class="nav-subitem {{ request()->routeIs('categorias.*') ? 'active':'' }}">
@@ -138,7 +141,10 @@
           <span class="nav-chevron">❯</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
-          <a href="{{ route('compras.index') }}" class="nav-subitem {{ request()->routeIs('compras.*') ? 'active':'' }}">
+          <a href="{{ route('compras.crear') }}" class="nav-subitem {{ request()->routeIs('compras.crear') ? 'active':'' }}">
+            <span class="nav-dot"></span><span>Nueva Compra</span>
+          </a>
+          <a href="{{ route('compras.index') }}" class="nav-subitem {{ request()->routeIs('compras.index') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Administrar Compras</span>
           </a>
           <a href="{{ route('inventario.stock') }}" class="nav-subitem {{ request()->is('inventario/stock') ? 'active':'' }}">

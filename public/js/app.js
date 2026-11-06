@@ -1,8 +1,8 @@
 // DigitalsPos — Enterprise POS App JS
 
 const SIDEBAR_COLLAPSED_KEY = 'digitalspos_sidebar_collapsed';
-const NAV_STATE_KEY         = 'digitalspos_nav_open_groups';
 const MONOCHROME_KEY        = 'digitalspos_monochrome_mode';
+const ACTIVE_GROUP_KEY      = 'digitalspos_active_nav_group';
 
 // ── Toggle de Modo Blanco y Negro / Alto Contraste ────────────────
 function toggleMonochromeMode() {
@@ -53,22 +53,29 @@ function toggleNotifDropdown() {
   }
 }
 
-// ── Acordeón del menú lateral ─────────────────────────────────────
-function getStoredNavGroups() {
-  try { return JSON.parse(localStorage.getItem(NAV_STATE_KEY)) || []; }
-  catch { return []; }
-}
-
+// ── Acordeón del menú lateral (Función de Módulos Desplegables) ────
 function toggleNavGroup(headerEl) {
   const group = headerEl.closest('.nav-group');
   if (!group) return;
-  const name   = group.dataset.group;
-  const isOpen = group.classList.toggle('open');
+  const wasOpen = group.classList.contains('open');
 
-  let stored = getStoredNavGroups();
-  if (isOpen && !stored.includes(name)) stored.push(name);
-  if (!isOpen) stored = stored.filter(g => g !== name);
-  localStorage.setItem(NAV_STATE_KEY, JSON.stringify(stored));
+  // En modo acordeón inteligente: cerramos los otros grupos para mantener el menú despejado
+  document.querySelectorAll('.nav-group.open').forEach(g => {
+    if (g !== group) {
+      g.classList.remove('open');
+    }
+  });
+
+  // Alternar el grupo clickeado
+  const willOpen = !wasOpen;
+  group.classList.toggle('open', willOpen);
+
+  const name = group.dataset.group;
+  if (willOpen) {
+    localStorage.setItem(ACTIVE_GROUP_KEY, name);
+  } else {
+    localStorage.removeItem(ACTIVE_GROUP_KEY);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -89,11 +96,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Reabrir grupos que el usuario dejó abiertos
-  getStoredNavGroups().forEach(name => {
-    const group = document.querySelector(`.nav-group[data-group="${name}"]`);
-    if (group && !group.classList.contains('open')) group.classList.add('open');
-  });
+  // Acordeón: asegurar que el grupo activo de la página actual esté abierto
+  const activeSubitem = document.querySelector('.nav-subitem.active');
+  if (activeSubitem) {
+    const parentGroup = activeSubitem.closest('.nav-group');
+    if (parentGroup) {
+      document.querySelectorAll('.nav-group.open').forEach(g => {
+        if (g !== parentGroup) g.classList.remove('open');
+      });
+      parentGroup.classList.add('open');
+    }
+  } else {
+    // Si estamos en inicio u otra página sin subitem activo, abrir el último seleccionado
+    const lastOpen = localStorage.getItem(ACTIVE_GROUP_KEY);
+    if (lastOpen) {
+      const g = document.querySelector(`.nav-group[data-group="${lastOpen}"]`);
+      if (g) g.classList.add('open');
+    }
+  }
 
   // Auto-ocultar flash messages
   const flash = document.getElementById('flash-msg');
