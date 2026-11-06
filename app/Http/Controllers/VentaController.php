@@ -108,7 +108,10 @@ class VentaController extends Controller
             $ventaId = $venta->id;
         });
 
-        return response()->json(['ok'=>true,'id'=>$ventaId]);
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json(['ok'=>true,'id'=>$ventaId]);
+        }
+        return redirect()->route('ventas.ver', $ventaId)->with('success', 'Venta registrada correctamente.');
     }
 
     
