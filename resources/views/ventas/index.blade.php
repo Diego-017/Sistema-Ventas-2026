@@ -31,7 +31,11 @@
               {{ $v->estado }}
             </span>
           </td>
-          <td><a href="{{ route('ventas.ver',$v->id) }}" class="btn btn-sm btn-secondary">👁️ Ver</a></td>
+          <td style="text-align:right; white-space:nowrap">
+            <a href="{{ route('ventas.ver',$v->id) }}" class="btn btn-sm btn-secondary" title="Ver Detalle">👁️ Ver</a>
+            <a href="{{ route('ventas.pdf',$v->id) }}" target="_blank" class="btn btn-sm btn-primary" title="Generar PDF (DTE)">📄 PDF</a>
+            <a href="{{ route('impresoras.ticket',$v->id) }}" target="_blank" class="btn btn-sm btn-light" title="Ticket">🖨️</a>
+          </td>
         </tr>
         @empty
         <tr><td colspan="8" class="text-center text-muted" style="padding:2rem">Sin ventas registradas.</td></tr>

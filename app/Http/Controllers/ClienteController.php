@@ -13,6 +13,25 @@ class ClienteController extends Controller
         return view('clientes.index', compact('clientes'));
     }
 
+    public function create()
+    {
+        $cliente = null;
+        return view('clientes.form', compact('cliente'));
+    }
+
+    public function edit(int $id)
+    {
+        $cliente = Cliente::findOrFail($id);
+        return view('clientes.form', compact('cliente'));
+    }
+
+    public function confirmDelete(int $id)
+    {
+        $this->requireAdmin();
+        $cliente = Cliente::withCount(['ventas', 'creditos'])->findOrFail($id);
+        return view('clientes.eliminar', compact('cliente'));
+    }
+
     public function show(int $id)
     {
         $cliente = Cliente::findOrFail($id);
@@ -38,25 +57,40 @@ class ClienteController extends Controller
             'direccion','departamento','municipio','giro','tipo','limite_credito','dias_credito',
             'retiene_iva','retiene_renta','aplica_percepcion','comisiona',
         ]));
-        return response()->json(['ok'=>true,'id'=>$c->id,'nombre'=>$c->nombre]);
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json(['ok'=>true,'id'=>$c->id,'nombre'=>$c->nombre]);
+        }
+        return redirect()->route('clientes.index')->with('success', 'Cliente "' . $c->nombre . '" registrado con éxito.');
     }
 
     public function update(Request $request, int $id)
     {
         $request->validate(['nombre' => 'required|string|max:150']);
-        Cliente::findOrFail($id)->update($request->only([
+        $c = Cliente::findOrFail($id);
+        $c->update($request->only([
             'nombre','nombre_comercial','email','telefono','nit','dui','nrc','tipo_documento',
             'direccion','departamento','municipio','giro','tipo','limite_credito','dias_credito',
             'retiene_iva','retiene_renta','aplica_percepcion','comisiona',
         ]));
-        return response()->json(['ok'=>true]);
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json(['ok'=>true]);
+        }
+        return redirect()->route('clientes.index')->with('success', 'Cliente "' . $c->nombre . '" actualizado con éxito.');
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id, Request $request)
     {
         $this->requireAdmin();
-        Cliente::findOrFail($id)->delete();
-        return response()->json(['ok'=>true]);
+        $c = Cliente::findOrFail($id);
+        $nombre = $c->nombre;
+        $c->delete();
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json(['ok'=>true]);
+        }
+        return redirect()->route('clientes.index')->with('success', 'Cliente "' . $nombre . '" eliminado correctamente.');
     }
 
     public function search(Request $request)

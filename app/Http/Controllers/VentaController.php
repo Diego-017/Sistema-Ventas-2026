@@ -110,6 +110,14 @@ class VentaController extends Controller
         return response()->json(['ok'=>true,'id'=>$ventaId]);
     }
 
+    
+    public function pdf(int $id)
+    {
+        $venta = Venta::with(['cliente','usuario','items'])->findOrFail($id);
+        $config = \App\Models\Configuracion::pluck('valor','clave')->toArray();
+        return view('ventas.pdf', compact('venta','config'));
+    }
+
     public function show(int $id)
     {
         $venta = Venta::with(['cliente','usuario','items'])->findOrFail($id);

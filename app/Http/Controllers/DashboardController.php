@@ -68,6 +68,15 @@ class DashboardController extends Controller
             ? AuditoriaActividad::with('usuario')->latest()->limit(10)->get()
             : collect();
 
+        // Métricas de módulos (estilo Sistema de Ventas Image 3)
+        $totalUsuarios    = \App\Models\Usuario::count();
+        $totalRoles       = 2;
+        $totalCategorias  = \App\Models\Categoria::count();
+        $totalProductos   = \App\Models\Producto::count();
+        $totalProveedores = \App\Models\Proveedor::count();
+        $totalCompras     = \App\Models\Compra::count();
+        $totalClientes    = \App\Models\Cliente::count();
+
         return view('inicio.index', compact(
             'totalHoy',
             'ventasHoy',
@@ -84,7 +93,14 @@ class DashboardController extends Controller
             'topProductos',
             'ultimasVentas',
             'caja',
-            'actividadesRecientes'
+            'actividadesRecientes',
+            'totalUsuarios',
+            'totalRoles',
+            'totalCategorias',
+            'totalProductos',
+            'totalProveedores',
+            'totalCompras',
+            'totalClientes'
         ));
     }
 }

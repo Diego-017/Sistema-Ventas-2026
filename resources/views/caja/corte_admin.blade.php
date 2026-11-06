@@ -158,11 +158,11 @@
     </div>
     <form action="{{ route('caja.abrir') }}" method="POST">
       @csrf
-      <input type="hidden" name="nombre" value="{{ $cajaActual->nombre ?? 'CAJA 1lp' }}">
+      <input type="hidden" name="nombre" value="{{ $cajaActual->nombre ?? 'CAJA 1' }}">
 
       <div class="modal-form-group">
         <label>Caja a Abrir:</label>
-        <input type="text" class="corte-modal-input" value="{{ $cajaActual->nombre ?? 'CAJA 1lp' }}" readonly>
+        <input type="text" class="corte-modal-input" value="{{ $cajaActual->nombre ?? 'CAJA 1' }}" readonly>
       </div>
 
       <div class="modal-form-group">

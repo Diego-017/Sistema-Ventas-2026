@@ -4,6 +4,7 @@
 <div class="page-header">
   <h1>🛒 {{ $compra->codigo }}</h1>
   <div>
+    <a href="{{ route('compras.pdf',$compra->id) }}" target="_blank" class="btn btn-primary">📄 Ver PDF Oficial</a>
     <button onclick="window.print()" class="btn btn-secondary">🖨️ Imprimir</button>
     <a href="{{ route('compras.index') }}" class="btn btn-secondary">← Volver</a>
   </div>

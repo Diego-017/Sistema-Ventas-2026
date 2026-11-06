@@ -12,7 +12,7 @@
     <div class="card-header"><h3>Historial de Traslados / Ajustes</h3></div>
     <div class="card-body p-0">
       <table class="table">
-        <thead><tr><th>Fecha</th><th>Tipo</th><th>Concepto</th><th>Productos</th><th>Usuario</th></tr></thead>
+        <thead><tr><th>Fecha</th><th>Tipo</th><th>Concepto</th><th>Productos</th><th>Usuario</th><th style="text-align:right">Acciones</th></tr></thead>
         <tbody>
           @forelse($traslados as $t)
           <tr>
@@ -25,9 +25,10 @@
             <td>{{ $t->concepto ?? '—' }}</td>
             <td>{{ $t->items->count() }} producto(s)</td>
             <td>{{ $t->usuario->nombre }}</td>
+            <td style="text-align:right"><a href="{{ route('inventario.traslados.pdf',$t->id) }}" target="_blank" class="btn btn-sm btn-primary" title="Generar PDF">📄 PDF</a></td>
           </tr>
           @empty
-          <tr><td colspan="5" class="text-center text-muted" style="padding:2rem">Sin traslados.</td></tr>
+          <tr><td colspan="6" class="text-center text-muted" style="padding:2rem">Sin traslados.</td></tr>
           @endforelse
         </tbody>
       </table>
@@ -74,7 +75,7 @@
             <table class="table" id="trasladoItems">
               <thead><tr><th>Producto</th><th>Stock Actual</th><th id="colCantidad">Cantidad</th><th>Notas</th><th></th></tr></thead>
               <tbody id="trasladoBody">
-                <tr id="emptyTraslado"><td colspan="5" class="text-center text-muted" style="padding:1.5rem">Agrega productos</td></tr>
+                <tr id="emptyTraslado"><td colspan="6" class="text-center text-muted" style="padding:1.5rem">Agrega productos</td></tr>
               </tbody>
             </table>
           </div>
@@ -132,7 +133,7 @@ function renderTrasladoItems(){
   document.getElementById('colCantidad').textContent = label;
 
   if(!ids.length){
-    tbody.innerHTML='<tr id="emptyTraslado"><td colspan="5" class="text-center text-muted" style="padding:1.5rem">Agrega productos</td></tr>';
+    tbody.innerHTML='<tr id="emptyTraslado"><td colspan="6" class="text-center text-muted" style="padding:1.5rem">Agrega productos</td></tr>';
     return;
   }
   tbody.innerHTML = ids.map(id => {

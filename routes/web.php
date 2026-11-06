@@ -31,13 +31,17 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/ventas/nueva',          [VentaController::class, 'nueva'])->name('ventas.nueva');
     Route::get('/ventas/por-vendedor',   [VentaController::class, 'porVendedor'])->name('ventas.vendedor');
     Route::post('/ventas',               [VentaController::class, 'store'])->name('ventas.guardar');
+        Route::get('/ventas/{id}/pdf',       [VentaController::class, 'pdf'])->name('ventas.pdf');
     Route::get('/ventas/{id}',           [VentaController::class, 'show'])->name('ventas.ver');
     Route::patch('/ventas/{id}/anular',  [VentaController::class, 'anular'])->name('ventas.anular');
 
     // ── CLIENTES ────────────────────────────────────────────────
     Route::get('/clientes',              [ClienteController::class, 'index'])->name('clientes.index');
+    Route::get('/clientes/crear',        [ClienteController::class, 'create'])->name('clientes.crear');
     Route::get('/clientes/buscar',       [ClienteController::class, 'search'])->name('clientes.buscar');
     Route::get('/clientes/{id}',         [ClienteController::class, 'show'])->name('clientes.show');
+    Route::get('/clientes/{id}/editar',  [ClienteController::class, 'edit'])->name('clientes.editar');
+    Route::get('/clientes/{id}/eliminar',[ClienteController::class, 'confirmDelete'])->name('clientes.confirmar_eliminar');
     Route::post('/clientes',             [ClienteController::class, 'store'])->name('clientes.guardar');
     Route::put('/clientes/{id}',         [ClienteController::class, 'update'])->name('clientes.actualizar');
     Route::delete('/clientes/{id}',      [ClienteController::class, 'destroy'])->name('clientes.eliminar');
@@ -53,34 +57,45 @@ Route::middleware('auth.session')->group(function () {
 
     // ── CATEGORÍAS / SUBCATEGORÍAS ──────────────────────────────
     Route::get('/categorias',                  [CategoriaController::class,    'index'])->name('categorias.index');
+    Route::get('/categorias/crear',            [CategoriaController::class,    'create'])->name('categorias.crear');
+    Route::get('/categorias/{id}/editar',      [CategoriaController::class,    'edit'])->name('categorias.editar');
+    Route::get('/categorias/{id}/eliminar',    [CategoriaController::class,    'confirmDelete'])->name('categorias.confirmar_eliminar');
     Route::post('/categorias',                 [CategoriaController::class,    'store'])->name('categorias.guardar');
     Route::put('/categorias/{id}',             [CategoriaController::class,    'update'])->name('categorias.actualizar');
     Route::delete('/categorias/{id}',          [CategoriaController::class,    'destroy'])->name('categorias.eliminar');
 
-    Route::get('/subcategorias',               [SubcategoriaController::class, 'index'])->name('subcategorias.index');
-    Route::post('/subcategorias',              [SubcategoriaController::class, 'store'])->name('subcategorias.guardar');
-    Route::put('/subcategorias/{id}',          [SubcategoriaController::class, 'update'])->name('subcategorias.actualizar');
-    Route::delete('/subcategorias/{id}',       [SubcategoriaController::class, 'destroy'])->name('subcategorias.eliminar');
+    Route::get('/subcategorias',                  [SubcategoriaController::class, 'index'])->name('subcategorias.index');
+    Route::get('/subcategorias/crear',            [SubcategoriaController::class, 'create'])->name('subcategorias.crear');
+    Route::get('/subcategorias/{id}/editar',      [SubcategoriaController::class, 'edit'])->name('subcategorias.editar');
+    Route::get('/subcategorias/{id}/eliminar',    [SubcategoriaController::class, 'confirmDelete'])->name('subcategorias.confirmar_eliminar');
+    Route::post('/subcategorias',                 [SubcategoriaController::class, 'store'])->name('subcategorias.guardar');
+    Route::put('/subcategorias/{id}',             [SubcategoriaController::class, 'update'])->name('subcategorias.actualizar');
+    Route::delete('/subcategorias/{id}',          [SubcategoriaController::class, 'destroy'])->name('subcategorias.eliminar');
     Route::get('/subcategorias/por-categoria/{id}', [SubcategoriaController::class, 'porCategoria'])->name('subcategorias.por_categoria');
 
     // ── INVENTARIO ──────────────────────────────────────────────
     Route::get('/inventario/compras',               [CompraController::class,     'index'])->name('compras.index');
     Route::get('/inventario/compras/crear',          [CompraController::class,     'create'])->name('compras.crear');
     Route::post('/inventario/compras',               [CompraController::class,     'store'])->name('compras.guardar');
+        Route::get('/inventario/compras/{id}/pdf',       [CompraController::class, 'pdf'])->name('compras.pdf');
     Route::get('/inventario/compras/{id}',           [CompraController::class,     'show'])->name('compras.ver');
     Route::patch('/inventario/compras/{id}/anular',  [CompraController::class,     'anular'])->name('compras.anular');
     Route::get('/inventario/stock',                  [InventarioController::class, 'stock'])->name('inventario.stock');
     Route::get('/inventario/stock-lote',             [InventarioController::class, 'stockLote'])->name('inventario.stock_lote');
+        Route::get('/inventario/traslados/{id}/pdf',     [InventarioController::class, 'trasladoPdf'])->name('inventario.traslados.pdf');
     Route::get('/inventario/traslados',              [InventarioController::class, 'traslados'])->name('inventario.traslados');
     Route::post('/inventario/traslados',             [InventarioController::class, 'storeTraslado'])->name('inventario.traslados.store');
     Route::get('/inventario/margenes',               [InventarioController::class, 'margenes'])->name('inventario.margenes');
     Route::get('/inventario/vencimientos',           [InventarioController::class, 'vencimientos'])->name('inventario.vencimientos');
 
     // ── PROVEEDORES ─────────────────────────────────────────────
-    Route::get('/proveedores',           [ProveedorController::class, 'index'])->name('proveedores.index');
-    Route::post('/proveedores',          [ProveedorController::class, 'store'])->name('proveedores.guardar');
-    Route::put('/proveedores/{id}',      [ProveedorController::class, 'update'])->name('proveedores.actualizar');
-    Route::delete('/proveedores/{id}',   [ProveedorController::class, 'destroy'])->name('proveedores.eliminar');
+    Route::get('/proveedores',                   [ProveedorController::class, 'index'])->name('proveedores.index');
+    Route::get('/proveedores/crear',             [ProveedorController::class, 'create'])->name('proveedores.crear');
+    Route::get('/proveedores/{id}/editar',       [ProveedorController::class, 'edit'])->name('proveedores.editar');
+    Route::get('/proveedores/{id}/eliminar',     [ProveedorController::class, 'confirmDelete'])->name('proveedores.confirmar_eliminar');
+    Route::post('/proveedores',                  [ProveedorController::class, 'store'])->name('proveedores.guardar');
+    Route::put('/proveedores/{id}',              [ProveedorController::class, 'update'])->name('proveedores.actualizar');
+    Route::delete('/proveedores/{id}',           [ProveedorController::class, 'destroy'])->name('proveedores.eliminar');
 
     // ── CUENTAS POR COBRAR ──────────────────────────────────────
     Route::get('/creditos',              [CreditoController::class, 'index'])->name('creditos.index');
@@ -114,10 +129,13 @@ Route::middleware('auth.session')->group(function () {
     Route::get('/caja/historial',        [CajaController::class, 'historial'])->name('caja.historial');
 
     // ── REPORTES ─────────────────────────────────────────────────
+        Route::get('/reportes/estadisticas', [ReporteController::class, 'estadisticas'])->name('reportes.estadisticas');
     Route::get('/reportes',              [ReporteController::class, 'index'])->name('reportes.index');
     Route::get('/reportes/exportar',     [ReporteController::class, 'exportCsv'])->name('reportes.exportar');
+        Route::get('/reportes/hoja-conteo/pdf',       [ReporteController::class, 'hojaConteoPdf'])->name('reportes.hoja_conteo.pdf');
     Route::get('/reportes/hoja-conteo',  [ReporteController::class, 'hojaConteo'])->name('reportes.hoja_conteo');
     Route::get('/reportes/kardex',                [ReporteController::class, 'kardexBuscar'])->name('reportes.kardex.buscar');
+        Route::get('/reportes/kardex/{id}/pdf',        [ReporteController::class, 'kardexPdf'])->name('reportes.kardex.pdf');
     Route::get('/reportes/kardex/{id}/excel',      [ReporteController::class, 'kardexExcel'])->name('reportes.kardex.excel');
     Route::get('/reportes/kardex/{id}',            [ReporteController::class, 'kardex'])->name('reportes.kardex');
 

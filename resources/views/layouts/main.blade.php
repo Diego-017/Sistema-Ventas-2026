@@ -232,6 +232,9 @@
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
+                    <a href="{{ route('reportes.estadisticas') }}" class="nav-subitem {{ request()->routeIs('reportes.estadisticas') ? 'active':'' }}">
+            <span class="nav-dot"></span><span>Análisis y Estadísticas</span>
+          </a>
           <a href="{{ route('reportes.hoja_conteo') }}" class="nav-subitem {{ request()->is('reportes/hoja*') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Hoja de Conteo</span>
           </a>

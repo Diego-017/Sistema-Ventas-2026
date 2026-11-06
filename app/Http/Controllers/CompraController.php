@@ -62,6 +62,14 @@ class CompraController extends Controller
         return redirect()->route('compras.index')->with('success', 'Compra registrada. Stock actualizado.');
     }
 
+    
+    public function pdf(int $id)
+    {
+        $compra = Compra::with(['proveedor','usuario','items.producto'])->findOrFail($id);
+        $config = \App\Models\Configuracion::pluck('valor','clave')->toArray();
+        return view('compras.pdf', compact('compra','config'));
+    }
+
     public function show(int $id)
     {
         $this->requireAdmin();

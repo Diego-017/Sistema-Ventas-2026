@@ -50,6 +50,97 @@ class ReporteController extends Controller
         ));
     }
 
+    
+    public function estadisticas(Request $request)
+    {
+        $dias = (int) $request->get('dias', 30);
+        if (!in_array($dias, [7, 15, 30, 90, 365])) {
+            $dias = 30;
+        }
+
+        $fechaInicio = now()->subDays($dias)->startOfDay();
+
+        // Ventas por día
+        $ventasPorDia = Venta::where('estado', 'completada')
+            ->where('created_at', '>=', $fechaInicio)
+            ->selectRaw('DATE(created_at) as fecha, COUNT(*) as transacciones, SUM(total) as total')
+            ->groupByRaw('DATE(created_at)')
+            ->orderBy('fecha')
+            ->get();
+
+        // Top 10 productos
+        $topProductos = DB::table('venta_items as vi')
+            ->join('ventas as v', 'vi.venta_id', '=', 'v.id')
+            ->where('v.estado', 'completada')
+            ->where('v.created_at', '>=', $fechaInicio)
+            ->selectRaw('vi.nombre_producto, SUM(vi.cantidad) as total_vendido, SUM(vi.subtotal) as ingresos')
+            ->groupBy('vi.producto_id', 'vi.nombre_producto')
+            ->orderByDesc('total_vendido')
+            ->limit(10)
+            ->get();
+
+        // Métodos de pago
+        $metodosPago = Venta::where('estado', 'completada')
+            ->where('created_at', '>=', $fechaInicio)
+            ->selectRaw('metodo_pago, COUNT(*) as transacciones, SUM(total) as total')
+            ->groupBy('metodo_pago')
+            ->get();
+
+        // Comparativa mensual últimos 12 meses: Ventas vs Compras
+        $meses = [];
+        for ($i = 11; $i >= 0; $i--) {
+            $mesDate   = now()->subMonths($i);
+            $mesNombre = $mesDate->translatedFormat('M Y');
+
+            $totalV = Venta::where('estado', 'completada')
+                ->whereMonth('created_at', $mesDate->month)
+                ->whereYear('created_at', $mesDate->year)
+                ->sum('total');
+
+            $totalC = Compra::where('estado', 'completada')
+                ->whereMonth('created_at', $mesDate->month)
+                ->whereYear('created_at', $mesDate->year)
+                ->sum('total');
+
+            $meses[] = [
+                'periodo' => $mesNombre,
+                'ventas'  => (float) $totalV,
+                'compras' => (float) $totalC,
+                'margen'  => (float) ($totalV - $totalC),
+            ];
+        }
+
+        // Totales globales en el período
+        $totalIngresos      = Venta::where('estado', 'completada')->where('created_at', '>=', $fechaInicio)->sum('total');
+        $totalTransacciones = Venta::where('estado', 'completada')->where('created_at', '>=', $fechaInicio)->count();
+        $ticketPromedio     = $totalTransacciones > 0 ? round($totalIngresos / $totalTransacciones, 2) : 0;
+        $totalCompras       = Compra::where('estado', 'completada')->where('created_at', '>=', $fechaInicio)->sum('total');
+
+        return view('reportes.estadisticas', compact(
+            'dias',
+            'ventasPorDia',
+            'topProductos',
+            'metodosPago',
+            'meses',
+            'totalIngresos',
+            'totalTransacciones',
+            'ticketPromedio',
+            'totalCompras'
+        ));
+    }
+
+    
+    public function hojaConteoPdf()
+    {
+        $productos = Producto::activo()
+            ->with(['categoria','subcategoria'])
+            ->orderBy('categoria_id')
+            ->orderBy('nombre')
+            ->get();
+        $config = \App\Models\Configuracion::pluck('valor','clave')->toArray();
+        return view('reportes.hoja_conteo_pdf', compact('productos', 'config'));
+    }
+
     public function hojaConteo()
     {
         $productos = Producto::activo()
@@ -106,6 +197,35 @@ class ReporteController extends Controller
         });
 
         return view('reportes.kardex', compact('producto','movimientos','desde','hasta','saldoInicial'));
+    }
+
+    
+    public function kardexPdf(int $id, Request $request)
+    {
+        $producto = Producto::with('categoria')->findOrFail($id);
+        $desde = $request->get('desde', now()->startOfMonth()->toDateString());
+        $hasta = $request->get('hasta', today()->toDateString());
+
+        $movimientos = $this->movimientosKardex($id, $desde, $hasta);
+
+        $saldoInicial = 0;
+        if ($desde) {
+            $previos = $this->movimientosKardex($id, null, null)
+                ->filter(fn($m) => \Carbon\Carbon::parse($m->fecha)->lt(\Carbon\Carbon::parse($desde)->startOfDay()));
+            foreach ($previos as $p) {
+                $saldoInicial += $p->delta;
+            }
+        }
+
+        $saldo = $saldoInicial;
+        $movimientos = $movimientos->map(function ($m) use (&$saldo) {
+            $saldo += $m->delta;
+            $m->saldo = $saldo;
+            return $m;
+        });
+
+        $config = \App\Models\Configuracion::pluck('valor','clave')->toArray();
+        return view('reportes.kardex_pdf', compact('producto', 'movimientos', 'desde', 'hasta', 'saldoInicial', 'config'));
     }
 
     public function kardexExcel(int $id, Request $request)

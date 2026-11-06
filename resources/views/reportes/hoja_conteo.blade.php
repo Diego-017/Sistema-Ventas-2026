@@ -6,6 +6,7 @@
     <h1>📝 Hoja de Conteo de Inventario</h1>
     <p class="page-sub">{{ now()->format('d/m/Y H:i') }} — Generada por {{ session('user.nombre') }}</p>
   </div>
+  <a href="{{ route('reportes.hoja_conteo.pdf') }}" target="_blank" class="btn btn-primary" style="margin-right:6px">📄 Generar Reporte PDF</a>
   <button onclick="window.print()" class="btn btn-secondary">🖨️ Imprimir</button>
 </div>
 

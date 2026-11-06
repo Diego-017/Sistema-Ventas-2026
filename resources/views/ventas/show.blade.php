@@ -4,6 +4,7 @@
 <div class="page-header">
   <h1>🧾 Comprobante</h1>
   <div style="display:flex;gap:8px">
+    <a href="{{ route('ventas.pdf',$venta->id) }}" target="_blank" class="btn btn-primary">📄 Ver PDF (DTE Factura)</a>
     <a href="{{ route('impresoras.ticket',$venta->id) }}" target="_blank" class="btn btn-light">🖨️ Imprimir Ticket</a>
     <a href="{{ route('ventas.index') }}" class="btn btn-light">← Volver</a>
     @if(session('user.rol')==='admin' && $venta->estado==='completada')

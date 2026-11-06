@@ -22,7 +22,8 @@
           <td><strong>${{ number_format($c->total,2) }}</strong></td>
           <td><span class="badge badge-{{ $c->estado==='completada'?'success':($c->estado==='anulada'?'danger':'warning') }}">{{ $c->estado }}</span></td>
           <td>
-            <a href="{{ route('compras.ver',$c->id) }}" class="btn btn-sm btn-secondary">👁️</a>
+            <a href="{{ route('compras.ver',$c->id) }}" class="btn btn-sm btn-secondary" title="Ver Detalle">👁️ Ver</a>
+            <a href="{{ route('compras.pdf',$c->id) }}" target="_blank" class="btn btn-sm btn-primary" title="Generar PDF">📄 PDF</a>
             @if($c->estado==='completada')
             <button onclick="anularCompra({{ $c->id }})" class="btn btn-sm btn-danger">❌</button>
             @endif

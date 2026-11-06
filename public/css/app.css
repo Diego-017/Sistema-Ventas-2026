@@ -2503,3 +2503,133 @@ body.monochrome-mode .f2-payment-row {
   border-color: #384156 !important;
   color: #ffffff !important;
 }
+
+/* ============================================================
+   WIDGETS DE CONTADORES DEL SISTEMA (ESTILO IMAGEN 3)
+   ============================================================ */
+.system-counters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+.sys-card {
+  border-radius: 8px;
+  overflow: hidden;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.sys-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+.sys-card-body {
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+}
+.sys-count {
+  font-size: 2.2rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.sys-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  opacity: .95;
+}
+.sys-watermark {
+  font-size: 2.8rem;
+  opacity: .28;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.sys-card-footer {
+  background: rgba(0, 0, 0, 0.16);
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none !important;
+  transition: background .15s ease;
+}
+.sys-card-footer:hover {
+  background: rgba(0, 0, 0, 0.28);
+  color: #fff;
+}
+.sys-yellow { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.sys-cyan   { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+.sys-green  { background: linear-gradient(135deg, #10b981, #059669); }
+.sys-blue   { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.sys-dark   { background: linear-gradient(135deg, #475569, #334155); }
+.sys-red    { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+/* Banner Módulo de Estadísticas */
+.analytics-banner-card {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+.analytics-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.analytics-banner-icon {
+  font-size: 2.2rem;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 10px;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.analytics-banner-btn {
+  background: #2563eb;
+  color: #fff !important;
+  font-weight: 800;
+  font-size: 0.88rem;
+  padding: 10px 18px;
+  border-radius: 7px;
+  text-decoration: none !important;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+  transition: .18s ease;
+}
+.analytics-banner-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+@media(max-width: 768px) {
+  .analytics-banner-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .analytics-banner-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

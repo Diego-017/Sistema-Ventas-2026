@@ -62,6 +62,14 @@ class InventarioController extends Controller
     }
 
     // ── Traslados / Ajustes de Inventario ───────────────────
+    
+    public function trasladoPdf(int $id)
+    {
+        $traslado = Traslado::with(['usuario', 'items.producto'])->findOrFail($id);
+        $config = \App\Models\Configuracion::pluck('valor','clave')->toArray();
+        return view('inventario.traslado_pdf', compact('traslado', 'config'));
+    }
+
     public function traslados()
     {
         $traslados = Traslado::with(['usuario', 'items.producto'])

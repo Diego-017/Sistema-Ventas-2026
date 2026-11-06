@@ -18,19 +18,19 @@ class CajaController extends Controller
     // ── ADMINISTRAR CORTE DE CAJA (CORTE X & CORTE Z) ───────────────
     public function administrarCorte(Request $request)
     {
-        $sucursales = ['LAS PALMERAS', 'VISTA HERMOSA', 'BODEGA', 'LAS UNIDAS'];
-        $sucursalSeleccionada = $request->get('sucursal', 'LAS PALMERAS');
+        $sucursales = ['Sucursal Central', 'Sucursal Norte', 'Sucursal Sur', 'Bodega Principal'];
+        $sucursalSeleccionada = $request->get('sucursal', 'Sucursal Central');
 
         $cajas = Caja::orderBy('id')->get();
         if ($cajas->isEmpty()) {
             Caja::create([
-                'nombre'          => 'CAJA 1lp',
+                'nombre'          => 'CAJA 1',
                 'usuario_id'      => $this->userId(),
                 'monto_apertura'  => 0,
                 'estado'          => 'cerrada',
             ]);
             Caja::create([
-                'nombre'          => 'CAJA 2lp',
+                'nombre'          => 'CAJA 2',
                 'usuario_id'      => $this->userId(),
                 'monto_apertura'  => 0,
                 'estado'          => 'cerrada',
