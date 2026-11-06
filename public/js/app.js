@@ -7,8 +7,9 @@ const ACTIVE_GROUP_KEY      = 'digitalspos_active_nav_group';
 // ── Toggle de Modo Oscuro (Convierte paneles blancos a oscuro con letras blancas) ────
 function toggleDarkMode() {
   const isDark = document.body.classList.toggle('dark-mode');
-  // Mantener también monochrome-mode para compatibilidad total
   document.body.classList.toggle('monochrome-mode', isDark);
+  document.documentElement.classList.toggle('dark-mode', isDark);
+  document.documentElement.classList.toggle('monochrome-mode', isDark);
   localStorage.setItem(DARK_MODE_KEY, isDark ? '1' : '0');
   localStorage.setItem('digitalspos_monochrome_mode', isDark ? '1' : '0');
 
@@ -96,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const isDarkActive = localStorage.getItem(DARK_MODE_KEY) === '1' || localStorage.getItem('digitalspos_monochrome_mode') === '1';
   if (isDarkActive) {
     document.body.classList.add('dark-mode', 'monochrome-mode');
+    document.documentElement.classList.add('dark-mode', 'monochrome-mode');
     const darkBtn = document.getElementById('monochromeToggleBtn');
     if (darkBtn) {
       darkBtn.classList.add('active-dark');

@@ -165,12 +165,18 @@ body {
 }
 
 .nav-chevron {
-  font-size: .62rem;
-  opacity: .5;
-  transition: transform .2s ease;
+  width: 14px;
+  height: 14px;
+  opacity: .55;
+  transition: transform .22s cubic-bezier(0.4, 0, 0.2, 1), opacity .2s ease;
   flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
 }
-.nav-group.open .nav-chevron { transform: rotate(-90deg); opacity: .9; }
+.nav-group.open .nav-chevron {
+  transform: rotate(90deg);
+  opacity: 1;
+}
 
 /* Contenedor animado del contenido del grupo (técnica grid-rows) */
 .nav-group-wrap {
@@ -2136,5 +2142,364 @@ body.monochrome-mode .alert-danger {
 body.dark-mode .top-icon-btn.active-dark,
 body.monochrome-mode .top-icon-btn.active-dark {
   background: #3b82f6 !important;
+  color: #ffffff !important;
+}
+
+/* ============================================================
+   MODO OSCURO COMPLETO - POS (NUEVA VENTA) Y PANELES BLANCOS
+   ============================================================ */
+html.dark-mode, html.monochrome-mode,
+body.dark-mode, body.monochrome-mode {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+body.dark-mode .pos-page,
+body.monochrome-mode .pos-page,
+html.dark-mode .pos-page {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+body.dark-mode .pos-title,
+body.monochrome-mode .pos-title,
+html.dark-mode .pos-title {
+  color: #ffffff !important;
+}
+
+body.dark-mode .pos-title-icon,
+body.monochrome-mode .pos-title-icon {
+  color: #38bdf8 !important;
+}
+
+body.dark-mode .pos-card,
+body.monochrome-mode .pos-card,
+body.dark-mode .pos-search-card,
+body.monochrome-mode .pos-search-card,
+body.dark-mode .pos-table-card,
+body.monochrome-mode .pos-table-card,
+body.dark-mode .pos-summary,
+body.monochrome-mode .pos-summary,
+body.dark-mode .pos-card-body,
+body.monochrome-mode .pos-card-body,
+body.dark-mode .pos-right .pos-card,
+body.monochrome-mode .pos-right .pos-card,
+html.dark-mode .pos-card,
+html.dark-mode .pos-summary {
+  background: #1a1e29 !important;
+  border-color: #2c3244 !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+}
+
+body.dark-mode .pos-label,
+body.monochrome-mode .pos-label,
+body.dark-mode .pos-form-label,
+body.monochrome-mode .pos-form-label {
+  color: #94a3b8 !important;
+}
+
+body.dark-mode .pos-action,
+body.monochrome-mode .pos-action {
+  background: #1e2434 !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-mode .pos-action:hover,
+body.monochrome-mode .pos-action:hover {
+  background: #283146 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .pos-action-f2,
+body.monochrome-mode .pos-action-f2 {
+  background: #1e293b !important;
+  border-color: #3b82f6 !important;
+  color: #60a5fa !important;
+}
+
+body.dark-mode .pos-action-f8,
+body.monochrome-mode .pos-action-f8 {
+  background: #064e3b !important;
+  border-color: #059669 !important;
+  color: #34d399 !important;
+}
+
+body.dark-mode .pos-action-f6,
+body.monochrome-mode .pos-action-f6 {
+  background: #4c0519 !important;
+  border-color: #e11d48 !important;
+  color: #fb7185 !important;
+}
+
+body.dark-mode .pos-action-f4,
+body.monochrome-mode .pos-action-f4 {
+  background: #1e2434 !important;
+  border-color: #475569 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-mode #searchProducto,
+body.monochrome-mode #searchProducto,
+body.dark-mode .pos-select,
+body.monochrome-mode .pos-select,
+body.dark-mode .pos-input,
+body.monochrome-mode .pos-input,
+body.dark-mode .pos-note,
+body.monochrome-mode .pos-note,
+body.dark-mode .pos-client-editable,
+body.monochrome-mode .pos-client-editable,
+body.dark-mode .discount-input,
+body.monochrome-mode .discount-input,
+body.dark-mode .discount-type,
+body.monochrome-mode .discount-type {
+  background: #242938 !important;
+  border-color: #384156 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode #searchProducto:focus,
+body.monochrome-mode #searchProducto:focus,
+body.dark-mode .pos-input:focus,
+body.monochrome-mode .pos-input:focus {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+}
+
+body.dark-mode .pos-search-results,
+body.monochrome-mode .pos-search-results {
+  background: #1a1e29 !important;
+  border-color: #384156 !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
+}
+
+body.dark-mode .search-item,
+body.monochrome-mode .search-item {
+  border-color: #282d3c !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-mode .search-item:hover,
+body.monochrome-mode .search-item:hover {
+  background: #242c3d !important;
+}
+
+body.dark-mode .table-pos thead th,
+body.monochrome-mode .table-pos thead th {
+  background: #12141c !important;
+  color: #94a3b8 !important;
+  border-color: #282d3c !important;
+}
+
+body.dark-mode .table-pos tbody td,
+body.monochrome-mode .table-pos tbody td {
+  background: #1a1e29 !important;
+  border-color: #282d3c !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-mode .table-pos tbody tr:hover td,
+body.monochrome-mode .table-pos tbody tr:hover td {
+  background: #222838 !important;
+}
+
+body.dark-mode .product-name,
+body.monochrome-mode .product-name {
+  color: #ffffff !important;
+}
+
+body.dark-mode .product-sku,
+body.monochrome-mode .product-sku {
+  color: #94a3b8 !important;
+}
+
+body.dark-mode .product-category,
+body.monochrome-mode .product-category {
+  color: #cbd5e1 !important;
+}
+
+body.dark-mode .stock-value,
+body.monochrome-mode .stock-value {
+  color: #e2e8f0 !important;
+}
+
+body.dark-mode .qty-control,
+body.monochrome-mode .qty-control {
+  background: #242938 !important;
+  border-color: #384156 !important;
+}
+
+body.dark-mode .qty-btn,
+body.monochrome-mode .qty-btn {
+  background: #1e2433 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-mode .qty-btn:hover,
+body.monochrome-mode .qty-btn:hover {
+  background: #2b3447 !important;
+}
+
+body.dark-mode .qty-input,
+body.monochrome-mode .qty-input {
+  background: #242938 !important;
+  color: #ffffff !important;
+  border-color: #384156 !important;
+}
+
+body.dark-mode .pos-table-total,
+body.monochrome-mode .pos-table-total {
+  background: #151822 !important;
+  border-color: #282d3c !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-mode .pos-table-total strong,
+body.monochrome-mode .pos-table-total strong {
+  color: #38bdf8 !important;
+}
+
+body.dark-mode .pos-section-title,
+body.monochrome-mode .pos-section-title {
+  background: #151822 !important;
+  border-color: #282d3c !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .pos-section-body,
+body.monochrome-mode .pos-section-body {
+  background: #1a1e29 !important;
+}
+
+body.dark-mode .pos-footer,
+body.monochrome-mode .pos-footer {
+  background: #151822 !important;
+  border-color: #282d3c !important;
+  color: #94a3b8 !important;
+}
+
+body.dark-mode .pos-footer strong,
+body.monochrome-mode .pos-footer strong {
+  color: #f1f5f9 !important;
+}
+
+body.dark-mode .pos-summary-title,
+body.monochrome-mode .pos-summary-title {
+  background: #151822 !important;
+  border-color: #282d3c !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .pos-stat,
+body.monochrome-mode .pos-stat {
+  background: #242938 !important;
+  border-color: #384156 !important;
+}
+
+body.dark-mode .pos-stat.green,
+body.monochrome-mode .pos-stat.green {
+  background: rgba(16, 185, 129, 0.14) !important;
+  border-color: #059669 !important;
+}
+body.dark-mode .pos-stat.green .pos-stat-value,
+body.monochrome-mode .pos-stat.green .pos-stat-value {
+  color: #34d399 !important;
+}
+
+body.dark-mode .pos-stat.orange,
+body.monochrome-mode .pos-stat.orange {
+  background: rgba(245, 158, 11, 0.14) !important;
+  border-color: #d97706 !important;
+}
+body.dark-mode .pos-stat.orange .pos-stat-value,
+body.monochrome-mode .pos-stat.orange .pos-stat-value {
+  color: #fbbf24 !important;
+}
+
+body.dark-mode .pos-stat.blue,
+body.monochrome-mode .pos-stat.blue {
+  background: rgba(59, 130, 246, 0.14) !important;
+  border-color: #2563eb !important;
+}
+body.dark-mode .pos-stat.blue .pos-stat-value,
+body.monochrome-mode .pos-stat.blue .pos-stat-value {
+  color: #60a5fa !important;
+}
+
+body.dark-mode .pos-stat.purple,
+body.monochrome-mode .pos-stat.purple {
+  background: rgba(139, 92, 246, 0.14) !important;
+  border-color: #7c3aed !important;
+}
+body.dark-mode .pos-stat.purple .pos-stat-value,
+body.monochrome-mode .pos-stat.purple .pos-stat-value {
+  color: #a78bfa !important;
+}
+
+body.dark-mode .pos-summary-line,
+body.monochrome-mode .pos-summary-line {
+  border-color: #282d3c !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-mode .pos-total-line,
+body.monochrome-mode .pos-total-line {
+  border-color: #384156 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .pos-total-line span:last-child,
+body.monochrome-mode .pos-total-line span:last-child {
+  color: #38bdf8 !important;
+}
+
+body.dark-mode .pos-config-title,
+body.monochrome-mode .pos-config-title {
+  border-color: #282d3c !important;
+  color: #ffffff !important;
+}
+
+/* F2 Panel y Modales */
+body.dark-mode .modal-f2-panel,
+body.monochrome-mode .modal-f2-panel {
+  background: #141722 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-mode .modal-f2-header,
+body.monochrome-mode .modal-f2-header {
+  background: #1a1e29 !important;
+  border-color: #2c3244 !important;
+}
+
+body.dark-mode .val-box,
+body.monochrome-mode .val-box {
+  background: #242938 !important;
+  border-color: #384156 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .f2-sale-card,
+body.monochrome-mode .f2-sale-card,
+body.dark-mode .f2-payment-card,
+body.monochrome-mode .f2-payment-card {
+  background: #1a1e29 !important;
+  border-color: #2c3244 !important;
+}
+
+body.dark-mode .f2-sale-header,
+body.monochrome-mode .f2-sale-header {
+  background: #151822 !important;
+  border-color: #282d3c !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .f2-payment-box,
+body.monochrome-mode .f2-payment-box,
+body.dark-mode .f2-payment-row,
+body.monochrome-mode .f2-payment-row {
+  background: #242938 !important;
+  border-color: #384156 !important;
   color: #ffffff !important;
 }
