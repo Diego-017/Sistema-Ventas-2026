@@ -1607,3 +1607,289 @@ body {
         min-height:75px;
     }
 }
+/* ═════════════════════════════════════════════════════════════
+   ESTILOS EMPRESARIALES — DIGITALESPOS / SUPER EMMANUEL (2026)
+   ═════════════════════════════════════════════════════════════ */
+
+/* TopBar Empresarial */
+.top-bar {
+  background: #1e222d !important;
+  border-bottom: 1px solid #2d3243 !important;
+  color: #fff !important;
+  padding: 0 18px !important;
+}
+.top-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.sidebar-toggle {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  background: #2a3040 !important;
+  color: #38bdf8 !important;
+  border: 1px solid #3d465c !important;
+  font-size: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.sidebar-toggle:hover {
+  background: #38bdf8 !important;
+  color: #0f172a !important;
+}
+.top-company-badge {
+  font-size: .88rem;
+  font-weight: 800;
+  color: #f1f5f9;
+  letter-spacing: .3px;
+}
+
+/* Acciones en TopBar Right */
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.top-icon-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.15rem;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all .15s;
+}
+.top-icon-btn:hover {
+  background: #2a3040;
+  color: #fff;
+}
+.caja-badge {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .75rem;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 20px;
+  transition: transform .15s;
+}
+.caja-badge:hover { transform: scale(1.03); }
+.caja-badge.open { background: rgba(16,185,129,.18); color: #34d399; border: 1px solid rgba(16,185,129,.35); }
+.caja-badge.closed { background: rgba(239,68,68,.18); color: #f87171; border: 1px solid rgba(239,68,68,.35); }
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
+  display: inline-block;
+  box-shadow: 0 0 8px #34d399;
+}
+
+/* User Pill en TopBar */
+.top-user-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 6px;
+  background: #282d3c;
+  border: 1px solid #363d50;
+  border-radius: 24px;
+}
+.user-avatar-mini {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #0284c7;
+  color: #fff;
+  font-size: .8rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user-meta-mini {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.user-name-mini {
+  font-size: .78rem;
+  font-weight: 700;
+  color: #fff;
+}
+.user-status-online {
+  font-size: .65rem;
+  color: #10b981;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.status-dot {
+  width: 5px;
+  height: 5px;
+  background: #10b981;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Panel de Notificaciones Dropdown */
+.notif-dropdown-panel {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  width: 280px;
+  background: #1e222d;
+  border: 1px solid #363d50;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.5);
+  z-index: 1050;
+  overflow: hidden;
+}
+.notif-panel-header {
+  background: #282d3c;
+  padding: 10px 14px;
+  font-size: .78rem;
+  font-weight: 800;
+  color: #94a3b8;
+  text-transform: uppercase;
+  border-bottom: 1px solid #363d50;
+}
+.notif-item {
+  display: block;
+  padding: 10px 14px;
+  font-size: .8rem;
+  text-decoration: none;
+  color: #cbd5e1;
+  border-bottom: 1px solid #2a3040;
+  transition: background .15s;
+}
+.notif-item:hover { background: #282d3c; color: #fff; }
+.notif-item.danger { color: #f87171; }
+.notif-item.warning { color: #fbbf24; }
+.notif-item-empty {
+  padding: 14px;
+  font-size: .8rem;
+  color: #94a3b8;
+  text-align: center;
+}
+
+/* ── Modo Sidebar Colapsado (Desktop) ────────────────────────── */
+@media (min-width: 769px) {
+  .app-wrapper.sidebar-collapsed .sidebar {
+    width: 68px !important;
+  }
+  .app-wrapper.sidebar-collapsed .sidebar-brand {
+    padding: 14px 10px !important;
+    justify-content: center !important;
+  }
+  .app-wrapper.sidebar-collapsed .sidebar-brand .brand-name,
+  .app-wrapper.sidebar-collapsed .sidebar-brand .brand-sub {
+    display: none !important;
+  }
+  .app-wrapper.sidebar-collapsed .nav-label,
+  .app-wrapper.sidebar-collapsed .nav-chevron,
+  .app-wrapper.sidebar-collapsed .badge-nav,
+  .app-wrapper.sidebar-collapsed .nav-group-wrap {
+    display: none !important;
+  }
+  .app-wrapper.sidebar-collapsed .nav-item,
+  .app-wrapper.sidebar-collapsed .nav-group-header {
+    justify-content: center !important;
+    padding: 12px 0 !important;
+  }
+  .app-wrapper.sidebar-collapsed .nav-icon {
+    font-size: 1.25rem !important;
+    margin: 0 !important;
+  }
+  .app-wrapper.sidebar-collapsed .sidebar-user {
+    padding: 10px 6px !important;
+  }
+  .app-wrapper.sidebar-collapsed .user-info div,
+  .app-wrapper.sidebar-collapsed .user-actions {
+    display: none !important;
+  }
+  .app-wrapper.sidebar-collapsed .user-info {
+    justify-content: center !important;
+    margin-bottom: 0 !important;
+  }
+  .app-wrapper.sidebar-collapsed .main-content {
+    margin-left: 68px !important;
+  }
+}
+
+/* ── Los 6 Grandes Bloques Empresariales del Dashboard ───────── */
+.enterprise-tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (max-width: 1200px) {
+  .enterprise-tiles-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 640px) {
+  .enterprise-tiles-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.ent-tile {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  transition: transform .18s ease, box-shadow .18s ease;
+  min-height: 88px;
+}
+.ent-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,.25);
+  color: #ffffff;
+}
+.ent-tile-title {
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: .2px;
+  line-height: 1.1;
+  z-index: 1;
+}
+.ent-tile-sub {
+  font-size: .75rem;
+  opacity: .88;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-top: 4px;
+  z-index: 1;
+}
+.ent-tile-icon {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-size: 2.2rem;
+  opacity: .28;
+  line-height: 1;
+  pointer-events: none;
+  filter: grayscale(15%);
+}
+
+/* Paleta de colores idéntica a la Página 1 del PDF */
+.tile-orange { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); }
+.tile-green  { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+.tile-cyan   { background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); }
+.tile-dark   { background: linear-gradient(135deg, #334155 0%, #1e293b 100%); }
+.tile-slate  { background: linear-gradient(135deg, #475569 0%, #334155 100%); }
+.tile-red    { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }

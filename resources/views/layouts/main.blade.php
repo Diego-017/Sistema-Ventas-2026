@@ -187,7 +187,7 @@
       </div>
       @endif
 
-      {{-- CAJAS Y CAJA CHICA --}}
+      {{-- CAJAS Y FINANZAS --}}
       <div class="nav-group {{ $openCajas ? 'open':'' }}" data-group="cajas">
         <button type="button" class="nav-group-header {{ $openCajas ? 'active':'' }}" onclick="toggleNavGroup(this)">
           <span class="nav-icon">🧮</span><span class="nav-label">Cajas y Finanzas</span>
@@ -195,17 +195,23 @@
           <span class="nav-chevron">❯</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
+          <a href="{{ route('caja.administrar_corte') }}" class="nav-subitem {{ request()->routeIs('caja.administrar_corte') ? 'active':'' }}">
+            <span class="nav-dot"></span><span>Corte Caja (Corte X / Z)</span>
+          </a>
+          <a href="{{ route('caja.index') }}" class="nav-subitem {{ request()->is('caja') ? 'active':'' }}">
+            <span class="nav-dot"></span><span>Administrar Cajas</span>
+          </a>
+          <a href="{{ route('caja.movimientos') }}" class="nav-subitem {{ request()->is('caja/movimientos') ? 'active':'' }}">
+            <span class="nav-dot"></span><span>Administrar Movimientos</span>
+          </a>
           <a href="{{ route('caja.chica') }}" class="nav-subitem {{ request()->is('caja/chica') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Caja Chica</span>
           </a>
           <a href="{{ route('caja.cuadraturas') }}" class="nav-subitem {{ request()->is('caja/cuadraturas') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Cuadraturas</span>
           </a>
-          <a href="{{ route('caja.index') }}" class="nav-subitem {{ request()->is('caja') ? 'active':'' }}">
-            <span class="nav-dot"></span><span>Administrar Cajas</span>
-          </a>
           <a href="{{ route('caja.historial') }}" class="nav-subitem {{ request()->is('caja/historial') ? 'active':'' }}">
-            <span class="nav-dot"></span><span>Administrar Corte</span>
+            <span class="nav-dot"></span><span>Historial de Cortes</span>
           </a>
         </div></div>
       </div>
@@ -265,14 +271,63 @@
 
   <main class="main-content">
     <header class="top-bar">
-      <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">☰</button>
+      <div class="top-bar-left">
+        <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Contraer / Expandir menú lateral">☰</button>
+        <span class="top-company-badge">🏪 {{ \App\Models\Configuracion::get('nombre_negocio', 'Super Emmanuel') }}</span>
+      </div>
+
       <div class="top-bar-right">
-        <span class="top-date">🕐 {{ now()->format('d/m/Y H:i') }}</span>
         @if(\App\Models\Caja::abierta())
-          <span class="caja-badge open">🟢 Caja Abierta</span>
+          <a href="{{ route('caja.administrar_corte') }}" class="caja-badge open" title="Ver estado de caja actual">
+            <span class="pulse-dot"></span> Caja Abierta
+          </a>
         @else
-          <span class="caja-badge closed">🔴 Sin Caja</span>
+          <a href="{{ route('caja.administrar_corte') }}" class="caja-badge closed" title="Realizar apertura de caja">
+            🔴 Sin Caja
+          </a>
         @endif
+
+        <a href="{{ route('impresoras.index') }}" class="top-icon-btn" title="Impresoras y Terminales POS">
+          🖨️
+        </a>
+
+        <div class="top-icon-dropdown" style="position:relative">
+          <button type="button" class="top-icon-btn notif-btn" onclick="toggleNotifDropdown()" title="Notificaciones del sistema">
+            🔔
+            @php $totalAlertas = $stockBajoCount + $creditosVencidos; @endphp
+            @if($totalAlertas > 0)
+              <span class="notif-count">{{ $totalAlertas }}</span>
+            @endif
+          </button>
+          <div id="notifDropdownMenu" class="notif-dropdown-panel" style="display:none">
+            <div class="notif-panel-header">Alertas del Sistema</div>
+            @if($stockBajoCount > 0)
+              <a href="{{ route('inventario.stock') }}" class="notif-item danger">
+                ⚠️ {{ $stockBajoCount }} productos con stock bajo o agotado.
+              </a>
+            @endif
+            @if($creditosVencidos > 0)
+              <a href="{{ route('creditos.index') }}" class="notif-item warning">
+                💳 {{ $creditosVencidos }} créditos con plazo vencido.
+              </a>
+            @endif
+            @if($totalAlertas === 0)
+              <div class="notif-item-empty">✅ Todo en orden. No hay alertas activas.</div>
+            @endif
+          </div>
+        </div>
+
+        <button type="button" class="top-icon-btn" onclick="toggleFullScreen()" title="Pantalla completa (Modo POS)">
+          ⛶
+        </button>
+
+        <div class="top-user-pill">
+          <span class="user-avatar-mini">{{ strtoupper(substr(session('user.nombre', 'U'), 0, 1)) }}</span>
+          <div class="user-meta-mini">
+            <span class="user-name-mini">{{ session('user.nombre', 'yancilp') }}</span>
+            <span class="user-status-online"><span class="status-dot"></span> En línea</span>
+          </div>
+        </div>
       </div>
     </header>
 

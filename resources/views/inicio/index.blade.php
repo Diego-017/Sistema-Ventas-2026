@@ -1,15 +1,66 @@
 @extends('layouts.main')
-@section('title','Dashboard')
+@section('title','Panel de Administración')
 @section('content')
 
-<div class="page-header">
+{{-- Encabezado Principal estilo Software Empresarial --}}
+<div class="page-header" style="margin-bottom: 20px">
   <div>
-    <h1>📊 Dashboard</h1>
-    <p class="page-sub">Bienvenido, {{ session('user.nombre') }} — {{ now()->translatedFormat('l, d \\de F Y') }}</p>
+    <h1 style="color: #38bdf8; font-size: 1.75rem; font-weight: 800; margin:0">Panel de Administración</h1>
+    <p class="page-sub" style="color: #94a3b8">Bienvenido, {{ session('user.nombre') }} — {{ now()->translatedFormat('l, d \\de F Y') }}</p>
   </div>
-  <span class="date-badge">{{ now()->format('H:i') }}</span>
+  <div style="display:flex; align-items:center; gap:10px">
+    <span class="date-badge" style="background:#282d3c; color:#38bdf8; border:1px solid #363d50; padding:6px 12px; border-radius:6px; font-weight:700">
+      🕐 {{ now()->format('H:i:s') }}
+    </span>
+  </div>
 </div>
 
+{{-- ── 6 GRANDES BLOQUES DE ACCESO RÁPIDO (Exacto a la Página 1 del PDF) ── --}}
+<div class="enterprise-tiles-grid">
+  {{-- 1. Venta (POS) --}}
+  <a href="{{ route('ventas.nueva') }}" class="ent-tile tile-orange">
+    <div class="ent-tile-title">Venta</div>
+    <div class="ent-tile-sub">POS</div>
+    <span class="ent-tile-icon">🛒</span>
+  </a>
+
+  {{-- 2. Clientes --}}
+  <a href="{{ route('clientes.index') }}" class="ent-tile tile-green">
+    <div class="ent-tile-title">Clientes</div>
+    <div class="ent-tile-sub">Administración</div>
+    <span class="ent-tile-icon">👥</span>
+  </a>
+
+  {{-- 3. Productos --}}
+  <a href="{{ route('productos.index') }}" class="ent-tile tile-cyan">
+    <div class="ent-tile-title">Productos</div>
+    <div class="ent-tile-sub">Administración</div>
+    <span class="ent-tile-icon">📦</span>
+  </a>
+
+  {{-- 4. Creditos --}}
+  <a href="{{ route('creditos.index') }}" class="ent-tile tile-dark">
+    <div class="ent-tile-title">Creditos</div>
+    <div class="ent-tile-sub">Administración</div>
+    <span class="ent-tile-icon">💳</span>
+  </a>
+
+  {{-- 5. Stock --}}
+  <a href="{{ route('inventario.stock') }}" class="ent-tile tile-slate">
+    <div class="ent-tile-title">Stock</div>
+    <div class="ent-tile-sub">Consultar</div>
+    <span class="ent-tile-icon">🏬</span>
+  </a>
+
+  {{-- 6. Corte Caja --}}
+  <a href="{{ route('caja.administrar_corte') }}" class="ent-tile tile-red">
+    <div class="ent-tile-title">Corte Caja</div>
+    <div class="ent-tile-sub">Administración</div>
+    <span class="ent-tile-icon">🗑️</span>
+  </a>
+</div>
+
+{{-- KPIs de Ventas y Financieros --}}
 <div class="stats-grid">
   <div class="stat-card stat-success">
     <div class="stat-icon-wrap">💰</div>
@@ -95,7 +146,7 @@
 <div class="card" style="background:#fff; border-radius:12px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,0.1); margin-bottom:25px; border-left: 5px solid #2563eb;">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
     <h3 style="margin:0; font-size:1.1rem; color:#0f172a; font-weight:800; display:flex; align-items:center; gap:8px;">
-      🔔 Actividad Reciente en Tiempo Real (Panel de Administración)
+      🔔 Actividad Reciente en Tiempo Real (Panel de Supervisión)
     </h3>
     <span style="font-size:0.8rem; color:#64748b; background:#f1f5f9; padding:4px 8px; border-radius:4px; font-weight:600;">Supervisión Global</span>
   </div>
@@ -191,7 +242,7 @@
 <div class="card">
   <div class="card-header">
     <h3>💰 Caja Actual — <span class="text-success">ABIERTA</span></h3>
-    <a href="{{ route('caja.index') }}" class="btn btn-sm btn-light">Gestionar Caja</a>
+    <a href="{{ route('caja.administrar_corte') }}" class="btn btn-sm btn-light">Gestionar Caja / Corte</a>
   </div>
   <div class="card-body">
     <div class="caja-stats">
@@ -204,8 +255,8 @@
 </div>
 @else
 <div class="alert alert-warning">
-  ⚠️ No hay caja abierta. Las ventas no se podrán registrar correctamente.
-  <a href="{{ route('caja.index') }}" class="btn btn-sm btn-primary" style="margin-left:8px">Abrir Caja</a>
+  ⚠️ No hay caja abierta. Para registrar ventas en este turno, primero realiza la apertura.
+  <a href="{{ route('caja.administrar_corte') }}" class="btn btn-sm btn-primary" style="margin-left:8px">Realizar Apertura</a>
 </div>
 @endif
 

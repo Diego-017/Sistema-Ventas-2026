@@ -103,6 +103,8 @@ Route::middleware('auth.session')->group(function () {
 
     // ── CAJA Y CAJA CHICA ────────────────────────────────────────
     Route::get('/caja',                  [CajaController::class, 'index'])->name('caja.index');
+    Route::get('/caja/corte-admin',      [CajaController::class, 'administrarCorte'])->name('caja.administrar_corte');
+    Route::get('/caja/corte-x/{id}',     [CajaController::class, 'corteX'])->name('caja.corte_x');
     Route::get('/caja/chica',            [CajaController::class, 'cajaChica'])->name('caja.chica');
     Route::post('/caja/movimiento',      [CajaController::class, 'storeMovimiento'])->name('caja.movimiento.store');
     Route::post('/caja/voucher',         [CajaController::class, 'storeVoucher'])->name('caja.voucher.store');

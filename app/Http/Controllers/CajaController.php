@@ -321,4 +321,116 @@ class CajaController extends Controller
 
         return back()->with('success', 'Movimiento eliminado correctamente.');
     }
+
+    public function administrarCorte(Request $request)
+    {
+        $sucursales = ['LAS PALMERAS', 'VISTA HERMOSA', 'BODEGA', 'LAS UNIDAS'];
+        $sucursalSeleccionada = $request->get('sucursal', 'LAS PALMERAS');
+
+        $cajas = Caja::orderBy('id')->get();
+        if ($cajas->isEmpty()) {
+            Caja::create([
+                'nombre'          => 'CAJA 1lp',
+                'usuario_id'      => $this->userId(),
+                'monto_apertura'  => 0,
+                'estado'          => 'cerrada',
+            ]);
+            Caja::create([
+                'nombre'          => 'CAJA 2lp',
+                'usuario_id'      => $this->userId(),
+                'monto_apertura'  => 0,
+                'estado'          => 'cerrada',
+            ]);
+            $cajas = Caja::orderBy('id')->get();
+        }
+
+        $cajaSeleccionadaId = $request->get('caja_id', $cajas->first()->id);
+        $cajaActual = $cajas->firstWhere('id', $cajaSeleccionadaId) ?? $cajas->first();
+
+        $datosLectura = null;
+        if ($cajaActual && $cajaActual->estado === 'abierta') {
+            $ventasDesglose = Venta::where('caja_id', $cajaActual->id)
+                ->where('estado', 'completada')
+                ->selectRaw('metodo_pago, SUM(total) as total, COUNT(*) as cantidad')
+                ->groupBy('metodo_pago')
+                ->get()
+                ->keyBy('metodo_pago');
+
+            $ingresosExtra = Gasto::where('caja_id', $cajaActual->id)->where('tipo', 'ingreso')->sum('monto');
+            $egresosGastos = Gasto::where('caja_id', $cajaActual->id)->whereIn('tipo', ['egreso', 'retiro'])->sum('monto');
+            $vouchersCount = VoucherPos::where('caja_id', $cajaActual->id)->count();
+            $vouchersTotal = VoucherPos::where('caja_id', $cajaActual->id)->sum('monto');
+
+            $efectivoVentas = $ventasDesglose['efectivo']->total ?? 0;
+            $tarjetaVentas  = $ventasDesglose['tarjeta']->total ?? 0;
+            $transfVentas   = $ventasDesglose['transferencia']->total ?? 0;
+            $creditoVentas  = $ventasDesglose['credito']->total ?? 0;
+
+            $totalEnGavetaEsperado = $cajaActual->monto_apertura + $efectivoVentas + $ingresosExtra - $egresosGastos;
+
+            $datosLectura = [
+                'efectivo_ventas'       => $efectivoVentas,
+                'tarjeta_ventas'        => $tarjetaVentas,
+                'transf_ventas'         => $transfVentas,
+                'credito_ventas'        => $creditoVentas,
+                'ingresos_extra'        => $ingresosExtra,
+                'egresos_gastos'        => $egresosGastos,
+                'vouchers_count'        => $vouchersCount,
+                'vouchers_total'        => $vouchersTotal,
+                'total_gaveta_esperado' => $totalEnGavetaEsperado,
+                'total_transacciones'   => Venta::where('caja_id', $cajaActual->id)->where('estado', 'completada')->count(),
+                'total_ventas_bruto'    => $cajaActual->total_ventas,
+            ];
+        }
+
+        return view('caja.corte_admin', compact(
+            'sucursales',
+            'sucursalSeleccionada',
+            'cajas',
+            'cajaActual',
+            'datosLectura'
+        ));
+    }
+
+    public function corteX(int $id)
+    {
+        $caja = Caja::with(['usuario', 'ventas' => function($q) {
+            $q->where('estado', 'completada');
+        }])->findOrFail($id);
+
+        if ($caja->estado !== 'abierta') {
+            return back()->with('error', 'La caja seleccionada no está abierta.');
+        }
+
+        $ventasDesglose = Venta::where('caja_id', $caja->id)
+            ->where('estado', 'completada')
+            ->selectRaw('metodo_pago, SUM(total) as total, COUNT(*) as cantidad')
+            ->groupBy('metodo_pago')
+            ->get()
+            ->keyBy('metodo_pago');
+
+        $ingresosExtra = Gasto::where('caja_id', $caja->id)->where('tipo', 'ingreso')->sum('monto');
+        $egresosGastos = Gasto::where('caja_id', $caja->id)->whereIn('tipo', ['egreso', 'retiro'])->sum('monto');
+        $vouchersTotal = VoucherPos::where('caja_id', $caja->id)->sum('monto');
+
+        $efectivoVentas = $ventasDesglose['efectivo']->total ?? 0;
+        $tarjetaVentas  = $ventasDesglose['tarjeta']->total ?? 0;
+        $transfVentas   = $ventasDesglose['transferencia']->total ?? 0;
+        $creditoVentas  = $ventasDesglose['credito']->total ?? 0;
+
+        $efectivoEsperado = $caja->monto_apertura + $efectivoVentas + $ingresosExtra - $egresosGastos;
+
+        return view('caja.corte_x', compact(
+            'caja',
+            'ventasDesglose',
+            'ingresosExtra',
+            'egresosGastos',
+            'vouchersTotal',
+            'efectivoVentas',
+            'tarjetaVentas',
+            'transfVentas',
+            'creditoVentas',
+            'efectivoEsperado'
+        ));
+    }
 }
