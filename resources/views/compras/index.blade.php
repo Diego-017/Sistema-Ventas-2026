@@ -2,7 +2,7 @@
 @section('title','Compras')
 @section('content')
 <div class="page-header">
-  <h1>🛒 Compras / Entradas de Inventario</h1>
+  <h1><i class="fa-solid fa-cart-shopping"></i> Compras / Entradas de Inventario</h1>
   <a href="{{ route('compras.crear') }}" class="btn btn-primary">+ Nueva Compra</a>
 </div>
 <div class="card">
@@ -22,10 +22,10 @@
           <td><strong>${{ number_format($c->total,2) }}</strong></td>
           <td><span class="badge badge-{{ $c->estado==='completada'?'success':($c->estado==='anulada'?'danger':'warning') }}">{{ $c->estado }}</span></td>
           <td>
-            <a href="{{ route('compras.ver',$c->id) }}" class="btn btn-sm btn-secondary" title="Ver Detalle">👁️ Ver</a>
-            <a href="{{ route('compras.pdf',$c->id) }}" target="_blank" class="btn btn-sm btn-primary" title="Generar PDF">📄 PDF</a>
+            <a href="{{ route('compras.ver',$c->id) }}" class="btn btn-sm btn-secondary" title="Ver Detalle"><i class="fa-solid fa-eye"></i> Ver</a>
+            <a href="{{ route('compras.pdf',$c->id) }}" target="_blank" class="btn btn-sm btn-primary" title="Generar PDF"><i class="fa-solid fa-file-lines"></i> PDF</a>
             @if($c->estado==='completada')
-            <button onclick="anularCompra({{ $c->id }})" class="btn btn-sm btn-danger">❌</button>
+            <button onclick="anularCompra({{ $c->id }})" class="btn btn-sm btn-danger"><i class="fa-solid fa-circle-xmark"></i></button>
             @endif
           </td>
         </tr>

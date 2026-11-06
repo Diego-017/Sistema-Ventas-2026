@@ -2,7 +2,7 @@
 @section('title','Historial de Ventas')
 @section('content')
 <div class="page-header">
-  <h1>📋 Historial de Ventas</h1>
+  <h1><i class="fa-solid fa-clipboard-list"></i> Historial de Ventas</h1>
   <a href="{{ route('ventas.nueva') }}" class="btn btn-primary">+ Nueva Venta</a>
 </div>
 <div class="card">
@@ -23,7 +23,7 @@
           <td>{{ $v->usuario->nombre }}</td>
           <td><strong>${{ number_format($v->total,2) }}</strong></td>
           <td>
-            @php $iconos=['efectivo'=>'💵','tarjeta'=>'💳','transferencia'=>'🏦']; @endphp
+            @php $iconos=['efectivo'=>'<i class="fa-solid fa-money-bill-wave"></i>','tarjeta'=>'<i class="fa-solid fa-credit-card"></i>','transferencia'=>'<i class="fa-solid fa-building-columns"></i>']; @endphp
             {{ $iconos[$v->metodo_pago]??'' }} {{ $v->metodo_pago }}
           </td>
           <td>
@@ -32,9 +32,9 @@
             </span>
           </td>
           <td style="text-align:right; white-space:nowrap">
-            <a href="{{ route('ventas.ver',$v->id) }}" class="btn btn-sm btn-secondary" title="Ver Detalle">👁️ Ver</a>
-            <a href="{{ route('ventas.pdf',$v->id) }}" target="_blank" class="btn btn-sm btn-primary" title="Generar PDF (DTE)">📄 PDF</a>
-            <a href="{{ route('impresoras.ticket',$v->id) }}" target="_blank" class="btn btn-sm btn-light" title="Ticket">🖨️</a>
+            <a href="{{ route('ventas.ver',$v->id) }}" class="btn btn-sm btn-secondary" title="Ver Detalle"><i class="fa-solid fa-eye"></i> Ver</a>
+            <a href="{{ route('ventas.pdf',$v->id) }}" target="_blank" class="btn btn-sm btn-primary" title="Generar PDF (DTE)"><i class="fa-solid fa-file-lines"></i> PDF</a>
+            <a href="{{ route('impresoras.ticket',$v->id) }}" target="_blank" class="btn btn-sm btn-light" title="Ticket"><i class="fa-solid fa-print"></i></a>
           </td>
         </tr>
         @empty

@@ -4,7 +4,7 @@
 
 <div class="page-header">
   <div>
-    <h1>📊 Reporte de Kardex</h1>
+    <h1><i class="fa-solid fa-chart-line"></i> Reporte de Kardex</h1>
     <p class="page-sub">Selecciona un producto y un rango de fechas para ver sus movimientos de inventario</p>
   </div>
   <a href="{{ route('reportes.index') }}" class="btn btn-secondary">← Reportes</a>
@@ -27,7 +27,7 @@
         <label>Buscar Producto <span class="req">*</span></label>
         <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Nombre o código del producto..." autofocus>
       </div>
-      <button type="submit" class="btn btn-primary">🔍 Buscar Producto</button>
+      <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Buscar Producto</button>
     </form>
   </div>
 </div>
@@ -48,8 +48,8 @@
           <td><code>{{ $p->sku ?? '—' }}</code></td>
           <td>{{ $p->stock }}</td>
           <td style="white-space:nowrap">
-            <a href="{{ route('reportes.kardex',['id'=>$p->id,'desde'=>$desde,'hasta'=>$hasta]) }}" class="btn btn-sm btn-primary">📄 Generar Reporte</a>
-            <a href="{{ route('reportes.kardex.excel',['id'=>$p->id,'desde'=>$desde,'hasta'=>$hasta]) }}" class="btn btn-sm btn-success">📊 Excel</a>
+            <a href="{{ route('reportes.kardex',['id'=>$p->id,'desde'=>$desde,'hasta'=>$hasta]) }}" class="btn btn-sm btn-primary"><i class="fa-solid fa-file-lines"></i> Generar Reporte</a>
+            <a href="{{ route('reportes.kardex.excel',['id'=>$p->id,'desde'=>$desde,'hasta'=>$hasta]) }}" class="btn btn-sm btn-success"><i class="fa-solid fa-chart-line"></i> Excel</a>
           </td>
         </tr>
         @endforeach

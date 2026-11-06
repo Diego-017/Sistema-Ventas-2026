@@ -4,21 +4,21 @@
 
 <div class="page-header">
   <div>
-    <h1>🧮 Movimientos de Caja</h1>
+    <h1><i class="fa-solid fa-cash-register"></i> Movimientos de Caja</h1>
     <p class="page-sub">Historial de ingresos y salidas registrados en todas las cajas</p>
   </div>
   <div style="display:flex;gap:.5rem">
-    <a href="{{ route('caja.index') }}" class="btn btn-light">💰 Ir a Caja</a>
+    <a href="{{ route('caja.index') }}" class="btn btn-light"><i class="fa-solid fa-coins"></i> Ir a Caja</a>
     @if($caja)
-    <button type="button" class="btn btn-success" onclick="abrirModalMovimiento('ingreso')">📥 Ingreso a caja</button>
-    <button type="button" class="btn btn-danger" onclick="abrirModalMovimiento('egreso')">📤 Salida de caja</button>
+    <button type="button" class="btn btn-success" onclick="abrirModalMovimiento('ingreso')"><i class="fa-solid fa-arrow-down"></i> Ingreso a caja</button>
+    <button type="button" class="btn btn-danger" onclick="abrirModalMovimiento('egreso')"><i class="fa-solid fa-arrow-up"></i> Salida de caja</button>
     @endif
   </div>
 </div>
 
 @if(!$caja)
 <div class="alert alert-warning" style="margin-bottom:1rem">
-  ⚠️ No hay ninguna caja abierta en este momento. Puedes consultar el historial, pero para registrar
+  <i class="fa-solid fa-triangle-exclamation"></i> No hay ninguna caja abierta en este momento. Puedes consultar el historial, pero para registrar
   nuevos movimientos primero debes <a href="{{ route('caja.index') }}">abrir una caja</a>.
 </div>
 @endif
@@ -35,7 +35,7 @@
       </select>
       <input type="date" name="desde" value="{{ request('desde') }}" class="form-control" style="max-width:160px">
       <input type="date" name="hasta" value="{{ request('hasta') }}" class="form-control" style="max-width:160px">
-      <button type="submit" class="btn btn-primary">🔍 Filtrar</button>
+      <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Filtrar</button>
       @if(request()->hasAny(['buscar','caja_id','desde','hasta']))
         <a href="{{ route('caja.movimientos') }}" class="btn btn-light">Limpiar</a>
       @endif
@@ -68,7 +68,7 @@
             <form method="POST" action="{{ route('caja.movimientos.eliminar',$m->id) }}"
                   onsubmit="return confirm('¿Eliminar este movimiento? Esta acción no se puede deshacer.')">
               @csrf @method('DELETE')
-              <button type="submit" class="btn btn-sm btn-light" title="Eliminar">🗑️</button>
+              <button type="submit" class="btn btn-sm btn-light" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
             </form>
           </td>
         </tr>
@@ -114,7 +114,7 @@
 function abrirModalMovimiento(tipo) {
   document.getElementById('modalMovimientoTipo').value = tipo;
   document.getElementById('modalMovimientoTitulo').textContent =
-    tipo === 'ingreso' ? '📥 Registrar Ingreso a Caja' : '📤 Registrar Salida de Caja';
+    tipo === 'ingreso' ? '<i class="fa-solid fa-arrow-down"></i> Registrar Ingreso a Caja' : '<i class="fa-solid fa-arrow-up"></i> Registrar Salida de Caja';
   document.getElementById('modalMovimiento').style.display = 'flex';
 }
 function cerrarModalMovimiento() {

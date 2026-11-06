@@ -1553,7 +1553,7 @@ body.monochrome-mode .f2-payment-row {
     <div class="pos-header">
 
         <h2 class="pos-title">
-            <span class="pos-title-icon">🛒</span>
+            <span class="pos-title-icon"><i class="fa-solid fa-cart-shopping"></i></span>
             Nueva Venta
         </h2>
 
@@ -1563,26 +1563,26 @@ body.monochrome-mode .f2-payment-row {
                 type="button"
                 class="pos-action pos-action-f2"
                 onclick="abrirModalPago()">
-                🖨️ F2 Facturar
+                <i class="fa-solid fa-print"></i> F2 Facturar
             </button>
 
             <button
                 type="button"
                 class="pos-action pos-action-f8"
                 onclick="confirmarYGuardarVenta()">
-                💾 F8 Guardar
+                <i class="fa-solid fa-floppy-disk"></i> F8 Guardar
             </button>
 
             <a
                 href="{{ route('cotizaciones.nueva') }}"
                 class="pos-action pos-action-f6">
-                📄 F6 Cotización
+                <i class="fa-solid fa-file-lines"></i> F6 Cotización
             </a>
 
             <a
                 href="{{ route('ventas.index') }}"
                 class="pos-action pos-action-f4">
-                🚪 F4 Salir
+                <i class="fa-solid fa-door-open"></i> F4 Salir
             </a>
 
         </div>
@@ -1592,7 +1592,7 @@ body.monochrome-mode .f2-payment-row {
     @if(!$cajaAbierta)
 
         <div class="alert alert-warning py-2 mb-3">
-            ⚠️ No hay caja abierta.
+            <i class="fa-solid fa-triangle-exclamation"></i> No hay caja abierta.
 
             <a
                 href="{{ route('caja.index') }}"
@@ -1628,7 +1628,7 @@ body.monochrome-mode .f2-payment-row {
                             <div class="pos-search-wrap">
 
                                 <span class="pos-search-icon">
-                                    🔍
+                                    <i class="fa-solid fa-magnifying-glass"></i>
                                 </span>
 
                                 <input
@@ -1773,7 +1773,7 @@ body.monochrome-mode .f2-payment-row {
                 <section class="pos-card">
 
                     <h6 class="pos-section-title">
-                        👤 Datos del Cliente
+                        <i class="fa-solid fa-user"></i> Datos del Cliente
                     </h6>
 
                     <div class="pos-section-body">
@@ -1890,7 +1890,7 @@ body.monochrome-mode .f2-payment-row {
 
                     <h6 class="pos-section-title">
 
-                        📝 Observaciones / Notas
+                        <i class="fa-solid fa-pen-to-square"></i> Observaciones / Notas
 
                         <span class="text-muted">
                             (Opcionales)
@@ -1960,7 +1960,7 @@ body.monochrome-mode .f2-payment-row {
             <div class="pos-summary">
 
                 <div class="pos-summary-title">
-                    🧾 Resumen de Pago
+                    <i class="fa-solid fa-receipt"></i> Resumen de Pago
                 </div>
 
 
@@ -2445,7 +2445,7 @@ body.monochrome-mode .f2-payment-row {
                     <div class="card-pay-orange">
 
                         <span class="f2-coin">
-                            🪙
+                            <i class="fa-solid fa-coins"></i>
                         </span>
 
                         <span class="f2-card-label">
@@ -2596,7 +2596,7 @@ body.monochrome-mode .f2-payment-row {
                         class="btn-finalizar-img2"
                         onclick="confirmarYGuardarVenta()">
 
-                        FINALIZAR ✓
+                        FINALIZAR <i class="fa-solid fa-check"></i>
 
                     </button>
 
@@ -3191,7 +3191,7 @@ function renderCart(){
                         class="btn btn-sm btn-outline-danger action-icon"
                         onclick="removeFromCart(${id})">
 
-                        🗑
+                        <i class="fa-solid fa-trash"></i>
 
                     </button>
 
@@ -3257,7 +3257,7 @@ function renderCart(){
                         class="f2-delete"
                         onclick="removeFromCart(${id})">
 
-                        🗑
+                        <i class="fa-solid fa-trash"></i>
 
                     </button>
 

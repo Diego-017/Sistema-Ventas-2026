@@ -2,7 +2,7 @@
 @section('title','Cotizaciones')
 @section('content')
 <div class="page-header">
-  <h1>📄 Administrar Cotizaciones</h1>
+  <h1><i class="fa-solid fa-file-lines"></i> Administrar Cotizaciones</h1>
   <a href="{{ route('cotizaciones.nueva') }}" class="btn btn-primary">+ Nueva Cotización</a>
 </div>
 <div class="card">
@@ -36,12 +36,12 @@
             </span>
           </td>
           <td class="actions">
-            <a href="{{ route('cotizaciones.show',$c->id) }}" class="btn btn-sm btn-secondary">👁️</a>
+            <a href="{{ route('cotizaciones.show',$c->id) }}" class="btn btn-sm btn-secondary"><i class="fa-solid fa-eye"></i></a>
             @if($c->estado==='vigente')
             <form method="POST" action="{{ route('cotizaciones.convertir',$c->id) }}" style="display:inline"
                   onsubmit="return confirm('¿Convertir esta cotización a venta?')">
               @csrf
-              <button type="submit" class="btn btn-sm btn-success">🛍️ Vender</button>
+              <button type="submit" class="btn btn-sm btn-success"><i class="fa-solid fa-boxes-stacked"></i> Vender</button>
             </form>
             @endif
           </td>

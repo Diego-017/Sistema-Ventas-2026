@@ -5,7 +5,7 @@
 <div class="page-header" style="margin-bottom: 20px">
   <div>
     <h1 style="color: #38bdf8; font-size: 1.6rem; font-weight: 800; margin:0">
-      {{ $proveedor ? '✏️ Editar Proveedor' : '➕ Registrar Nuevo Proveedor' }}
+      {{ $proveedor ? '<i class="fa-solid fa-pen"></i> Editar Proveedor' : '<i class="fa-solid fa-plus"></i> Registrar Nuevo Proveedor' }}
     </h1>
     <p class="page-sub" style="color: #94a3b8; margin-top:4px">
       {{ $proveedor ? 'Actualiza la ficha técnica y comercial del proveedor' : 'Ingresa la información comercial y tributaria del proveedor' }}
@@ -135,10 +135,10 @@
       {{-- Botones de Acción --}}
       <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #282d3c; padding-top:20px">
         <a href="{{ route('proveedores.index') }}" class="btn btn-light" style="padding:10px 20px; font-weight:700">
-          ✕ Cancelar
+          <i class="fa-solid fa-xmark"></i> Cancelar
         </a>
         <button type="submit" class="btn btn-primary" style="padding:10px 24px; font-weight:800; font-size:0.95rem">
-          💾 {{ $proveedor ? 'Guardar Cambios' : 'Registrar Proveedor' }}
+          <i class="fa-solid fa-floppy-disk"></i> {{ $proveedor ? 'Guardar Cambios' : 'Registrar Proveedor' }}
         </button>
       </div>
     </form>

@@ -2,19 +2,19 @@
 @section('title','Detalle de Venta')
 @section('content')
 <div class="page-header">
-  <h1>🧾 Comprobante</h1>
+  <h1><i class="fa-solid fa-receipt"></i> Comprobante</h1>
   <div style="display:flex;gap:8px">
-    <a href="{{ route('ventas.pdf',$venta->id) }}" target="_blank" class="btn btn-primary">📄 Ver PDF (DTE Factura)</a>
-    <a href="{{ route('impresoras.ticket',$venta->id) }}" target="_blank" class="btn btn-light">🖨️ Imprimir Ticket</a>
+    <a href="{{ route('ventas.pdf',$venta->id) }}" target="_blank" class="btn btn-primary"><i class="fa-solid fa-file-lines"></i> Ver PDF (DTE Factura)</a>
+    <a href="{{ route('impresoras.ticket',$venta->id) }}" target="_blank" class="btn btn-light"><i class="fa-solid fa-print"></i> Imprimir Ticket</a>
     <a href="{{ route('ventas.index') }}" class="btn btn-light">← Volver</a>
     @if(session('user.rol')==='admin' && $venta->estado==='completada')
-    <button onclick="anularVenta({{ $venta->id }})" class="btn btn-danger">❌ Anular</button>
+    <button onclick="anularVenta({{ $venta->id }})" class="btn btn-danger"><i class="fa-solid fa-circle-xmark"></i> Anular</button>
     @endif
   </div>
 </div>
 <div class="card receipt">
   <div class="receipt-header">
-    <div class="receipt-logo">🛒</div>
+    <div class="receipt-logo"><i class="fa-solid fa-cart-shopping"></i></div>
     <h2>{{ \App\Models\Configuracion::get('nombre_negocio','DigitalsPos') }}</h2>
     <p class="receipt-code">{{ $venta->codigo }}</p>
     <p>{{ $venta->created_at->format('d/m/Y H:i:s') }}</p>
@@ -66,7 +66,7 @@
       {{ strtoupper($venta->estado) }}
     </span>
     @if($venta->tipo_venta==='credito')
-    <span class="badge badge-warning">💳 CRÉDITO</span>
+    <span class="badge badge-warning"><i class="fa-solid fa-credit-card"></i> CRÉDITO</span>
     @endif
   </div>
 </div>

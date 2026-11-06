@@ -2,7 +2,7 @@
 @section('title','Ventas por Vendedor')
 @section('content')
 <div class="page-header">
-  <h1>🏅 Ventas por Vendedor — {{ now()->translatedFormat('F Y') }}</h1>
+  <h1><i class="fa-solid fa-medal"></i> Ventas por Vendedor — {{ now()->translatedFormat('F Y') }}</h1>
   <a href="{{ route('ventas.index') }}" class="btn btn-light">← Volver</a>
 </div>
 <div class="card">

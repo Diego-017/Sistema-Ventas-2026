@@ -2,7 +2,7 @@
 @section('title','Stock por Lote')
 @section('content')
 <div class="page-header">
-  <h1>🔢 Consulta de Stock por Lote</h1>
+  <h1><i class="fa-solid fa-barcode"></i> Consulta de Stock por Lote</h1>
   <a href="{{ route('inventario.stock') }}" class="btn btn-secondary">← Consultar Stock</a>
 </div>
 <div class="card">

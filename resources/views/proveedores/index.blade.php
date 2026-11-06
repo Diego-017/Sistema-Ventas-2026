@@ -4,7 +4,7 @@
 
 <div class="page-header" style="margin-bottom: 20px">
   <div>
-    <h1 style="color: #38bdf8; font-size: 1.6rem; font-weight: 800; margin:0">🏭 Administrar Proveedores</h1>
+    <h1 style="color: #38bdf8; font-size: 1.6rem; font-weight: 800; margin:0"><i class="fa-solid fa-truck"></i> Administrar Proveedores</h1>
     <p class="page-sub" style="color: #94a3b8; margin-top:4px">Catálogo de proveedores de compras, insumos y mercadería</p>
   </div>
   <div>
@@ -54,9 +54,9 @@
             <td>{{ $p->email ?? '—' }}</td>
             <td>{{ $p->direccion ?? '—' }}</td>
             <td class="actions" style="text-align:right; white-space:nowrap">
-              <a href="{{ route('proveedores.editar', $p->id) }}" class="btn btn-sm btn-primary" title="Editar Proveedor">✏️ Editar</a>
+              <a href="{{ route('proveedores.editar', $p->id) }}" class="btn btn-sm btn-primary" title="Editar Proveedor"><i class="fa-solid fa-pen"></i> Editar</a>
               @if(session('user.rol')==='admin')
-              <a href="{{ route('proveedores.confirmar_eliminar', $p->id) }}" class="btn btn-sm btn-danger" title="Eliminar Proveedor">🗑️</a>
+              <a href="{{ route('proveedores.confirmar_eliminar', $p->id) }}" class="btn btn-sm btn-danger" title="Eliminar Proveedor"><i class="fa-solid fa-trash"></i></a>
               @endif
             </td>
           </tr>

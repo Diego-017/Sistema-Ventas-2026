@@ -29,7 +29,7 @@
 @if($lotesVencidos->count() > 0)
 <div class="card" style="background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 25px; border: 1px solid #fca5a5;">
   <h3 style="margin-top: 0; font-size: 1.1rem; color: #dc2626; font-weight: 800; display: flex; align-items: center; gap: 8px;">
-    🚨 Lotes Vencidos (Retirar de Anaquel)
+    <i class="fa-solid fa-bell"></i> Lotes Vencidos (Retirar de Anaquel)
   </h3>
   <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
     <thead>
@@ -61,7 +61,7 @@
 {{-- TABLA DE LOTES POR VENCER (PRÓXIMOS 30 DÍAS) --}}
 <div class="card" style="background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 25px;">
   <h3 style="margin-top: 0; font-size: 1.1rem; color: #ca8a04; font-weight: 800; display: flex; align-items: center; gap: 8px;">
-    ⚠️ Lotes Próximos a Vencer (Promocionar / Dar Salida)
+    <i class="fa-solid fa-triangle-exclamation"></i> Lotes Próximos a Vencer (Promocionar / Dar Salida)
   </h3>
   <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
     <thead>

@@ -7,6 +7,8 @@
 <title>@yield('title','Dashboard') — DigitalsPos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('vendor/fontawesome/all.min.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ @filemtime(public_path('css/app.css')) ?: time() }}">
 <script>
   (function() {
@@ -23,7 +25,7 @@
 
   <aside class="sidebar" id="sidebar">
     <a href="{{ route('dashboard') }}" class="sidebar-brand">
-      <span class="brand-icon">🏪</span>
+      <span class="brand-icon"><i class="fa-solid fa-store" style="color:#38bdf8"></i></span>
       <div>
         <div class="brand-name">{{ \App\Models\Configuracion::get('eslogan','DigitalsPos') }}</div>
         <div class="brand-sub">{{ \App\Models\Configuracion::get('nombre_negocio','Mi Negocio') }}</div>
@@ -32,7 +34,7 @@
 
     <nav class="sidebar-nav" id="sidebarNav">
       <a href="{{ route('dashboard') }}" class="nav-item nav-top {{ request()->routeIs('dashboard') ? 'active':'' }}">
-        <span class="nav-icon">📊</span><span class="nav-label">Inicio</span>
+        <span class="nav-icon"><i class="fa-solid fa-gauge-high"></i></span><span class="nav-label">Inicio</span>
       </a>
 
       @php
@@ -58,7 +60,7 @@
       {{-- VENTAS --}}
       <div class="nav-group {{ $openVentas ? 'open':'' }}" data-group="ventas">
         <button type="button" class="nav-group-header {{ $openVentas ? 'active':'' }}" onclick="toggleNavGroup(this)">
-          <span class="nav-icon">🧾</span><span class="nav-label">Ventas</span>
+          <span class="nav-icon"><i class="fa-solid fa-cart-shopping"></i></span><span class="nav-label">Ventas</span>
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
@@ -79,7 +81,7 @@
       {{-- COTIZACIONES --}}
       <div class="nav-group {{ $openCotizaciones ? 'open':'' }}" data-group="cotizaciones">
         <button type="button" class="nav-group-header {{ $openCotizaciones ? 'active':'' }}" onclick="toggleNavGroup(this)">
-          <span class="nav-icon">📝</span><span class="nav-label">Cotizaciones</span>
+          <span class="nav-icon"><i class="fa-solid fa-file-invoice"></i></span><span class="nav-label">Cotizaciones</span>
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
@@ -95,7 +97,7 @@
       {{-- CLIENTES --}}
       <div class="nav-group {{ $openClientes ? 'open':'' }}" data-group="clientes">
         <button type="button" class="nav-group-header {{ $openClientes ? 'active':'' }}" onclick="toggleNavGroup(this)">
-          <span class="nav-icon">👥</span><span class="nav-label">Clientes</span>
+          <span class="nav-icon"><i class="fa-solid fa-users"></i></span><span class="nav-label">Clientes</span>
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
@@ -108,7 +110,7 @@
       {{-- CUENTAS POR COBRAR --}}
       <div class="nav-group {{ $openCreditos ? 'open':'' }}" data-group="creditos">
         <button type="button" class="nav-group-header {{ $openCreditos ? 'active':'' }}" onclick="toggleNavGroup(this)">
-          <span class="nav-icon">💳</span><span class="nav-label">Cuentas por Cobrar</span>
+          <span class="nav-icon"><i class="fa-solid fa-credit-card"></i></span><span class="nav-label">Cuentas por Cobrar</span>
           @if($creditosVencidos > 0)<span class="badge-nav danger">{{ $creditosVencidos }}</span>@endif
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
@@ -122,7 +124,7 @@
       {{-- PRODUCTOS --}}
       <div class="nav-group {{ $openProductos ? 'open':'' }}" data-group="productos">
         <button type="button" class="nav-group-header {{ $openProductos ? 'active':'' }}" onclick="toggleNavGroup(this)">
-          <span class="nav-icon">🛍️</span><span class="nav-label">Productos</span>
+          <span class="nav-icon"><i class="fa-solid fa-boxes-stacked"></i></span><span class="nav-label">Productos</span>
           @if($stockBajoCount > 0)<span class="badge-nav danger">{{ $stockBajoCount }}</span>@endif
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
@@ -145,7 +147,7 @@
       {{-- INVENTARIO --}}
       <div class="nav-group {{ $openInventario ? 'open':'' }}" data-group="inventario">
         <button type="button" class="nav-group-header {{ $openInventario ? 'active':'' }}" onclick="toggleNavGroup(this)">
-          <span class="nav-icon">➕</span><span class="nav-label">Inventario</span>
+          <span class="nav-icon"><i class="fa-solid fa-warehouse"></i></span><span class="nav-label">Inventario</span>
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
@@ -176,7 +178,7 @@
       {{-- PROVEEDORES --}}
       <div class="nav-group {{ $openProveedores ? 'open':'' }}" data-group="proveedores">
         <button type="button" class="nav-group-header {{ $openProveedores ? 'active':'' }}" onclick="toggleNavGroup(this)">
-          <span class="nav-icon">🏭</span><span class="nav-label">Proveedores</span>
+          <span class="nav-icon"><i class="fa-solid fa-truck"></i></span><span class="nav-label">Proveedores</span>
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
@@ -190,7 +192,7 @@
       {{-- IMPRESORAS --}}
       <div class="nav-group {{ $openImpresoras ? 'open':'' }}" data-group="impresoras">
         <button type="button" class="nav-group-header {{ $openImpresoras ? 'active':'' }}" onclick="toggleNavGroup(this)">
-          <span class="nav-icon">🖨️</span><span class="nav-label">Impresoras</span>
+          <span class="nav-icon"><i class="fa-solid fa-print"></i></span><span class="nav-label">Impresoras</span>
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
@@ -204,7 +206,7 @@
       {{-- CAJAS Y FINANZAS --}}
       <div class="nav-group {{ $openCajas ? 'open':'' }}" data-group="cajas">
         <button type="button" class="nav-group-header {{ $openCajas ? 'active':'' }}" onclick="toggleNavGroup(this)">
-          <span class="nav-icon">🧮</span><span class="nav-label">Cajas y Finanzas</span>
+          <span class="nav-icon"><i class="fa-solid fa-cash-register"></i></span><span class="nav-label">Cajas y Finanzas</span>
           @if($cajaAbiertaNav)<span class="badge-nav success">Abierta</span>@endif
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
@@ -228,7 +230,7 @@
       {{-- REPORTES --}}
       <div class="nav-group {{ $openReportes ? 'open':'' }}" data-group="reportes">
         <button type="button" class="nav-group-header {{ $openReportes ? 'active':'' }}" onclick="toggleNavGroup(this)">
-          <span class="nav-icon">📄</span><span class="nav-label">Reportes</span>
+          <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span><span class="nav-label">Reportes</span>
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
@@ -250,7 +252,7 @@
       {{-- ADMINISTRACIÓN --}}
       <div class="nav-group {{ $openAdmin ? 'open':'' }}" data-group="admin">
         <button type="button" class="nav-group-header {{ $openAdmin ? 'active':'' }}" onclick="toggleNavGroup(this)">
-          <span class="nav-icon">⚙️</span><span class="nav-label">Administración</span>
+          <span class="nav-icon"><i class="fa-solid fa-gear"></i></span><span class="nav-label">Administración</span>
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
@@ -283,8 +285,8 @@
   <main class="main-content">
     <header class="top-bar">
       <div class="top-bar-left">
-        <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Contraer / Expandir menú lateral">☰</button>
-        <span class="top-company-badge">🏪 {{ \App\Models\Configuracion::get('nombre_negocio', 'Super Emmanuel') }}</span>
+        <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Contraer / Expandir menú lateral"><i class="fa-solid fa-bars"></i></button>
+        <span class="top-company-badge"><i class="fa-solid fa-store" style="margin-right:6px"></i>{{ \App\Models\Configuracion::get('nombre_negocio', 'Super Emmanuel') }}</span>
       </div>
 
       <div class="top-bar-right">
@@ -294,17 +296,17 @@
           </a>
         @else
           <a href="{{ route('caja.administrar_corte') }}" class="caja-badge closed" title="Realizar apertura de caja">
-            🔴 Sin Caja
+            <i class="fa-solid fa-circle-xmark" style="margin-right:4px"></i> Sin Caja
           </a>
         @endif
 
         <a href="{{ route('impresoras.index') }}" class="top-icon-btn" title="Impresoras y Terminales POS">
-          🖨️
+          <i class="fa-solid fa-print"></i>
         </a>
 
         <div class="top-icon-dropdown" style="position:relative">
           <button type="button" class="top-icon-btn notif-btn" onclick="toggleNotifDropdown()" title="Notificaciones del sistema">
-            🔔
+            <i class="fa-solid fa-bell"></i>
             @php $totalAlertas = $stockBajoCount + $creditosVencidos; @endphp
             @if($totalAlertas > 0)
               <span class="notif-count">{{ $totalAlertas }}</span>
@@ -314,26 +316,26 @@
             <div class="notif-panel-header">Alertas del Sistema</div>
             @if($stockBajoCount > 0)
               <a href="{{ route('inventario.stock') }}" class="notif-item danger">
-                ⚠️ {{ $stockBajoCount }} productos con stock bajo o agotado.
+                <i class="fa-solid fa-triangle-exclamation" style="color:#ef4444; margin-right:6px"></i> {{ $stockBajoCount }} productos con stock bajo o agotado.
               </a>
             @endif
             @if($creditosVencidos > 0)
               <a href="{{ route('creditos.index') }}" class="notif-item warning">
-                💳 {{ $creditosVencidos }} créditos con plazo vencido.
+                <i class="fa-solid fa-credit-card" style="color:#f59e0b; margin-right:6px"></i> {{ $creditosVencidos }} créditos con plazo vencido.
               </a>
             @endif
             @if($totalAlertas === 0)
-              <div class="notif-item-empty">✅ Todo en orden. No hay alertas activas.</div>
+              <div class="notif-item-empty"><i class="fa-solid fa-circle-check" style="color:#10b981; margin-right:6px"></i> Todo en orden. No hay alertas activas.</div>
             @endif
           </div>
         </div>
 
         <button type="button" class="top-icon-btn" id="monochromeToggleBtn" onclick="toggleDarkMode()" title="Modo Oscuro / Modo Claro">
-          🌙
+          <i class="fa-solid fa-circle-half-stroke"></i>
         </button>
 
         <button type="button" class="top-icon-btn" onclick="toggleFullScreen()" title="Pantalla completa (Modo POS)">
-          ⛶
+          <i class="fa-solid fa-expand"></i>
         </button>
 
         <div class="top-user-pill">
@@ -349,14 +351,14 @@
     <div class="content-area">
       @if(session('success'))
         <div class="alert alert-success" id="flash-msg">
-          <span>✅ {{ session('success') }}</span>
-          <button onclick="this.parentElement.remove()">✕</button>
+          <span><i class="fa-solid fa-circle-check" style="margin-right:6px"></i>{{ session('success') }}</span>
+          <button onclick="this.parentElement.remove()" style="background:none;border:none;color:inherit;cursor:pointer"><i class="fa-solid fa-xmark"></i></button>
         </div>
       @endif
       @if(session('error'))
         <div class="alert alert-error" id="flash-msg">
-          <span>❌ {{ session('error') }}</span>
-          <button onclick="this.parentElement.remove()">✕</button>
+          <span><i class="fa-solid fa-circle-xmark" style="margin-right:6px"></i>{{ session('error') }}</span>
+          <button onclick="this.parentElement.remove()" style="background:none;border:none;color:inherit;cursor:pointer"><i class="fa-solid fa-xmark"></i></button>
         </div>
       @endif
       @if(isset($errors) && $errors->any())

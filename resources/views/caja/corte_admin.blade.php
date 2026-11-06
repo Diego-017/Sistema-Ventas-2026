@@ -6,7 +6,7 @@
   {{-- Header con Icono y Breadcrumb exacto a la imagen real --}}
   <div class="corte-page-header">
     <div class="corte-title-wrap">
-      <span class="corte-main-icon">🗑️</span>
+      <span class="corte-main-icon"><i class="fa-solid fa-trash"></i></span>
       <h1 class="corte-main-title">Corte caja</h1>
     </div>
     <div class="corte-breadcrumb">
@@ -91,13 +91,13 @@
         {{-- Botones de Acción de Sistemas Reales: Corte X, Corte Z y Movimientos --}}
         <div class="corte-actions-bar">
           <button type="button" class="btn-corte-action btn-corte-x" onclick="openCorteModal('modalCorteX')">
-            📑 Corte X (Lectura de Turno)
+            <i class="fa-solid fa-file-invoice"></i> Corte X (Lectura de Turno)
           </button>
           <button type="button" class="btn-corte-action btn-corte-z" onclick="openCorteModal('modalCorteZ')">
-            🔒 Corte Z (Cierre Fiscal Definitivo)
+            <i class="fa-solid fa-lock"></i> Corte Z (Cierre Fiscal Definitivo)
           </button>
           <a href="{{ route('caja.movimientos') }}" class="btn-corte-action btn-corte-mov">
-            💸 Administrar Movimientos
+            <i class="fa-solid fa-money-bill-transfer"></i> Administrar Movimientos
           </a>
         </div>
       </div>
@@ -108,7 +108,7 @@
   @if($cajaActual && $cajaActual->cortes->count() > 0)
   <div class="corte-history-card">
     <div class="history-card-header">
-      <h3>📋 Últimos Cortes Registrados</h3>
+      <h3><i class="fa-solid fa-clipboard-list"></i> Últimos Cortes Registrados</h3>
       <a href="{{ route('caja.historial') }}" class="btn-ver-historial">Ver Todo el Historial →</a>
     </div>
     <div style="overflow-x:auto">
@@ -153,8 +153,8 @@
 <div id="modalApertura" class="corte-modal-overlay" style="display:none">
   <div class="corte-modal-content">
     <div class="corte-modal-header">
-      <h3>🔓 Realizar Apertura de Caja</h3>
-      <button type="button" class="close-modal-btn" onclick="closeCorteModal('modalApertura')">✕</button>
+      <h3><i class="fa-solid fa-lock-open"></i> Realizar Apertura de Caja</h3>
+      <button type="button" class="close-modal-btn" onclick="closeCorteModal('modalApertura')"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <form action="{{ route('caja.abrir') }}" method="POST">
       @csrf
@@ -195,10 +195,10 @@
   <div class="corte-modal-content corte-modal-receipt">
     <div class="corte-modal-header">
       <div>
-        <h3 style="margin:0; font-size:1.15rem; color:#fff">📑 LECTURA CORTE X</h3>
+        <h3 style="margin:0; font-size:1.15rem; color:#fff"><i class="fa-solid fa-file-invoice"></i> LECTURA CORTE X</h3>
         <span style="font-size:0.75rem; color:#94a3b8">Arqueo parcial informativo — La caja continúa abierta</span>
       </div>
-      <button type="button" class="close-modal-btn" onclick="closeCorteModal('modalCorteX')">✕</button>
+      <button type="button" class="close-modal-btn" onclick="closeCorteModal('modalCorteX')"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
     <div class="receipt-preview-box">
@@ -239,7 +239,7 @@
 
     <div class="corte-modal-footer">
       <a href="{{ route('caja.corte_x', $cajaActual->id) }}" target="_blank" class="btn-imprimir-ticket">
-        🖨️ Imprimir Tirilla Corte X
+        <i class="fa-solid fa-print"></i> Imprimir Tirilla Corte X
       </a>
       <button type="button" class="btn-cancelar-modal" onclick="closeCorteModal('modalCorteX')">Cerrar</button>
     </div>
@@ -251,10 +251,10 @@
   <div class="corte-modal-content">
     <div class="corte-modal-header" style="background:#dc2626">
       <div>
-        <h3 style="margin:0; font-size:1.15rem; color:#fff">🔒 CORTE Z — CIERRE FISCAL DEFINITIVO</h3>
+        <h3 style="margin:0; font-size:1.15rem; color:#fff"><i class="fa-solid fa-lock"></i> CORTE Z — CIERRE FISCAL DEFINITIVO</h3>
         <span style="font-size:0.75rem; color:#fee2e2">Este proceso cerrará la caja del día y generará el reporte consolidado</span>
       </div>
-      <button type="button" class="close-modal-btn" onclick="closeCorteModal('modalCorteZ')">✕</button>
+      <button type="button" class="close-modal-btn" onclick="closeCorteModal('modalCorteZ')"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
     <form method="POST" action="{{ route('caja.cerrar') }}" id="formCorteZ">
@@ -299,7 +299,7 @@
       <div class="corte-modal-footer">
         <button type="button" class="btn-cancelar-modal" onclick="closeCorteModal('modalCorteZ')">Cancelar</button>
         <button type="submit" class="btn-ejecutar-corte-z" onclick="return confirm('¿Confirmas el Cierre Fiscal Z definitivo de esta caja?')">
-          🔒 Ejecutar Corte Z y Cerrar Caja
+          <i class="fa-solid fa-lock"></i> Ejecutar Corte Z y Cerrar Caja
         </button>
       </div>
     </form>

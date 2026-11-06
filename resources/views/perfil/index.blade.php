@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="page-header">
-  <h1>👤 Mi Perfil</h1>
+  <h1><i class="fa-solid fa-user"></i> Mi Perfil</h1>
 </div>
 
 <div class="grid-2" style="max-width:900px">
@@ -37,7 +37,7 @@
           <input type="password" name="password_confirmation" class="form-control">
         </div>
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary">💾 Actualizar Perfil</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Actualizar Perfil</button>
         </div>
       </form>
     </div>

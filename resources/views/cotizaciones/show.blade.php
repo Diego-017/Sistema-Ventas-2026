@@ -2,15 +2,15 @@
 @section('title','Detalle de Cotización')
 @section('content')
 <div class="page-header">
-  <h1>📄 {{ $cotizacion->codigo }}</h1>
+  <h1><i class="fa-solid fa-file-lines"></i> {{ $cotizacion->codigo }}</h1>
   <div style="display:flex;gap:8px">
-    <button onclick="window.print()" class="btn btn-secondary">🖨️ Imprimir</button>
+    <button onclick="window.print()" class="btn btn-secondary"><i class="fa-solid fa-print"></i> Imprimir</button>
     <a href="{{ route('cotizaciones.index') }}" class="btn btn-secondary">← Volver</a>
     @if($cotizacion->estado==='vigente')
     <form method="POST" action="{{ route('cotizaciones.convertir',$cotizacion->id) }}"
           onsubmit="return confirm('¿Convertir a venta?')">
       @csrf
-      <button type="submit" class="btn btn-success">🛍️ Convertir a Venta</button>
+      <button type="submit" class="btn btn-success"><i class="fa-solid fa-boxes-stacked"></i> Convertir a Venta</button>
     </form>
     @endif
   </div>
@@ -18,7 +18,7 @@
 
 <div class="card receipt">
   <div class="receipt-header">
-    <div class="receipt-logo">📝</div>
+    <div class="receipt-logo"><i class="fa-solid fa-pen-to-square"></i></div>
     <h2>Cotización</h2>
     <p class="receipt-code">{{ $cotizacion->codigo }}</p>
     <p>{{ $cotizacion->created_at->format('d/m/Y H:i') }}</p>

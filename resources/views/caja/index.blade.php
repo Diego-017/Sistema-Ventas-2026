@@ -4,16 +4,16 @@
 
 <div class="page-header">
   <div>
-    <h1>💰 Gestión de Caja</h1>
+    <h1><i class="fa-solid fa-coins"></i> Gestión de Caja</h1>
     <p class="page-sub">Control de apertura, cierre y movimientos del día</p>
   </div>
-  <a href="{{ route('caja.historial') }}" class="btn btn-light">📋 Historial de Cortes</a>
+  <a href="{{ route('caja.historial') }}" class="btn btn-light"><i class="fa-solid fa-clipboard-list"></i> Historial de Cortes</a>
 </div>
 
 @if(!$caja)
 <div class="card">
   <div class="card-body text-center" style="padding:3rem">
-    <div style="font-size:4rem;margin-bottom:1rem">🔐</div>
+    <div style="font-size:4rem;margin-bottom:1rem"><i class="fa-solid fa-key"></i></div>
     <h2 style="margin-bottom:.5rem">Caja Cerrada</h2>
     <p class="text-muted" style="margin-bottom:2rem">Abre la caja para comenzar a registrar ventas del día.</p>
     <form method="POST" action="{{ route('caja.abrir') }}" style="max-width:400px;margin:0 auto">
@@ -30,7 +30,7 @@
         <label>Notas (opcional)</label>
         <input type="text" name="notas_apertura" class="form-control" placeholder="Observaciones...">
       </div>
-      <button type="submit" class="btn btn-primary btn-block btn-lg">🔓 Abrir Caja</button>
+      <button type="submit" class="btn btn-primary btn-block btn-lg"><i class="fa-solid fa-lock-open"></i> Abrir Caja</button>
     </form>
   </div>
 </div>
@@ -40,25 +40,25 @@
   <div>
     <div class="stats-grid" style="grid-template-columns:1fr 1fr">
       <div class="stat-card stat-success">
-        <div class="stat-icon-wrap">💵</div>
+        <div class="stat-icon-wrap"><i class="fa-solid fa-money-bill-wave"></i></div>
         <div class="stat-info"><div class="stat-value">${{ number_format($caja->monto_apertura,2) }}</div><div class="stat-label">Apertura</div></div>
       </div>
       <div class="stat-card stat-primary">
-        <div class="stat-icon-wrap">🧾</div>
+        <div class="stat-icon-wrap"><i class="fa-solid fa-receipt"></i></div>
         <div class="stat-info"><div class="stat-value">${{ number_format($caja->total_ventas,2) }}</div><div class="stat-label">Ventas del Día</div></div>
       </div>
       <div class="stat-card stat-danger">
-        <div class="stat-icon-wrap">📤</div>
+        <div class="stat-icon-wrap"><i class="fa-solid fa-arrow-up"></i></div>
         <div class="stat-info"><div class="stat-value">${{ number_format($caja->total_gastos,2) }}</div><div class="stat-label">Gastos / Retiros</div></div>
       </div>
       <div class="stat-card stat-purple">
-        <div class="stat-icon-wrap">💰</div>
+        <div class="stat-icon-wrap"><i class="fa-solid fa-coins"></i></div>
         <div class="stat-info"><div class="stat-value">${{ number_format($caja->balance_estimado,2) }}</div><div class="stat-label">Balance Estimado</div></div>
       </div>
     </div>
 
     <div class="card" id="movimientos">
-      <div class="card-header"><h3>➕ Registrar Movimiento</h3></div>
+      <div class="card-header"><h3><i class="fa-solid fa-plus"></i> Registrar Movimiento</h3></div>
       <div class="card-body">
         <form method="POST" action="{{ route('caja.gasto') }}">
           @csrf
@@ -74,9 +74,9 @@
             <div class="form-group">
               <label>Tipo</label>
               <select name="tipo" class="form-control">
-                <option value="egreso">💸 Egreso</option>
-                <option value="retiro">📤 Retiro</option>
-                <option value="ingreso">📥 Ingreso Extra</option>
+                <option value="egreso"><i class="fa-solid fa-money-bill-transfer"></i> Egreso</option>
+                <option value="retiro"><i class="fa-solid fa-arrow-up"></i> Retiro</option>
+                <option value="ingreso"><i class="fa-solid fa-arrow-down"></i> Ingreso Extra</option>
               </select>
             </div>
           </div>
@@ -86,7 +86,7 @@
     </div>
 
     <div class="card">
-      <div class="card-header"><h3>📋 Movimientos de Hoy</h3></div>
+      <div class="card-header"><h3><i class="fa-solid fa-clipboard-list"></i> Movimientos de Hoy</h3></div>
       <div class="card-body p-0">
         @if($gastos->isEmpty())
           <div class="empty-state">Sin movimientos registrados.</div>
@@ -113,7 +113,7 @@
 
   <div>
     <div class="card">
-      <div class="card-header"><h3>🔒 Cerrar Caja</h3></div>
+      <div class="card-header"><h3><i class="fa-solid fa-lock"></i> Cerrar Caja</h3></div>
       <div class="card-body">
         <div class="caja-resumen">
           <div class="resumen-row"><span>Apertura:</span><span>${{ number_format($caja->monto_apertura,2) }}</span></div>
@@ -144,7 +144,7 @@
             <textarea name="notas_cierre" class="form-control" rows="2" placeholder="Observaciones..."></textarea>
           </div>
           <button type="submit" class="btn btn-danger btn-block"
-                  onclick="return confirm('¿Cerrar la caja del día?')">🔒 Cerrar Caja</button>
+                  onclick="return confirm('¿Cerrar la caja del día?')"><i class="fa-solid fa-lock"></i> Cerrar Caja</button>
         </form>
       </div>
     </div>

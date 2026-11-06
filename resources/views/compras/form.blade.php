@@ -2,7 +2,7 @@
 @section('title','Nueva Compra')
 @section('content')
 <div class="page-header">
-  <h1>🛒 Nueva Compra / Entrada de Inventario</h1>
+  <h1><i class="fa-solid fa-cart-shopping"></i> Nueva Compra / Entrada de Inventario</h1>
   <a href="{{ route('compras.index') }}" class="btn btn-secondary">← Volver</a>
 </div>
 <div class="grid-pos">
@@ -17,7 +17,7 @@
   </div>
   <div>
     <div class="card">
-      <div class="card-header"><h3>📋 Detalle de Compra</h3></div>
+      <div class="card-header"><h3><i class="fa-solid fa-clipboard-list"></i> Detalle de Compra</h3></div>
       <div class="card-body p-0">
         <table class="table" id="compraTable">
           <thead><tr><th>Producto</th><th>Cant.</th><th>Precio Unit.</th><th>Subtotal</th><th></th></tr></thead>
@@ -47,7 +47,7 @@
             <input type="text" name="notas" class="form-control" placeholder="Opcional...">
           </div>
           <button type="submit" class="btn btn-primary btn-block btn-lg" id="btnGuardar">
-            ✅ Registrar Compra
+            <i class="fa-solid fa-circle-check"></i> Registrar Compra
           </button>
         </form>
       </div>
@@ -107,7 +107,7 @@ function renderCart() {
       <td><input type="number" min="1" value="${i.cantidad}" class="form-control form-control-sm" style="width:70px" onchange="updateField(${id},'cantidad',this.value)"></td>
       <td><input type="number" min="0" step="0.01" value="${i.precio.toFixed(2)}" class="form-control form-control-sm" style="width:90px" onchange="updateField(${id},'precio',this.value)"></td>
       <td>$${sub}</td>
-      <td><button class="btn btn-sm btn-danger" onclick="removeItem(${id})">✕</button></td>
+      <td><button class="btn btn-sm btn-danger" onclick="removeItem(${id})"><i class="fa-solid fa-xmark"></i></button></td>
     </tr>`;
   }).join('');
   const total = ids.reduce((s,id) => s + cart[id].precio*cart[id].cantidad, 0);

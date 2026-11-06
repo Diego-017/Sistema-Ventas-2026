@@ -3,7 +3,7 @@
 @section('content')
 <div class="page-header">
   <div>
-    <h1>📈 Reportes y Análisis</h1>
+    <h1><i class="fa-solid fa-arrow-trend-up"></i> Reportes y Análisis</h1>
     <p class="page-sub">Estadísticas de los últimos 30 días</p>
   </div>
   <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
@@ -16,22 +16,22 @@
 
 <div class="stats-grid">
   <div class="stat-card stat-green">
-    <div class="stat-icon">💰</div>
+    <div class="stat-icon"><i class="fa-solid fa-coins"></i></div>
     <div class="stat-value">${{ number_format($ventasSemana->sum('total'),2) }}</div>
     <div class="stat-label">Ingresos 30 días</div>
   </div>
   <div class="stat-card stat-blue">
-    <div class="stat-icon">🧾</div>
+    <div class="stat-icon"><i class="fa-solid fa-receipt"></i></div>
     <div class="stat-value">{{ $ventasSemana->sum('cantidad') }}</div>
     <div class="stat-label">Ventas 30 días</div>
   </div>
   <div class="stat-card stat-purple">
-    <div class="stat-icon">📦</div>
+    <div class="stat-icon"><i class="fa-solid fa-box"></i></div>
     <div class="stat-value">{{ $topProductos->sum('total_vendido') }}</div>
     <div class="stat-label">Unidades Vendidas</div>
   </div>
   <div class="stat-card stat-orange">
-    <div class="stat-icon">💳</div>
+    <div class="stat-icon"><i class="fa-solid fa-credit-card"></i></div>
     <div class="stat-value">${{ number_format($creditosPendientes,2) }}</div>
     <div class="stat-label">Créditos Pendientes</div>
   </div>
@@ -50,7 +50,7 @@
 
 <div class="grid-2">
   <div class="card">
-    <div class="card-header"><h3>🏆 Top 10 Productos</h3></div>
+    <div class="card-header"><h3><i class="fa-solid fa-trophy"></i> Top 10 Productos</h3></div>
     <div class="card-body p-0">
       <table class="table">
         <thead><tr><th>#</th><th>Producto</th><th>Unidades</th><th>Ingresos</th></tr></thead>
@@ -74,7 +74,7 @@
   </div>
 
   <div class="card">
-    <div class="card-header"><h3>📅 Resumen Mensual</h3></div>
+    <div class="card-header"><h3><i class="fa-regular fa-calendar-days"></i> Resumen Mensual</h3></div>
     <div class="card-body p-0">
       <table class="table">
         <thead><tr><th>Mes</th><th>Ventas</th><th>Total</th></tr></thead>

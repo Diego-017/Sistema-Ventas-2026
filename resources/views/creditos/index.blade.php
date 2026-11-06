@@ -3,7 +3,7 @@
 @section('content')
 <div class="page-header">
   <div>
-    <h1>💳 Cuentas por Cobrar</h1>
+    <h1><i class="fa-solid fa-credit-card"></i> Cuentas por Cobrar</h1>
     <p class="page-sub">Administración de créditos y pagos pendientes</p>
   </div>
 </div>
@@ -15,12 +15,12 @@
     <div class="stat-label">Saldo Pendiente</div>
   </div>
   <div class="stat-card stat-red">
-    <div class="stat-icon">🔴</div>
+    <div class="stat-icon"><i class="fa-solid fa-circle" style="color:#ef4444;font-size:0.7em"></i></div>
     <div class="stat-value">${{ number_format($totalVencido,2) }}</div>
     <div class="stat-label">Saldo Vencido</div>
   </div>
   <div class="stat-card stat-green">
-    <div class="stat-icon">✅</div>
+    <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
     <div class="stat-value">{{ $creditos->where('estado','pagado')->count() }}</div>
     <div class="stat-label">Créditos Pagados (total)</div>
   </div>
@@ -71,7 +71,7 @@
             </span>
           </td>
           <td>
-            <a href="{{ route('creditos.show',$c->id) }}" class="btn btn-sm btn-secondary">👁️ Ver</a>
+            <a href="{{ route('creditos.show',$c->id) }}" class="btn btn-sm btn-secondary"><i class="fa-solid fa-eye"></i> Ver</a>
           </td>
         </tr>
         @empty

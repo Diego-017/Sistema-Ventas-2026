@@ -2,7 +2,7 @@
 @section('title','Productos')
 @section('content')
 <div class="page-header">
-  <h1>📦 Productos</h1>
+  <h1><i class="fa-solid fa-box"></i> Productos</h1>
   @if(session('user.rol')==='admin')
   <a href="{{ route('productos.crear') }}" class="btn btn-primary">+ Nuevo</a>
   @endif
@@ -37,10 +37,10 @@
           </td>
           <td class="actions">
             @if(session('user.rol')==='admin')
-            <a href="{{ route('productos.editar',$p->id) }}" class="btn btn-sm btn-secondary">✏️</a>
-            <button onclick="delProd({{ $p->id }},this)" class="btn btn-sm btn-danger">🗑️</button>
+            <a href="{{ route('productos.editar',$p->id) }}" class="btn btn-sm btn-secondary"><i class="fa-solid fa-pen"></i></a>
+            <button onclick="delProd({{ $p->id }},this)" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
             @else
-            <a href="{{ route('productos.editar',$p->id) }}" class="btn btn-sm btn-secondary">👁️</a>
+            <a href="{{ route('productos.editar',$p->id) }}" class="btn btn-sm btn-secondary"><i class="fa-solid fa-eye"></i></a>
             @endif
           </td>
         </tr>

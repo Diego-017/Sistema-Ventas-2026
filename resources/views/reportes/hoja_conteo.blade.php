@@ -3,11 +3,11 @@
 @section('content')
 <div class="page-header">
   <div>
-    <h1>📝 Hoja de Conteo de Inventario</h1>
+    <h1><i class="fa-solid fa-pen-to-square"></i> Hoja de Conteo de Inventario</h1>
     <p class="page-sub">{{ now()->format('d/m/Y H:i') }} — Generada por {{ session('user.nombre') }}</p>
   </div>
-  <a href="{{ route('reportes.hoja_conteo.pdf') }}" target="_blank" class="btn btn-primary" style="margin-right:6px">📄 Generar Reporte PDF</a>
-  <button onclick="window.print()" class="btn btn-secondary">🖨️ Imprimir</button>
+  <a href="{{ route('reportes.hoja_conteo.pdf') }}" target="_blank" class="btn btn-primary" style="margin-right:6px"><i class="fa-solid fa-file-lines"></i> Generar Reporte PDF</a>
+  <button onclick="window.print()" class="btn btn-secondary"><i class="fa-solid fa-print"></i> Imprimir</button>
 </div>
 
 <div class="card">

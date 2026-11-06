@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="page-header">
-  <h1>⚙️ Configuración del Negocio</h1>
+  <h1><i class="fa-solid fa-gear"></i> Configuración del Negocio</h1>
 </div>
 
 <div class="card" style="max-width:720px">
@@ -55,7 +55,7 @@
         </div>
       </div>
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary">💾 Guardar Configuración</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar Configuración</button>
       </div>
     </form>
   </div>

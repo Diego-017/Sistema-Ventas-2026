@@ -4,7 +4,7 @@
 
 <div class="page-header" style="margin-bottom: 22px">
   <div>
-    <h1 style="color: #38bdf8; font-size: 1.75rem; font-weight: 800; margin:0">📊 Análisis y Estadísticas</h1>
+    <h1 style="color: #38bdf8; font-size: 1.75rem; font-weight: 800; margin:0"><i class="fa-solid fa-chart-pie"></i> Análisis y Estadísticas</h1>
     <p class="page-sub" style="color: #94a3b8; margin-top:4px">Visualización gráfica avanzada, métricas de rendimiento y tendencias comerciales</p>
   </div>
   <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap">
@@ -23,7 +23,7 @@
 {{-- KPIs de Alto Nivel del Período --}}
 <div class="stats-grid" style="margin-bottom: 24px">
   <div class="stat-card stat-success">
-    <div class="stat-icon-wrap">💵</div>
+    <div class="stat-icon-wrap"><i class="fa-solid fa-money-bill-wave"></i></div>
     <div class="stat-info">
       <div class="stat-value">${{ number_format($totalIngresos, 2) }}</div>
       <div class="stat-label">Ingresos del Período</div>
@@ -31,7 +31,7 @@
     </div>
   </div>
   <div class="stat-card stat-primary">
-    <div class="stat-icon-wrap">🧾</div>
+    <div class="stat-icon-wrap"><i class="fa-solid fa-receipt"></i></div>
     <div class="stat-info">
       <div class="stat-value">{{ number_format($totalTransacciones) }}</div>
       <div class="stat-label">Transacciones Realizadas</div>
@@ -39,7 +39,7 @@
     </div>
   </div>
   <div class="stat-card stat-purple">
-    <div class="stat-icon-wrap">🎯</div>
+    <div class="stat-icon-wrap"><i class="fa-solid fa-bullseye"></i></div>
     <div class="stat-info">
       <div class="stat-value">${{ number_format($ticketPromedio, 2) }}</div>
       <div class="stat-label">Ticket Promedio</div>
@@ -47,7 +47,7 @@
     </div>
   </div>
   <div class="stat-card stat-warning">
-    <div class="stat-icon-wrap">📦</div>
+    <div class="stat-icon-wrap"><i class="fa-solid fa-boxes-stacked"></i></div>
     <div class="stat-info">
       <div class="stat-value">${{ number_format($totalCompras, 2) }}</div>
       <div class="stat-label">Inversión en Compras</div>
@@ -61,7 +61,7 @@
   {{-- 1. Gráfica de Tendencia de Ventas Diarias --}}
   <div class="card">
     <div class="card-header" style="display:flex; justify-content:space-between; align-items:center">
-      <h3>📈 Tendencia de Ventas (Últimos {{ $dias }} días)</h3>
+      <h3><i class="fa-solid fa-chart-simple"></i> Tendencia de Ventas (Últimos {{ $dias }} días)</h3>
       <span style="font-size:0.8rem; color:#94a3b8">Monto diario ($)</span>
     </div>
     <div class="card-body">
@@ -74,7 +74,7 @@
   {{-- 2. Gráfica de Métodos de Pago --}}
   <div class="card">
     <div class="card-header">
-      <h3>💳 Métodos de Pago</h3>
+      <h3><i class="fa-solid fa-credit-card"></i> Métodos de Pago</h3>
     </div>
     <div class="card-body">
       <div style="position:relative; height:290px">
@@ -88,7 +88,7 @@
   {{-- 3. Top 10 Productos Más Vendidos --}}
   <div class="card">
     <div class="card-header" style="display:flex; justify-content:space-between; align-items:center">
-      <h3>🏆 Top 10 Productos Más Vendidos</h3>
+      <h3><i class="fa-solid fa-trophy"></i> Top 10 Productos Más Vendidos</h3>
       <span style="font-size:0.8rem; color:#94a3b8">Unidades</span>
     </div>
     <div class="card-body">
@@ -101,7 +101,7 @@
   {{-- 4. Comparativa Mensual Ventas vs Compras --}}
   <div class="card">
     <div class="card-header" style="display:flex; justify-content:space-between; align-items:center">
-      <h3>📅 Comparativa Mensual: Ventas vs Compras (Último Año)</h3>
+      <h3><i class="fa-regular fa-calendar-days"></i> Comparativa Mensual: Ventas vs Compras (Último Año)</h3>
       <span style="font-size:0.8rem; color:#94a3b8">Flujo comercial ($)</span>
     </div>
     <div class="card-body">
@@ -115,7 +115,7 @@
 {{-- Tabla Detallada del Top de Productos --}}
 <div class="card" style="margin-bottom: 24px">
   <div class="card-header" style="display:flex; justify-content:space-between; align-items:center">
-    <h3>📋 Detalle de Productos Estrella (Período Seleccionado)</h3>
+    <h3><i class="fa-solid fa-clipboard-list"></i> Detalle de Productos Estrella (Período Seleccionado)</h3>
     <span style="font-size:0.82rem; color:#64748b">Generadores de mayor volumen de venta</span>
   </div>
   <div class="card-body p-0">

@@ -4,7 +4,7 @@
 
 <div class="page-header" style="margin-bottom: 20px">
   <div>
-    <h1 style="color: #38bdf8; font-size: 1.6rem; font-weight: 800; margin:0">👥 Administrar Clientes</h1>
+    <h1 style="color: #38bdf8; font-size: 1.6rem; font-weight: 800; margin:0"><i class="fa-solid fa-users"></i> Administrar Clientes</h1>
     <p class="page-sub" style="color: #94a3b8; margin-top:4px">Catálogo de clientes, perfiles tributarios y límites de crédito</p>
   </div>
   <div>
@@ -50,15 +50,15 @@
             <td>{{ $c->telefono ?? '—' }}</td>
             <td>
               <span class="badge badge-{{ $c->tipo==='credito'?'warning':'success' }}">
-                {{ $c->tipo === 'credito' ? '💳 Crédito' : '💵 Contado' }}
+                {{ $c->tipo === 'credito' ? '<i class="fa-solid fa-credit-card"></i> Crédito' : '<i class="fa-solid fa-money-bill-wave"></i> Contado' }}
               </span>
             </td>
             <td>{{ $c->email ?? '—' }}</td>
             <td class="actions" style="text-align:right; white-space:nowrap">
-              <a href="{{ route('clientes.show',$c->id) }}" class="btn btn-sm btn-light" title="Ver Perfil y Ficha">👁️ Ver</a>
-              <a href="{{ route('clientes.editar',$c->id) }}" class="btn btn-sm btn-primary" title="Editar Cliente">✏️ Editar</a>
+              <a href="{{ route('clientes.show',$c->id) }}" class="btn btn-sm btn-light" title="Ver Perfil y Ficha"><i class="fa-solid fa-eye"></i> Ver</a>
+              <a href="{{ route('clientes.editar',$c->id) }}" class="btn btn-sm btn-primary" title="Editar Cliente"><i class="fa-solid fa-pen"></i> Editar</a>
               @if(session('user.rol')==='admin')
-              <a href="{{ route('clientes.confirmar_eliminar',$c->id) }}" class="btn btn-sm btn-danger" title="Eliminar Cliente">🗑️</a>
+              <a href="{{ route('clientes.confirmar_eliminar',$c->id) }}" class="btn btn-sm btn-danger" title="Eliminar Cliente"><i class="fa-solid fa-trash"></i></a>
               @endif
             </td>
           </tr>

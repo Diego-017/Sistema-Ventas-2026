@@ -4,7 +4,7 @@
 
 <div class="page-header" style="margin-bottom: 20px">
   <div>
-    <h1 style="color: #38bdf8; font-size: 1.6rem; font-weight: 800; margin:0">📂 Administrar Subcategorías</h1>
+    <h1 style="color: #38bdf8; font-size: 1.6rem; font-weight: 800; margin:0"><i class="fa-solid fa-folder"></i> Administrar Subcategorías</h1>
     <p class="page-sub" style="color: #94a3b8; margin-top:4px">Subclasificación específica agrupada por categoría principal</p>
   </div>
   <div>
@@ -39,8 +39,8 @@
               </span>
             </td>
             <td class="actions" style="text-align:right; white-space:nowrap">
-              <a href="{{ route('subcategorias.editar', $s->id) }}" class="btn btn-sm btn-primary" title="Editar Subcategoría">✏️ Editar</a>
-              <a href="{{ route('subcategorias.confirmar_eliminar', $s->id) }}" class="btn btn-sm btn-danger" title="Eliminar Subcategoría">🗑️</a>
+              <a href="{{ route('subcategorias.editar', $s->id) }}" class="btn btn-sm btn-primary" title="Editar Subcategoría"><i class="fa-solid fa-pen"></i> Editar</a>
+              <a href="{{ route('subcategorias.confirmar_eliminar', $s->id) }}" class="btn btn-sm btn-danger" title="Eliminar Subcategoría"><i class="fa-solid fa-trash"></i></a>
             </td>
           </tr>
           @empty

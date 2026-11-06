@@ -2,7 +2,7 @@
 @section('title','Traslados de Inventario')
 @section('content')
 <div class="page-header">
-  <h1>🔄 Administrar Traslados</h1>
+  <h1><i class="fa-solid fa-arrows-rotate"></i> Administrar Traslados</h1>
   <button onclick="abrirModalTraslado()" class="btn btn-primary">+ Nuevo Traslado</button>
 </div>
 
@@ -25,7 +25,7 @@
             <td>{{ $t->concepto ?? '—' }}</td>
             <td>{{ $t->items->count() }} producto(s)</td>
             <td>{{ $t->usuario->nombre }}</td>
-            <td style="text-align:right"><a href="{{ route('inventario.traslados.pdf',$t->id) }}" target="_blank" class="btn btn-sm btn-primary" title="Generar PDF">📄 PDF</a></td>
+            <td style="text-align:right"><a href="{{ route('inventario.traslados.pdf',$t->id) }}" target="_blank" class="btn btn-sm btn-primary" title="Generar PDF"><i class="fa-solid fa-file-lines"></i> PDF</a></td>
           </tr>
           @empty
           <tr><td colspan="6" class="text-center text-muted" style="padding:2rem">Sin traslados.</td></tr>
@@ -40,7 +40,7 @@
 {{-- Modal Nuevo Traslado --}}
 <div id="trasladoModal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cerrarModal()">
   <div class="modal" style="max-width:700px">
-    <div class="modal-header"><h3>Nuevo Traslado / Ajuste de Inventario</h3><button onclick="cerrarModal()">✕</button></div>
+    <div class="modal-header"><h3>Nuevo Traslado / Ajuste de Inventario</h3><button onclick="cerrarModal()"><i class="fa-solid fa-xmark"></i></button></div>
     <div class="modal-body">
       <form id="trasladoForm" method="POST" action="{{ route('inventario.traslados.store') }}">
         @csrf
@@ -52,9 +52,9 @@
           <div class="form-group">
             <label>Tipo <span class="req">*</span></label>
             <select name="tipo" class="form-control" id="tipoTraslado">
-              <option value="entrada">📥 Entrada</option>
-              <option value="salida">📤 Salida</option>
-              <option value="ajuste">🔄 Ajuste</option>
+              <option value="entrada"><i class="fa-solid fa-arrow-down"></i> Entrada</option>
+              <option value="salida"><i class="fa-solid fa-arrow-up"></i> Salida</option>
+              <option value="ajuste"><i class="fa-solid fa-arrows-rotate"></i> Ajuste</option>
             </select>
           </div>
         </div>
@@ -84,7 +84,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="submitTraslado()">✅ Guardar Traslado</button>
+      <button class="btn btn-primary" onclick="submitTraslado()"><i class="fa-solid fa-circle-check"></i> Guardar Traslado</button>
     </div>
   </div>
 </div>
@@ -145,7 +145,7 @@ function renderTrasladoItems(){
            data-producto="${id}" class="form-control form-control-sm" style="width:80px" required></td>
       <td><input type="text" name="items[${id}][notas]" class="form-control form-control-sm" placeholder="Nota...">
           <input type="hidden" name="items[${id}][producto_id]" value="${id}"></td>
-      <td><button type="button" class="btn btn-sm btn-danger" onclick="removeTrasladoItem(${id})">✕</button></td>
+      <td><button type="button" class="btn btn-sm btn-danger" onclick="removeTrasladoItem(${id})"><i class="fa-solid fa-xmark"></i></button></td>
     </tr>`;
   }).join('');
 }

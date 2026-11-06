@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="page-header">
-  <h1>👤 Gestión de Usuarios</h1>
+  <h1><i class="fa-solid fa-user"></i> Gestión de Usuarios</h1>
   <button onclick="abrirModal()" class="btn btn-primary">+ Nuevo Usuario</button>
 </div>
 
@@ -25,7 +25,7 @@
           <td>{{ $u->email }}</td>
           <td>
             <span class="badge badge-{{ $u->rol==='admin'?'primary':'success' }}">
-              {{ $u->rol === 'admin' ? '👑 Admin' : '🧑 Vendedor' }}
+              {{ $u->rol === 'admin' ? '<i class="fa-solid fa-crown"></i> Admin' : '<i class="fa-solid fa-user-tie"></i> Vendedor' }}
             </span>
           </td>
           <td>
@@ -36,11 +36,11 @@
           <td>{{ $u->created_at->format('d/m/Y') }}</td>
           <td class="actions">
             <button onclick="editarUsuario({{ $u->id }},'{{ addslashes($u->nombre) }}','{{ $u->email }}','{{ $u->rol }}')"
-                    class="btn btn-sm btn-secondary">✏️</button>
+                    class="btn btn-sm btn-secondary"><i class="fa-solid fa-pen"></i></button>
             @if($u->id !== session('user_id'))
             <button onclick="toggleUsuario({{ $u->id }},this,{{ $u->activo }})"
                     class="btn btn-sm btn-{{ $u->activo?'warning':'success' }}">
-              {{ $u->activo ? '🚫 Desactivar':'✅ Activar' }}
+              {{ $u->activo ? '<i class="fa-solid fa-ban"></i> Desactivar':'<i class="fa-solid fa-circle-check"></i> Activar' }}
             </button>
             @endif
           </td>
@@ -54,7 +54,7 @@
 {{-- Modal crear / editar --}}
 <div id="userModal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cerrarModal()">
   <div class="modal">
-    <div class="modal-header"><h3 id="modalTitle">Nuevo Usuario</h3><button onclick="cerrarModal()">✕</button></div>
+    <div class="modal-header"><h3 id="modalTitle">Nuevo Usuario</h3><button onclick="cerrarModal()"><i class="fa-solid fa-xmark"></i></button></div>
     <div class="modal-body">
       <input type="hidden" id="userId">
       <div class="form-row">
@@ -65,8 +65,8 @@
         <div class="form-group">
           <label>Rol <span class="req">*</span></label>
           <select id="u_rol" class="form-control">
-            <option value="vendedor">🧑 Vendedor</option>
-            <option value="admin">👑 Administrador</option>
+            <option value="vendedor"><i class="fa-solid fa-user-tie"></i> Vendedor</option>
+            <option value="admin"><i class="fa-solid fa-crown"></i> Administrador</option>
           </select>
         </div>
       </div>
@@ -89,7 +89,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
-      <button class="btn btn-primary" id="btnGuardar" onclick="guardar()">💾 Guardar</button>
+      <button class="btn btn-primary" id="btnGuardar" onclick="guardar()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
     </div>
   </div>
 </div>

@@ -5,7 +5,7 @@
 <div class="page-header" style="margin-bottom: 20px">
   <div>
     <h1 style="color: #38bdf8; font-size: 1.6rem; font-weight: 800; margin:0">
-      {{ $subcategoria ? '✏️ Editar Subcategoría' : '➕ Registrar Nueva Subcategoría' }}
+      {{ $subcategoria ? '<i class="fa-solid fa-pen"></i> Editar Subcategoría' : '<i class="fa-solid fa-plus"></i> Registrar Nueva Subcategoría' }}
     </h1>
     <p class="page-sub" style="color: #94a3b8; margin-top:4px">
       {{ $subcategoria ? 'Modifica la subclasificación y su categoría padre' : 'Crea una subcategoría para clasificar con mayor detalle tus productos' }}
@@ -54,10 +54,10 @@
 
       <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #282d3c; padding-top:20px">
         <a href="{{ route('subcategorias.index') }}" class="btn btn-light" style="padding:10px 20px; font-weight:700">
-          ✕ Cancelar
+          <i class="fa-solid fa-xmark"></i> Cancelar
         </a>
         <button type="submit" class="btn btn-primary" style="padding:10px 24px; font-weight:800; font-size:0.95rem">
-          💾 {{ $subcategoria ? 'Guardar Cambios' : 'Registrar Subcategoría' }}
+          <i class="fa-solid fa-floppy-disk"></i> {{ $subcategoria ? 'Guardar Cambios' : 'Registrar Subcategoría' }}
         </button>
       </div>
     </form>

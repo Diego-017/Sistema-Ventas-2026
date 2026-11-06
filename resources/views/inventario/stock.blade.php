@@ -3,7 +3,7 @@
 @section('content')
 <div class="page-header">
   <div>
-    <h1>📊 Consultar Stock</h1>
+    <h1><i class="fa-solid fa-chart-line"></i> Consultar Stock</h1>
     <p class="page-sub">Inventario actual de todos los productos</p>
   </div>
   <div style="display:flex;gap:8px">
@@ -14,22 +14,22 @@
 
 <div class="stats-grid" style="grid-template-columns:repeat(4,1fr)">
   <div class="stat-card stat-blue">
-    <div class="stat-icon">📦</div>
+    <div class="stat-icon"><i class="fa-solid fa-box"></i></div>
     <div class="stat-value">{{ $productos->count() }}</div>
     <div class="stat-label">Total Productos</div>
   </div>
   <div class="stat-card stat-green">
-    <div class="stat-icon">✅</div>
+    <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
     <div class="stat-value">{{ $productos->where('stock','>',$productos->pluck('stock_minimo'))->count() }}</div>
     <div class="stat-label">Stock OK</div>
   </div>
   <div class="stat-card stat-red">
-    <div class="stat-icon">⚠️</div>
+    <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
     <div class="stat-value">{{ $productos->filter(fn($p) => $p->stock <= $p->stock_minimo)->count() }}</div>
     <div class="stat-label">Stock Bajo</div>
   </div>
   <div class="stat-card stat-purple">
-    <div class="stat-icon">💰</div>
+    <div class="stat-icon"><i class="fa-solid fa-coins"></i></div>
     <div class="stat-value">${{ number_format($productos->sum(fn($p) => $p->stock * $p->precio_compra),2) }}</div>
     <div class="stat-label">Valor Inventario</div>
   </div>

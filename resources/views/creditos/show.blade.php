@@ -2,9 +2,9 @@
 @section('title','Detalle de Crédito')
 @section('content')
 <div class="page-header">
-  <h1>💳 Detalle de Crédito</h1>
+  <h1><i class="fa-solid fa-credit-card"></i> Detalle de Crédito</h1>
   <div>
-    <button onclick="window.print()" class="btn btn-secondary">🖨️ Imprimir</button>
+    <button onclick="window.print()" class="btn btn-secondary"><i class="fa-solid fa-print"></i> Imprimir</button>
     <a href="{{ route('creditos.index') }}" class="btn btn-secondary">← Volver</a>
   </div>
 </div>
@@ -67,7 +67,7 @@
   @if($credito->estado !== 'pagado')
   <div>
     <div class="card">
-      <div class="card-header"><h3>💵 Registrar Pago</h3></div>
+      <div class="card-header"><h3><i class="fa-solid fa-money-bill-wave"></i> Registrar Pago</h3></div>
       <div class="card-body">
         <div class="caja-resumen-cierre" style="margin-bottom:20px">
           <div class="resumen-row"><span>Monto Total:</span><span>${{ number_format($credito->monto_total,2) }}</span></div>
@@ -84,16 +84,16 @@
           <div class="form-group">
             <label>Método de Pago</label>
             <select name="metodo" class="form-control">
-              <option value="efectivo">💵 Efectivo</option>
-              <option value="tarjeta">💳 Tarjeta</option>
-              <option value="transferencia">🏦 Transferencia</option>
+              <option value="efectivo"><i class="fa-solid fa-money-bill-wave"></i> Efectivo</option>
+              <option value="tarjeta"><i class="fa-solid fa-credit-card"></i> Tarjeta</option>
+              <option value="transferencia"><i class="fa-solid fa-building-columns"></i> Transferencia</option>
             </select>
           </div>
           <div class="form-group">
             <label>Notas</label>
             <input type="text" name="notas" class="form-control" placeholder="Observaciones...">
           </div>
-          <button type="submit" class="btn btn-success btn-block btn-lg">✅ Registrar Pago</button>
+          <button type="submit" class="btn btn-success btn-block btn-lg"><i class="fa-solid fa-circle-check"></i> Registrar Pago</button>
         </form>
       </div>
     </div>

@@ -2,7 +2,7 @@
 @section('title', $producto ? 'Editar Producto' : 'Nuevo Producto')
 @section('content')
 <div class="page-header">
-  <h1>{{ $producto ? '✏️ Editar Producto' : '➕ Nuevo Producto' }}</h1>
+  <h1>{{ $producto ? '<i class="fa-solid fa-pen"></i> Editar Producto' : '<i class="fa-solid fa-plus"></i> Nuevo Producto' }}</h1>
   <a href="{{ route('productos.index') }}" class="btn btn-light">← Volver</a>
 </div>
 <div class="card">
@@ -189,7 +189,7 @@
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary">💾 Guardar</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
         <a href="{{ route('productos.index') }}" class="btn btn-secondary">Cancelar</a>
       </div>
     </form>
@@ -224,7 +224,7 @@ function renderComboItems(){
   else {
     body.innerHTML = '<table class="table table-sm"><tbody>' + comboItems.map((it,idx) => `
       <tr><td>${it.nombre}</td><td>x${it.cantidad}</td>
-      <td><button type="button" class="btn btn-sm btn-danger" onclick="quitarComboItem(${idx})">✕</button></td></tr>
+      <td><button type="button" class="btn btn-sm btn-danger" onclick="quitarComboItem(${idx})"><i class="fa-solid fa-xmark"></i></button></td></tr>
     `).join('') + '</tbody></table>';
   }
   document.getElementById('comboItemsInput').value = JSON.stringify(comboItems);
@@ -254,7 +254,7 @@ function renderPresentaciones(){
   else {
     body.innerHTML = '<table class="table table-sm"><tbody>' + presentaciones.map((p,idx) => `
       <tr><td>${p.nombre}</td><td>Factor ${p.factor}</td><td>$${parseFloat(p.precio).toFixed(2)}</td>
-      <td><button type="button" class="btn btn-sm btn-danger" onclick="quitarPresentacion(${idx})">✕</button></td></tr>
+      <td><button type="button" class="btn btn-sm btn-danger" onclick="quitarPresentacion(${idx})"><i class="fa-solid fa-xmark"></i></button></td></tr>
     `).join('') + '</tbody></table>';
   }
   document.getElementById('presentacionesInput').value = JSON.stringify(presentaciones);

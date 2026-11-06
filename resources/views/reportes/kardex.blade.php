@@ -3,13 +3,13 @@
 @section('content')
 <div class="page-header">
   <div>
-    <h1>📊 Reporte Kardex</h1>
+    <h1><i class="fa-solid fa-chart-line"></i> Reporte Kardex</h1>
     <p class="page-sub">Movimientos de inventario: <strong>{{ $producto->nombre }}</strong></p>
   </div>
   <div>
-    <a href="{{ route('reportes.kardex.pdf',['id'=>$producto->id,'desde'=>$desde,'hasta'=>$hasta]) }}" target="_blank" class="btn btn-primary" style="margin-right:6px">📄 Generar Reporte PDF</a>
-    <a href="{{ route('reportes.kardex.excel',['id'=>$producto->id,'desde'=>$desde,'hasta'=>$hasta]) }}" class="btn btn-success">📊 Generar Reporte Excel</a>
-    <button onclick="window.print()" class="btn btn-secondary">🖨️ Imprimir</button>
+    <a href="{{ route('reportes.kardex.pdf',['id'=>$producto->id,'desde'=>$desde,'hasta'=>$hasta]) }}" target="_blank" class="btn btn-primary" style="margin-right:6px"><i class="fa-solid fa-file-lines"></i> Generar Reporte PDF</a>
+    <a href="{{ route('reportes.kardex.excel',['id'=>$producto->id,'desde'=>$desde,'hasta'=>$hasta]) }}" class="btn btn-success"><i class="fa-solid fa-chart-line"></i> Generar Reporte Excel</a>
+    <button onclick="window.print()" class="btn btn-secondary"><i class="fa-solid fa-print"></i> Imprimir</button>
     <a href="{{ route('reportes.kardex.buscar') }}" class="btn btn-secondary">← Buscar otro producto</a>
   </div>
 </div>

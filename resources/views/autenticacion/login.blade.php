@@ -1,13 +1,13 @@
 @extends('layouts.auth')
 @section('content')
 <div class="auth-card">
-  <div class="auth-logo">🏪</div>
+  <div class="auth-logo"><i class="fa-solid fa-store" style="color:#38bdf8"></i></div>
   <h1 class="auth-title">DigitalsPos</h1>
   <p class="auth-subtitle">Sistema de Punto de Venta</p>
 
   @if(session('error'))
     <div class="alert alert-danger" style="text-align:left;margin-bottom:16px;padding:10px 14px;background:#f8d7da;color:#721c24;border-radius:6px;border:1px solid #f5c6cb">
-      ❌ {{ session('error') }}
+      <i class="fa-solid fa-circle-xmark"></i> {{ session('error') }}
     </div>
   @endif
 

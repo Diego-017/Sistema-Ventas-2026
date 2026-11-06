@@ -2,14 +2,14 @@
 @section('title','Nueva Cotización')
 @section('content')
 <div class="page-header">
-  <h1>📝 Nueva Cotización</h1>
+  <h1><i class="fa-solid fa-pen-to-square"></i> Nueva Cotización</h1>
   <a href="{{ route('cotizaciones.index') }}" class="btn btn-secondary">← Volver</a>
 </div>
 
 <div class="grid-pos">
   <div>
     <div class="card">
-      <div class="card-header"><h3>🔍 Buscar Producto</h3></div>
+      <div class="card-header"><h3><i class="fa-solid fa-magnifying-glass"></i> Buscar Producto</h3></div>
       <div class="card-body">
         <input type="search" id="searchProducto" class="form-control"
                placeholder="Nombre, SKU o código de barras..." autocomplete="off">
@@ -20,7 +20,7 @@
 
   <div>
     <div class="card">
-      <div class="card-header"><h3>📋 Detalle de Cotización</h3></div>
+      <div class="card-header"><h3><i class="fa-solid fa-clipboard-list"></i> Detalle de Cotización</h3></div>
       <div class="card-body p-0">
         <table class="table">
           <thead><tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Subtotal</th><th></th></tr></thead>
@@ -67,7 +67,7 @@
             <label>Notas</label>
             <input type="text" name="notas" class="form-control" placeholder="Observaciones...">
           </div>
-          <button type="submit" id="btnGuardar" class="btn btn-primary btn-block btn-lg">💾 Guardar Cotización</button>
+          <button type="submit" id="btnGuardar" class="btn btn-primary btn-block btn-lg"><i class="fa-solid fa-floppy-disk"></i> Guardar Cotización</button>
         </form>
       </div>
     </div>
@@ -121,7 +121,7 @@ function renderCart(){
       <td><input type="number" value="${i.cantidad}" min="1" style="width:70px" class="form-control form-control-sm" onchange="updateQty(${id},this.value)"></td>
       <td>$${parseFloat(i.precio_venta).toFixed(2)}</td>
       <td>$${(i.precio_venta*i.cantidad).toFixed(2)}</td>
-      <td><button class="btn btn-sm btn-danger" onclick="removeFromCart(${id})">✕</button></td>
+      <td><button class="btn btn-sm btn-danger" onclick="removeFromCart(${id})"><i class="fa-solid fa-xmark"></i></button></td>
     </tr>`;
   }).join('');
   recalc(ids.reduce((s,id)=>s+cart[id].precio_venta*cart[id].cantidad,0));
@@ -152,8 +152,8 @@ document.getElementById('cotForm').addEventListener('submit',async function(e){
     const r=await fetch(this.action,{method:'POST',body:new FormData(this),headers:{'X-CSRF-TOKEN':CSRF,'Accept':'application/json'}});
     const d=await r.json();
     if(d.ok) window.location.href=`/cotizaciones/${d.id}`;
-    else{alert(d.error||'Error.');btn.disabled=false;btn.textContent='💾 Guardar Cotización';}
-  }catch{alert('Error de conexión.');btn.disabled=false;btn.textContent='💾 Guardar Cotización';}
+    else{alert(d.error||'Error.');btn.disabled=false;btn.textContent='<i class="fa-solid fa-floppy-disk"></i> Guardar Cotización';}
+  }catch{alert('Error de conexión.');btn.disabled=false;btn.textContent='<i class="fa-solid fa-floppy-disk"></i> Guardar Cotización';}
 });
 </script>
 @endpush

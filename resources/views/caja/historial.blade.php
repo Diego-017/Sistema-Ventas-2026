@@ -2,7 +2,7 @@
 @section('title','Historial de Caja')
 @section('content')
 <div class="page-header">
-  <h1>📋 Administrar Corte — Historial de Cajas</h1>
+  <h1><i class="fa-solid fa-clipboard-list"></i> Administrar Corte — Historial de Cajas</h1>
   <a href="{{ route('caja.index') }}" class="btn btn-light">← Caja Actual</a>
 </div>
 <div class="card">
@@ -32,7 +32,7 @@
           </td>
           <td><span class="badge badge-{{ $c->estado==='cerrada'?'success':'warning' }}">{{ $c->estado }}</span></td>
           <td>{{ $c->usuario->nombre }}</td>
-          <td><a href="{{ route('caja.corte',$c->id) }}" class="btn btn-sm btn-light">👁️</a></td>
+          <td><a href="{{ route('caja.corte',$c->id) }}" class="btn btn-sm btn-light"><i class="fa-solid fa-eye"></i></a></td>
         </tr>
         @empty
         <tr><td colspan="10" class="text-center text-muted" style="padding:2rem">Sin registros.</td></tr>

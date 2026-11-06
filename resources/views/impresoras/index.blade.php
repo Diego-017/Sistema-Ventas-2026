@@ -2,7 +2,7 @@
 @section('title','Impresoras')
 @section('content')
 <div class="page-header">
-  <h1>🖨️ Administrar Impresoras</h1>
+  <h1><i class="fa-solid fa-print"></i> Administrar Impresoras</h1>
   <button onclick="abrirModal()" class="btn btn-primary">+ Nueva Impresora</button>
 </div>
 
@@ -16,7 +16,7 @@
           <td><strong>{{ $i->nombre }}</strong></td>
           <td>
             <span class="badge badge-{{ $i->tipo==='termica'?'info':'primary' }}">
-              {{ $i->tipo === 'termica' ? '🧾 Térmica' : ($i->tipo === 'laser' ? '⚡ Láser' : '💧 Inkjet') }}
+              {{ $i->tipo === 'termica' ? '<i class="fa-solid fa-receipt"></i> Térmica' : ($i->tipo === 'laser' ? '<i class="fa-solid fa-bolt"></i> Láser' : '<i class="fa-solid fa-droplet"></i> Inkjet') }}
             </span>
           </td>
           <td>{{ $i->conexion ?? '—' }}</td>
@@ -25,8 +25,8 @@
           <td>@if($i->predeterminada)<span class="badge badge-primary">⭐ Predeterminada</span>@endif</td>
           <td class="actions">
             <button onclick="editar({{ $i->id }},'{{ addslashes($i->nombre) }}','{{ $i->tipo }}','{{ addslashes($i->conexion??'') }}',{{ $i->ancho_papel }},{{ $i->activa?1:0 }},{{ $i->predeterminada?1:0 }})"
-                    class="btn btn-sm btn-light">✏️</button>
-            <button onclick="eliminar({{ $i->id }},this)" class="btn btn-sm btn-danger">🗑️</button>
+                    class="btn btn-sm btn-light"><i class="fa-solid fa-pen"></i></button>
+            <button onclick="eliminar({{ $i->id }},this)" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
           </td>
         </tr>
         @empty
@@ -51,7 +51,7 @@
 
 <div id="impModal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cerrarModal()">
   <div class="modal">
-    <div class="modal-header"><h3 id="modalTitle">Nueva Impresora</h3><button onclick="cerrarModal()">✕</button></div>
+    <div class="modal-header"><h3 id="modalTitle">Nueva Impresora</h3><button onclick="cerrarModal()"><i class="fa-solid fa-xmark"></i></button></div>
     <div class="modal-body">
       <input type="hidden" id="impId">
       <div class="form-group">
@@ -62,9 +62,9 @@
         <div class="form-group">
           <label>Tipo</label>
           <select id="imp_tipo" class="form-control">
-            <option value="termica">🧾 Térmica</option>
-            <option value="laser">⚡ Láser</option>
-            <option value="inkjet">💧 Inkjet</option>
+            <option value="termica"><i class="fa-solid fa-receipt"></i> Térmica</option>
+            <option value="laser"><i class="fa-solid fa-bolt"></i> Láser</option>
+            <option value="inkjet"><i class="fa-solid fa-droplet"></i> Inkjet</option>
           </select>
         </div>
         <div class="form-group">
@@ -91,7 +91,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="guardar()">💾 Guardar</button>
+      <button class="btn btn-primary" onclick="guardar()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
     </div>
   </div>
 </div>

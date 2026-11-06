@@ -2,16 +2,16 @@
 @section('title','Corte de Caja')
 @section('content')
 <div class="page-header">
-  <h1>📋 Corte de Caja — {{ $caja->nombre }}</h1>
+  <h1><i class="fa-solid fa-clipboard-list"></i> Corte de Caja — {{ $caja->nombre }}</h1>
   <div>
-    <button onclick="window.print()" class="btn btn-light">🖨️ Imprimir</button>
+    <button onclick="window.print()" class="btn btn-light"><i class="fa-solid fa-print"></i> Imprimir</button>
     <a href="{{ route('caja.historial') }}" class="btn btn-light">← Historial</a>
   </div>
 </div>
 
 <div class="card receipt">
   <div class="receipt-header">
-    <div class="receipt-logo">📋</div>
+    <div class="receipt-logo"><i class="fa-solid fa-clipboard-list"></i></div>
     <h2>Corte de Caja</h2>
     <p>{{ $caja->abierta_at->format('d/m/Y') }}</p>
   </div>

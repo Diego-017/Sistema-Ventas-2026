@@ -2,7 +2,7 @@
 @section('title','Detalle de Cliente')
 @section('content')
 <div class="page-header">
-  <h1>👤 {{ $cliente->nombre }}</h1>
+  <h1><i class="fa-solid fa-user"></i> {{ $cliente->nombre }}</h1>
   <a href="{{ route('clientes.index') }}" class="btn btn-light">← Volver</a>
 </div>
 
@@ -15,7 +15,7 @@
           <div class="info-item"><span>NIT</span><strong>{{ $cliente->nit ?? '—' }}</strong></div>
           <div class="info-item"><span>Tipo</span>
             <span class="badge badge-{{ $cliente->tipo==='credito'?'warning':'success' }}">
-              {{ $cliente->tipo === 'credito' ? '💳 Crédito' : '💵 Contado' }}
+              {{ $cliente->tipo === 'credito' ? '<i class="fa-solid fa-credit-card"></i> Crédito' : '<i class="fa-solid fa-money-bill-wave"></i> Contado' }}
             </span>
           </div>
           <div class="info-item"><span>Teléfono</span><strong>{{ $cliente->telefono ?? '—' }}</strong></div>
@@ -26,7 +26,7 @@
           @endif
         </div>
         @if($cliente->direccion)
-        <p class="text-muted small" style="margin-top:12px">📍 {{ $cliente->direccion }}</p>
+        <p class="text-muted small" style="margin-top:12px"><i class="fa-solid fa-location-dot"></i> {{ $cliente->direccion }}</p>
         @endif
       </div>
     </div>
@@ -56,7 +56,7 @@
 
   <div>
     <div class="stat-card stat-primary" style="margin-bottom:20px">
-      <div class="stat-icon-wrap">💰</div>
+      <div class="stat-icon-wrap"><i class="fa-solid fa-coins"></i></div>
       <div class="stat-info">
         <div class="stat-value">${{ number_format($totalComprado,2) }}</div>
         <div class="stat-label">Total Comprado Histórico</div>
@@ -65,7 +65,7 @@
 
     @if($creditos->isNotEmpty())
     <div class="card">
-      <div class="card-header"><h3>💳 Créditos</h3></div>
+      <div class="card-header"><h3><i class="fa-solid fa-credit-card"></i> Créditos</h3></div>
       <div class="card-body p-0">
         <table class="table">
           <thead><tr><th>Saldo</th><th>Estado</th><th></th></tr></thead>

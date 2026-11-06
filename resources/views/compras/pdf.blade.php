@@ -41,7 +41,7 @@
 
 <div class="no-print-bar">
   <a href="{{ url()->previous() ?: route('compras.index') }}" class="btn-back">← Volver</a>
-  <button onclick="window.print()" class="btn-print">🖨️ Imprimir / Guardar como PDF</button>
+  <button onclick="window.print()" class="btn-print"><i class="fa-solid fa-print"></i> Imprimir / Guardar como PDF</button>
 </div>
 
 <div class="pdf-container">

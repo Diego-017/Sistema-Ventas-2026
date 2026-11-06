@@ -26,7 +26,7 @@
 </head>
 <body>
 
-<a href="#" onclick="window.print()" class="btn-print">🖨️ IMPRIMIR CORTE X</a>
+<a href="#" onclick="window.print()" class="btn-print"><i class="fa-solid fa-print"></i> IMPRIMIR CORTE X</a>
 
 <div class="text-center">
   <div class="bold" style="font-size:15px">{{ \App\Models\Configuracion::get('nombre_negocio', 'SUPER EMMANUEL') }}</div>

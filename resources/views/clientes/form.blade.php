@@ -5,7 +5,7 @@
 <div class="page-header" style="margin-bottom: 20px">
   <div>
     <h1 style="color: #38bdf8; font-size: 1.6rem; font-weight: 800; margin:0">
-      {{ $cliente ? '✏️ Editar Cliente Avanzado' : '➕ Registrar Nuevo Cliente' }}
+      {{ $cliente ? '<i class="fa-solid fa-pen"></i> Editar Cliente Avanzado' : '<i class="fa-solid fa-plus"></i> Registrar Nuevo Cliente' }}
     </h1>
     <p class="page-sub" style="color: #94a3b8; margin-top:4px">
       {{ $cliente ? 'Modifica la ficha técnica y fiscal del cliente seleccionado' : 'Ingresa la información general, comercial y tributaria del cliente' }}
@@ -127,8 +127,8 @@
           <label style="font-weight:700">Tipo de Cliente</label>
           <select name="tipo" class="form-control">
             @php $tCli = old('tipo', $cliente->tipo ?? 'contado'); @endphp
-            <option value="contado" {{ $tCli === 'contado' ? 'selected' : '' }}>💵 Contado</option>
-            <option value="credito" {{ $tCli === 'credito' ? 'selected' : '' }}>💳 Crédito Autorizado</option>
+            <option value="contado" {{ $tCli === 'contado' ? 'selected' : '' }}><i class="fa-solid fa-money-bill-wave"></i> Contado</option>
+            <option value="credito" {{ $tCli === 'credito' ? 'selected' : '' }}><i class="fa-solid fa-credit-card"></i> Crédito Autorizado</option>
           </select>
         </div>
         <div class="form-group" style="flex:1">
@@ -165,10 +165,10 @@
       {{-- Botones de Acción --}}
       <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #282d3c; padding-top:20px">
         <a href="{{ route('clientes.index') }}" class="btn btn-light" style="padding:10px 20px; font-weight:700">
-          ✕ Cancelar
+          <i class="fa-solid fa-xmark"></i> Cancelar
         </a>
         <button type="submit" class="btn btn-primary" style="padding:10px 24px; font-weight:800; font-size:0.95rem">
-          💾 {{ $cliente ? 'Guardar Cambios' : 'Registrar Cliente' }}
+          <i class="fa-solid fa-floppy-disk"></i> {{ $cliente ? 'Guardar Cambios' : 'Registrar Cliente' }}
         </button>
       </div>
     </form>
