@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Venta, Producto, Caja, Compra, Credito, Cotizacion};
+use App\Models\{Venta, Producto, Caja, Compra, Credito, Cotizacion, AuditoriaActividad};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -63,6 +63,11 @@ class DashboardController extends Controller
         // Caja activa
         $caja = Caja::abierta();
 
+        // Actividades recientes (auditoría en tiempo real para admin)
+        $actividadesRecientes = class_exists(AuditoriaActividad::class) && Schema::hasTable('auditoria_actividades')
+            ? AuditoriaActividad::with('usuario')->latest()->limit(10)->get()
+            : collect();
+
         return view('inicio.index', compact(
             'totalHoy',
             'ventasHoy',
@@ -78,7 +83,8 @@ class DashboardController extends Controller
             'ventasSemana',
             'topProductos',
             'ultimasVentas',
-            'caja'
+            'caja',
+            'actividadesRecientes'
         ));
     }
 }

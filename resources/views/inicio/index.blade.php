@@ -145,7 +145,7 @@
 </div>
 
 {{-- AUDITORÍA EN TIEMPO REAL / FEED DEL ADMINISTRADOR --}}
-@if(session('user.rol') === 'admin')
+@if(session('user.rol') === 'admin' && isset($actividadesRecientes))
 <div class="card" style="background:#fff; border-radius:12px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,0.1); margin-bottom:25px; border-left: 5px solid #2563eb;">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
     <h3 style="margin:0; font-size:1.1rem; color:#0f172a; font-weight:800; display:flex; align-items:center; gap:8px;">
