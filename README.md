@@ -1,4 +1,4 @@
-# Sistema de Ventas Profesional con Laravel 11 Julio -Agosto 2026
+# Sistema de Ventas 2026 Julio - Noviembre 2026
 
 <img width="959" height="410" alt="image" src="https://github.com/user-attachments/assets/2b563887-da4b-4621-ac20-6330624bc2d9" />
 
