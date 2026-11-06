@@ -170,7 +170,7 @@ body {
   transition: transform .2s ease;
   flex-shrink: 0;
 }
-.nav-group.open .nav-chevron { transform: rotate(90deg); opacity: .9; }
+.nav-group.open .nav-chevron { transform: rotate(-90deg); opacity: .9; }
 
 /* Contenedor animado del contenido del grupo (técnica grid-rows) */
 .nav-group-wrap {
@@ -1895,23 +1895,246 @@ body {
 .tile-red    { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
 
 /* ==============================================================
-   MODO BLANCO Y NEGRO / ALTO CONTRASTE (POS MONOCHROME)
+   MODO OSCURO ENTERPRISE (DARK THEME)
+   Convierte paneles, tarjetas, tablas y fondos a oscuro,
+   con letras blancas y bordes reforzados.
    ============================================================== */
+body.dark-mode,
 body.monochrome-mode {
-  filter: grayscale(100%) contrast(110%);
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
 }
-body.monochrome-mode .sidebar {
-  background: #1a1a1a !important;
-  border-right: 1px solid #444 !important;
+
+body.dark-mode .main-content,
+body.monochrome-mode .main-content {
+  background-color: #0f172a !important;
 }
+
+body.dark-mode .content-area,
+body.monochrome-mode .content-area {
+  background-color: #0f172a !important;
+}
+
+body.dark-mode .top-bar,
 body.monochrome-mode .top-bar {
-  background: #ffffff !important;
-  border-bottom: 2px solid #333 !important;
+  background: #181b24 !important;
+  border-bottom: 1px solid #282d3c !important;
 }
-body.monochrome-mode .top-icon-btn.active-mono {
-  background: #333;
-  color: #fff;
+
+body.dark-mode .sidebar,
+body.monochrome-mode .sidebar {
+  background: #12141c !important;
+  border-right: 1px solid #282d3c !important;
 }
-body.monochrome-mode .ent-tile {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+
+/* Paneles, Tarjetas y Cajas Blancas -> Oscuro con letras blancas */
+body.dark-mode .card,
+body.monochrome-mode .card,
+body.dark-mode .panel,
+body.monochrome-mode .panel,
+body.dark-mode .corte-card,
+body.monochrome-mode .corte-card,
+body.dark-mode .modal-content,
+body.monochrome-mode .modal-content {
+  background: #1a1e29 !important;
+  border: 1px solid #2c3244 !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+}
+
+body.dark-mode .card-header,
+body.monochrome-mode .card-header,
+body.dark-mode .table-toolbar,
+body.monochrome-mode .table-toolbar,
+body.dark-mode .table-footer,
+body.monochrome-mode .table-footer {
+  background: #202534 !important;
+  border-color: #2c3244 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .card-body,
+body.monochrome-mode .card-body {
+  background: #1a1e29 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Tipografía y encabezados */
+body.dark-mode h1, body.monochrome-mode h1,
+body.dark-mode h2, body.monochrome-mode h2,
+body.dark-mode h3, body.monochrome-mode h3,
+body.dark-mode h4, body.monochrome-mode h4,
+body.dark-mode h5, body.monochrome-mode h5,
+body.dark-mode h6, body.monochrome-mode h6,
+body.dark-mode .page-header h1, body.monochrome-mode .page-header h1 {
+  color: #ffffff !important;
+}
+
+body.dark-mode p, body.monochrome-mode p,
+body.dark-mode label, body.monochrome-mode label,
+body.dark-mode span, body.monochrome-mode span {
+  color: #e2e8f0;
+}
+
+body.dark-mode .page-sub,
+body.monochrome-mode .page-sub,
+body.dark-mode .text-muted,
+body.monochrome-mode .text-muted {
+  color: #94a3b8 !important;
+}
+
+/* Tablas */
+body.dark-mode .table,
+body.monochrome-mode .table {
+  color: #f1f5f9 !important;
+  border-color: #2c3244 !important;
+}
+
+body.dark-mode .table thead,
+body.monochrome-mode .table thead,
+body.dark-mode .table thead tr,
+body.monochrome-mode .table thead tr,
+body.dark-mode .table thead th,
+body.monochrome-mode .table thead th {
+  background: #202534 !important;
+  color: #94a3b8 !important;
+  border-color: #2c3244 !important;
+}
+
+body.dark-mode .table tbody tr,
+body.monochrome-mode .table tbody tr {
+  background: #1a1e29 !important;
+  border-bottom: 1px solid #282d3c !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-mode .table tbody tr:hover,
+body.monochrome-mode .table tbody tr:hover {
+  background: #242938 !important;
+}
+
+body.dark-mode .table tbody td,
+body.monochrome-mode .table tbody td {
+  color: #f1f5f9 !important;
+  border-color: #282d3c !important;
+}
+
+body.dark-mode .table td a,
+body.monochrome-mode .table td a {
+  color: #38bdf8 !important;
+}
+
+body.dark-mode .table td code,
+body.monochrome-mode .table td code {
+  background: #282d3c !important;
+  color: #38bdf8 !important;
+  border: 1px solid #363d50 !important;
+}
+
+/* Inputs, Formularios, Selects y Buscadores */
+body.dark-mode .form-control,
+body.monochrome-mode .form-control,
+body.dark-mode input[type="text"],
+body.monochrome-mode input[type="text"],
+body.dark-mode input[type="search"],
+body.monochrome-mode input[type="search"],
+body.dark-mode input[type="number"],
+body.monochrome-mode input[type="number"],
+body.dark-mode input[type="password"],
+body.monochrome-mode input[type="password"],
+body.dark-mode input[type="email"],
+body.monochrome-mode input[type="email"],
+body.dark-mode input[type="date"],
+body.monochrome-mode input[type="date"],
+body.dark-mode select,
+body.monochrome-mode select,
+body.dark-mode textarea,
+body.monochrome-mode textarea {
+  background: #242938 !important;
+  color: #ffffff !important;
+  border: 1px solid #384156 !important;
+}
+
+body.dark-mode input::placeholder,
+body.monochrome-mode input::placeholder {
+  color: #94a3b8 !important;
+}
+
+body.dark-mode .form-group label,
+body.monochrome-mode .form-group label {
+  color: #cbd5e1 !important;
+}
+
+/* Tarjetas de estadísticas (KPI) del Dashboard */
+body.dark-mode .stat-card,
+body.monochrome-mode .stat-card {
+  background: #1a1e29 !important;
+  border: 1px solid #2c3244 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .stat-value,
+body.monochrome-mode .stat-value {
+  color: #ffffff !important;
+}
+
+body.dark-mode .stat-label,
+body.monochrome-mode .stat-label {
+  color: #cbd5e1 !important;
+}
+
+/* Botones secundarios y de luz */
+body.dark-mode .btn-light,
+body.monochrome-mode .btn-light,
+body.dark-mode .btn-secondary,
+body.monochrome-mode .btn-secondary {
+  background: #282d3c !important;
+  color: #f1f5f9 !important;
+  border: 1px solid #3d465c !important;
+}
+
+body.dark-mode .btn-light:hover,
+body.monochrome-mode .btn-light:hover,
+body.dark-mode .btn-secondary:hover,
+body.monochrome-mode .btn-secondary:hover {
+  background: #363d50 !important;
+  color: #ffffff !important;
+}
+
+/* Alertas y Notificaciones */
+body.dark-mode .alert,
+body.monochrome-mode .alert {
+  background: #1e2538 !important;
+  border: 1px solid #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-mode .alert-warning,
+body.monochrome-mode .alert-warning {
+  background: #2e2612 !important;
+  border-color: #634d17 !important;
+  color: #fef08a !important;
+}
+
+body.dark-mode .alert-success,
+body.monochrome-mode .alert-success {
+  background: #0f2d1e !important;
+  border-color: #166534 !important;
+  color: #bbf7d0 !important;
+}
+
+body.dark-mode .alert-error,
+body.dark-mode .alert-danger,
+body.monochrome-mode .alert-error,
+body.monochrome-mode .alert-danger {
+  background: #331518 !important;
+  border-color: #991b1b !important;
+  color: #fecaca !important;
+}
+
+/* Botón en barra superior cuando está activo */
+body.dark-mode .top-icon-btn.active-dark,
+body.monochrome-mode .top-icon-btn.active-dark {
+  background: #3b82f6 !important;
+  color: #ffffff !important;
 }

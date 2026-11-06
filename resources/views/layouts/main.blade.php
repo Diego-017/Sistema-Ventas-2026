@@ -51,7 +51,7 @@
       <div class="nav-group {{ $openVentas ? 'open':'' }}" data-group="ventas">
         <button type="button" class="nav-group-header {{ $openVentas ? 'active':'' }}" onclick="toggleNavGroup(this)">
           <span class="nav-icon">🧾</span><span class="nav-label">Ventas</span>
-          <span class="nav-chevron">❯</span>
+          <span class="nav-chevron">❮</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
           <a href="{{ route('ventas.nueva') }}" class="nav-subitem {{ request()->routeIs('ventas.nueva') ? 'active':'' }}">
@@ -72,7 +72,7 @@
       <div class="nav-group {{ $openCotizaciones ? 'open':'' }}" data-group="cotizaciones">
         <button type="button" class="nav-group-header {{ $openCotizaciones ? 'active':'' }}" onclick="toggleNavGroup(this)">
           <span class="nav-icon">📝</span><span class="nav-label">Cotizaciones</span>
-          <span class="nav-chevron">❯</span>
+          <span class="nav-chevron">❮</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
           <a href="{{ route('cotizaciones.nueva') }}" class="nav-subitem {{ request()->routeIs('cotizaciones.nueva') ? 'active':'' }}">
@@ -88,7 +88,7 @@
       <div class="nav-group {{ $openClientes ? 'open':'' }}" data-group="clientes">
         <button type="button" class="nav-group-header {{ $openClientes ? 'active':'' }}" onclick="toggleNavGroup(this)">
           <span class="nav-icon">👥</span><span class="nav-label">Clientes</span>
-          <span class="nav-chevron">❯</span>
+          <span class="nav-chevron">❮</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
           <a href="{{ route('clientes.index') }}" class="nav-subitem {{ request()->routeIs('clientes.*') ? 'active':'' }}">
@@ -102,7 +102,7 @@
         <button type="button" class="nav-group-header {{ $openCreditos ? 'active':'' }}" onclick="toggleNavGroup(this)">
           <span class="nav-icon">💳</span><span class="nav-label">Cuentas por Cobrar</span>
           @if($creditosVencidos > 0)<span class="badge-nav danger">{{ $creditosVencidos }}</span>@endif
-          <span class="nav-chevron">❯</span>
+          <span class="nav-chevron">❮</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
           <a href="{{ route('creditos.index') }}" class="nav-subitem {{ request()->routeIs('creditos.*') ? 'active':'' }}">
@@ -116,7 +116,7 @@
         <button type="button" class="nav-group-header {{ $openProductos ? 'active':'' }}" onclick="toggleNavGroup(this)">
           <span class="nav-icon">🛍️</span><span class="nav-label">Productos</span>
           @if($stockBajoCount > 0)<span class="badge-nav danger">{{ $stockBajoCount }}</span>@endif
-          <span class="nav-chevron">❯</span>
+          <span class="nav-chevron">❮</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
           <a href="{{ route('productos.crear') }}" class="nav-subitem {{ request()->routeIs('productos.crear') ? 'active':'' }}">
@@ -138,7 +138,7 @@
       <div class="nav-group {{ $openInventario ? 'open':'' }}" data-group="inventario">
         <button type="button" class="nav-group-header {{ $openInventario ? 'active':'' }}" onclick="toggleNavGroup(this)">
           <span class="nav-icon">➕</span><span class="nav-label">Inventario</span>
-          <span class="nav-chevron">❯</span>
+          <span class="nav-chevron">❮</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
           <a href="{{ route('compras.crear') }}" class="nav-subitem {{ request()->routeIs('compras.crear') ? 'active':'' }}">
@@ -169,7 +169,7 @@
       <div class="nav-group {{ $openProveedores ? 'open':'' }}" data-group="proveedores">
         <button type="button" class="nav-group-header {{ $openProveedores ? 'active':'' }}" onclick="toggleNavGroup(this)">
           <span class="nav-icon">🏭</span><span class="nav-label">Proveedores</span>
-          <span class="nav-chevron">❯</span>
+          <span class="nav-chevron">❮</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
           <a href="{{ route('proveedores.index') }}" class="nav-subitem {{ request()->routeIs('proveedores.*') ? 'active':'' }}">
@@ -183,7 +183,7 @@
       <div class="nav-group {{ $openImpresoras ? 'open':'' }}" data-group="impresoras">
         <button type="button" class="nav-group-header {{ $openImpresoras ? 'active':'' }}" onclick="toggleNavGroup(this)">
           <span class="nav-icon">🖨️</span><span class="nav-label">Impresoras</span>
-          <span class="nav-chevron">❯</span>
+          <span class="nav-chevron">❮</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
           <a href="{{ route('impresoras.index') }}" class="nav-subitem {{ request()->routeIs('impresoras.*') ? 'active':'' }}">
@@ -198,7 +198,7 @@
         <button type="button" class="nav-group-header {{ $openCajas ? 'active':'' }}" onclick="toggleNavGroup(this)">
           <span class="nav-icon">🧮</span><span class="nav-label">Cajas y Finanzas</span>
           @if($cajaAbiertaNav)<span class="badge-nav success">Abierta</span>@endif
-          <span class="nav-chevron">❯</span>
+          <span class="nav-chevron">❮</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
           <a href="{{ route('caja.administrar_corte') }}" class="nav-subitem {{ request()->routeIs('caja.administrar_corte') ? 'active':'' }}">
@@ -221,7 +221,7 @@
       <div class="nav-group {{ $openReportes ? 'open':'' }}" data-group="reportes">
         <button type="button" class="nav-group-header {{ $openReportes ? 'active':'' }}" onclick="toggleNavGroup(this)">
           <span class="nav-icon">📄</span><span class="nav-label">Reportes</span>
-          <span class="nav-chevron">❯</span>
+          <span class="nav-chevron">❮</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
           <a href="{{ route('reportes.hoja_conteo') }}" class="nav-subitem {{ request()->is('reportes/hoja*') ? 'active':'' }}">
@@ -240,7 +240,7 @@
       <div class="nav-group {{ $openAdmin ? 'open':'' }}" data-group="admin">
         <button type="button" class="nav-group-header {{ $openAdmin ? 'active':'' }}" onclick="toggleNavGroup(this)">
           <span class="nav-icon">⚙️</span><span class="nav-label">Administración</span>
-          <span class="nav-chevron">❯</span>
+          <span class="nav-chevron">❮</span>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
           <a href="{{ route('usuarios.index') }}" class="nav-subitem {{ request()->routeIs('usuarios.*') ? 'active':'' }}">
@@ -317,8 +317,8 @@
           </div>
         </div>
 
-        <button type="button" class="top-icon-btn" id="monochromeToggleBtn" onclick="toggleMonochromeMode()" title="Modo Blanco y Negro / Alto Contraste">
-          🌓
+        <button type="button" class="top-icon-btn" id="monochromeToggleBtn" onclick="toggleDarkMode()" title="Modo Oscuro / Modo Claro">
+          🌙
         </button>
 
         <button type="button" class="top-icon-btn" onclick="toggleFullScreen()" title="Pantalla completa (Modo POS)">
