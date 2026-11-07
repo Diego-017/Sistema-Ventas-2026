@@ -4,47 +4,59 @@
 <meta charset="UTF-8">
 <title>DTE Factura {{ $venta->codigo }}</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; }
-  body { background:#f1f5f9; padding:24px; color:#1e293b; font-size:11px; }
-  .pdf-container { max-width:820px; margin:0 auto; background:#fff; padding:28px; border-radius:6px; box-shadow:0 4px 15px rgba(0,0,0,0.08); }
-  .pdf-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; border-bottom:2px solid #0f172a; padding-bottom:14px; }
-  .brand-title { font-size:22px; font-weight:900; color:#0f172a; text-transform:uppercase; letter-spacing:0.5px; }
-  .brand-sub { font-size:10px; color:#64748b; margin-top:2px; }
-  .dte-box { border:2px solid #0f172a; border-radius:6px; padding:10px 14px; text-align:center; min-width:280px; background:#f8fafc; }
-  .dte-title { font-size:13px; font-weight:900; color:#0f172a; text-transform:uppercase; }
-  .dte-num { font-size:12px; font-weight:800; color:#2563eb; margin:4px 0; font-family:monospace; }
-  .dte-meta { font-size:9.5px; color:#475569; text-align:left; margin-top:6px; line-height:1.35; }
+  * { margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; }
+  body { background:#f1f5f9; padding:20px; color:#000; font-size:9.5px; }
+  .dte-sheet { max-width:850px; margin:0 auto; background:#fff; padding:18px 24px; border:1px solid #94a3b8; box-shadow:0 4px 15px rgba(0,0,0,0.1); }
   
-  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px; }
-  .info-card { border:1px solid #cbd5e1; border-radius:6px; padding:10px 12px; font-size:10.5px; line-height:1.45; }
-  .info-card-title { font-size:11px; font-weight:800; text-transform:uppercase; color:#0f172a; border-bottom:1px solid #e2e8f0; padding-bottom:4px; margin-bottom:6px; }
+  .page-top-num { text-align:right; font-size:9px; color:#475569; margin-bottom:4px; }
   
-  .table-pdf { width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px; }
-  .table-pdf th { background:#0f172a; color:#fff; padding:7px 8px; font-weight:800; text-transform:uppercase; font-size:9.5px; border:1px solid #0f172a; }
-  .table-pdf td { padding:6px 8px; border:1px solid #cbd5e1; vertical-align:middle; }
+  .header-grid { display:grid; grid-template-columns:1.1fr 1fr; gap:14px; margin-bottom:10px; align-items:start; }
+  .emisor-info { font-size:9.5px; line-height:1.35; }
+  .emisor-title { font-size:12px; font-weight:bold; color:#000; margin-bottom:3px; text-transform:uppercase; }
+  
+  .dte-official-box { border:1.5px solid #000; border-radius:3px; overflow:hidden; font-size:8.5px; }
+  .dte-box-header { background:#fff; border-bottom:1px solid #000; text-align:center; padding:4px; }
+  .dte-box-header h2 { font-size:11px; font-weight:bold; margin:0; }
+  .dte-box-header h3 { font-size:11px; font-weight:bold; margin:0; text-transform:uppercase; }
+  .dte-box-body { padding:4px 8px; display:grid; grid-template-columns:1fr auto; gap:6px; line-height:1.3; }
+  .dte-qrs { display:flex; gap:6px; align-items:center; }
+  .dte-qr-item { text-align:center; font-size:7px; font-weight:bold; }
+  .dte-qr-item img { width:58px; height:58px; display:block; margin:0 auto 2px; }
+  
+  .dte-table { width:100%; border-collapse:collapse; margin-bottom:6px; font-size:8.5px; }
+  .dte-table th, .dte-table td { border:1px solid #000; padding:2px 4px; vertical-align:middle; }
+  .dte-table th { background:#fff; font-weight:bold; text-align:center; }
+  .section-title { font-weight:bold; text-align:center; font-size:8.5px; letter-spacing:0.5px; background:#fff; }
+  
+  .items-table { width:100%; border-collapse:collapse; margin-bottom:6px; font-size:8.5px; }
+  .items-table th { border:1px solid #000; padding:3px 2px; text-align:center; font-size:8px; font-weight:bold; }
+  .items-table td { border:1px solid #000; padding:3px 4px; font-size:8.5px; }
   .text-right { text-align:right; }
   .text-center { text-align:center; }
   
-  .summary-grid { display:grid; grid-template-columns:1fr 280px; gap:16px; align-items:start; }
-  .letters-box { border:1px dashed #cbd5e1; border-radius:6px; padding:10px 12px; font-size:10px; color:#334155; line-height:1.4; }
-  .qr-box { display:flex; align-items:center; gap:12px; margin-top:12px; }
+  .bottom-grid { display:grid; grid-template-columns:1.2fr 1fr; border:1px solid #000; font-size:8.5px; }
+  .bottom-left { border-right:1px solid #000; padding:6px; display:flex; flex-direction:column; justify-content:space-between; }
+  .monto-letras { font-weight:bold; text-transform:uppercase; margin-bottom:8px; font-size:9px; }
+  .extension-table { width:100%; border-collapse:collapse; margin-bottom:10px; font-size:8px; }
+  .extension-table td { border:1px solid #000; padding:2px 4px; }
+  .condicion-op { font-size:14px; font-weight:900; text-align:center; margin-top:8px; }
+  .condicion-sub { text-align:center; font-size:8px; color:#475569; }
   
-  .table-totals { width:100%; border-collapse:collapse; font-size:11px; }
-  .table-totals td { padding:4px 6px; }
-  .table-totals .grand-total { background:#0f172a; color:#fff; font-size:13px; font-weight:900; }
-  .table-totals .grand-total td { padding:8px 6px; }
+  .bottom-right-table { width:100%; border-collapse:collapse; font-size:8.5px; }
+  .bottom-right-table td { border-bottom:1px solid #000; border-left:1px solid #000; padding:2px 4px; }
+  .bottom-right-table tr:last-child td { border-bottom:none; font-weight:bold; }
   
-  .pdf-footer { margin-top:20px; border-top:1px solid #e2e8f0; padding-top:10px; font-size:9px; color:#64748b; text-align:center; line-height:1.4; }
+  .obs-box { border:1px solid #000; margin-top:6px; padding:4px 6px; font-size:8px; }
   
-  .no-print-bar { max-width:820px; margin:0 auto 16px; display:flex; justify-content:space-between; align-items:center; }
+  .no-print-bar { max-width:850px; margin:0 auto 12px; display:flex; justify-content:space-between; align-items:center; }
   .btn-print { background:#2563eb; color:#fff; border:none; padding:8px 18px; border-radius:6px; font-weight:800; cursor:pointer; font-size:12px; }
   .btn-back { background:#64748b; color:#fff; text-decoration:none; padding:8px 16px; border-radius:6px; font-weight:700; font-size:12px; }
 
   @media print {
     body { background:#fff; padding:0; }
-    .pdf-container { box-shadow:none; padding:0; border-radius:0; max-width:100%; }
+    .dte-sheet { border:none; box-shadow:none; padding:0; max-width:100%; }
     .no-print-bar { display:none !important; }
-    @page { margin: 12mm 10mm; }
+    @page { margin: 8mm 6mm; size: A4 portrait; }
   }
 </style>
 </head>
@@ -52,166 +64,324 @@
 
 <div class="no-print-bar">
   <a href="{{ url()->previous() ?: route('ventas.index') }}" class="btn-back">← Volver</a>
-  <button onclick="window.print()" class="btn-print"><i class="fa-solid fa-print"></i> Imprimir / Guardar como PDF</button>
+  <button onclick="window.print()" class="btn-print"><i class="fa-solid fa-print"></i> Imprimir / Guardar DTE Factura</button>
 </div>
 
-<div class="pdf-container">
-  {{-- Encabezado DTE Factura --}}
-  <div class="pdf-header">
-    <div>
-      <div class="brand-title">{{ $config['nombre_negocio'] ?? 'DIGITALSPOS' }}</div>
-      <div class="brand-sub">{{ $config['eslogan'] ?? 'Sistema de Ventas y Facturación Electrónica' }}</div>
-      <div style="margin-top:6px; font-size:10px; color:#334155">
-        <strong>NIT:</strong> {{ $config['nit'] ?? '0614-010190-101-1' }} | <strong>NRC:</strong> {{ $config['nrc'] ?? '298765-4' }}<br>
-        <strong>Giro:</strong> {{ $config['giro'] ?? 'Comercio al por menor de productos varios' }}<br>
-        <strong>Dirección:</strong> {{ $config['direccion'] ?? 'San Salvador, El Salvador' }}<br>
-        <strong>Teléfono:</strong> {{ $config['telefono'] ?? '2222-0000' }} | <strong>Email:</strong> {{ $config['email'] ?? 'ventas@digitalspos.com' }}
-      </div>
-    </div>
-    <div class="dte-box">
-      <div class="dte-title">Documento Tributario Electrónico</div>
-      <div style="font-size:12px; font-weight:800; color:#0f172a">FACTURA</div>
-      <div class="dte-num">DTE-00-M001P001-{{ str_pad($venta->id, 15, '0', STR_PAD_LEFT) }}</div>
-      <div class="dte-meta">
-        <div><strong>Código Generación:</strong> {{ $venta->codigo }}</div>
-        <div><strong>Sello Recepción:</strong> {{ date('YmdHis', strtotime($venta->created_at)) }}001928471</div>
-        <div><strong>Fecha/Hora Emisión:</strong> {{ $venta->created_at->format('d/m/Y H:i:s') }}</div>
-        <div><strong>Modelo Facturación:</strong> Previo | <strong>Tipo Transmisión:</strong> Normal</div>
-      </div>
-    </div>
-  </div>
+<div class="dte-sheet">
+  <div class="page-top-num">Página 1 de 1</div>
 
-  {{-- Cuadros Emisor / Receptor --}}
-  <div class="info-grid">
-    <div class="info-card">
-      <div class="info-card-title">Datos del Emisor</div>
-      <div><strong>Razón Social:</strong> {{ $config['nombre_negocio'] ?? 'DIGITALSPOS' }}</div>
-      <div><strong>Sucursal:</strong> Sucursal Central (Establecimiento 001)</div>
-      <div><strong>Punto de Venta:</strong> CAJA 01 — Terminal POS</div>
-      <div><strong>Cajero / Empleado:</strong> {{ $venta->usuario->nombre ?? 'Administrador' }}</div>
-      <div><strong>Método de Pago:</strong> {{ strtoupper($venta->metodo_pago ?? 'EFECTIVO') }}</div>
+  {{-- 1. Encabezado Emisor + Caja DTE --}}
+  <div class="header-grid">
+    <div class="emisor-info">
+      <div class="emisor-title">{{ $config['nombre_negocio'] ?? 'DIGITALSPOS ENTERPRISE S.A. DE C.V.' }}</div>
+      <div><strong>Actividad Económica:</strong> {{ $config['giro'] ?? '85301 - Enseñanza superior y servicios informáticos' }}</div>
+      <div><strong>Dirección:</strong> {{ $config['direccion'] ?? 'KM. 113 Carretera El Litoral, Usulután, El Salvador, C.A.' }}</div>
+      <div><strong>NIT:</strong> {{ $config['nit'] ?? '0614-110682-101-6' }} &nbsp;|&nbsp; <strong>NRC:</strong> {{ $config['nrc'] ?? '757470' }}</div>
+      <div><strong>Teléfono:</strong> {{ $config['telefono'] ?? '2645-6500' }} &nbsp;|&nbsp; <strong>Correo:</strong> {{ $config['email'] ?? 'consultas@digitalspos.com' }}</div>
+      <div><strong>Tipo Establecimiento:</strong> Sucursal / Agencia (Central)</div>
     </div>
-    <div class="info-card">
-      <div class="info-card-title">Datos del Receptor / Cliente</div>
-      <div><strong>Nombre / Razón:</strong> {{ $venta->cliente->nombre ?? 'CLIENTES VARIOS (CONSUMIDOR FINAL)' }}</div>
-      @if($venta->cliente && $venta->cliente->nombre_comercial)
-      <div><strong>Nombre Comercial:</strong> {{ $venta->cliente->nombre_comercial }}</div>
-      @endif
-      <div><strong>Documento:</strong> {{ strtoupper($venta->cliente->tipo_documento ?? 'DUI') }}: {{ $venta->cliente->dui ?? $venta->cliente->nit ?? '—' }}</div>
-      <div><strong>Dirección:</strong> {{ $venta->cliente->direccion ?? 'San Salvador, El Salvador' }}</div>
-      <div><strong>Municipio / Depto:</strong> {{ $venta->cliente->municipio ?? 'San Salvador' }}, {{ $venta->cliente->departamento ?? 'San Salvador' }}</div>
-      <div><strong>Teléfono / Correo:</strong> {{ $venta->cliente->telefono ?? '—' }} | {{ $venta->cliente->email ?? '—' }}</div>
-    </div>
-  </div>
 
-  {{-- Tabla de Ítems --}}
-  <table class="table-pdf">
-    <thead>
-      <tr>
-        <th class="text-center" style="width:50px">Cant.</th>
-        <th style="width:110px">Código</th>
-        <th>Descripción del Producto / Ítem</th>
-        <th class="text-right" style="width:90px">P. Unitario</th>
-        <th class="text-right" style="width:85px">No Sujetas</th>
-        <th class="text-right" style="width:85px">Exentas</th>
-        <th class="text-right" style="width:95px">Ventas Gravadas</th>
-      </tr>
-    </thead>
-    <tbody>
-      @forelse($venta->items as $idx => $it)
-      <tr>
-        <td class="text-center">{{ $it->cantidad }}</td>
-        <td style="font-family:monospace">{{ $it->producto->sku ?? 'SKU-'.$it->producto_id }}</td>
-        <td>
-          <strong>{{ $it->nombre_producto }}</strong>
-          @if($it->producto && $it->producto->presentacion)
-            <span style="font-size:9.5px; color:#64748b">({{ $it->producto->presentacion }})</span>
-          @endif
-        </td>
-        <td class="text-right">${{ number_format($it->precio_unitario, 2) }}</td>
-        <td class="text-right">$0.00</td>
-        <td class="text-right">$0.00</td>
-        <td class="text-right"><strong>${{ number_format($it->subtotal, 2) }}</strong></td>
-      </tr>
-      @empty
-      <tr>
-        <td colspan="7" class="text-center">Sin ítems</td>
-      </tr>
-      @endforelse
-    </tbody>
-  </table>
-
-  {{-- Totales y Código QR --}}
-  <div class="summary-grid">
-    <div>
-      <div class="letters-box">
-        <strong>VALOR EN LETRAS:</strong><br>
-        {{ strtoupper(\Illuminate\Support\Str::headline(number_format($venta->total, 2))) }} DÓLARES DE LOS ESTADOS UNIDOS DE AMÉRICA
+    <div class="dte-official-box">
+      <div class="dte-box-header">
+        <h2>DOCUMENTO TRIBUTARIO ELECTRÓNICO</h2>
+        <h3>Factura</h3>
       </div>
-      <div class="qr-box">
-        <svg width="68" height="68" viewBox="0 0 100 100" fill="#000">
-          <rect width="100" height="100" fill="#fff" />
-          <rect x="5" y="5" width="30" height="30" fill="#000" />
-          <rect x="10" y="10" width="20" height="20" fill="#fff" />
-          <rect x="15" y="15" width="10" height="10" fill="#000" />
-          <rect x="65" y="5" width="30" height="30" fill="#000" />
-          <rect x="70" y="10" width="20" height="20" fill="#fff" />
-          <rect x="75" y="15" width="10" height="10" fill="#000" />
-          <rect x="5" y="65" width="30" height="30" fill="#000" />
-          <rect x="10" y="70" width="20" height="20" fill="#fff" />
-          <rect x="15" y="75" width="10" height="10" fill="#000" />
-          <rect x="42" y="10" width="16" height="16" fill="#000" />
-          <rect x="42" y="42" width="16" height="16" fill="#000" />
-          <rect x="65" y="65" width="16" height="16" fill="#000" />
-          <rect x="85" y="42" width="10" height="30" fill="#000" />
-          <rect x="42" y="75" width="18" height="18" fill="#000" />
-        </svg>
-        <div style="font-size:9.5px; color:#475569; line-height:1.4">
-          <strong>Consulta Pública DTE:</strong><br>
-          Escanea el código QR o ingresa el código de generación en el portal del Ministerio de Hacienda para verificar la autenticidad electrónica del documento.
+      <div class="dte-box-body">
+        <div>
+          <div><strong>Código generación:</strong> <span style="font-family:monospace">{{ strtoupper($venta->codigo_generacion ?? md5($venta->codigo)) }}</span></div>
+          <div><strong>Sello de recepción:</strong> <span style="font-family:monospace">{{ strtoupper(substr(hash('sha256', $venta->codigo), 0, 40)) }}</span></div>
+          <div><strong>Número de control:</strong> DTE-01-S002P001-{{ str_pad($venta->id, 15, '0', STR_PAD_LEFT) }}</div>
+          <div><strong>Modelo de Facturación:</strong> Previo &nbsp;|&nbsp; <strong>Versión:</strong> 1</div>
+          <div><strong>Fecha y Hora Emisión:</strong> {{ $venta->created_at->format('Y-m-d, H:i:s') }}</div>
+          <div><strong>Tipo Transmisión:</strong> Transmisión normal</div>
+        </div>
+        <div class="dte-qrs">
+          <div class="dte-qr-item">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data={{ urlencode('https://admin.factura.gob.sv/consultaPublica?dte=' . $venta->codigo) }}" alt="QR Publica">
+            Consulta Pública
+          </div>
+          <div class="dte-qr-item">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data={{ urlencode('https://digitalspos.com/portal/dte/' . $venta->id) }}" alt="QR Portal">
+            Portal Cliente
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div>
-      <table class="table-totals">
+  {{-- 2. Receptor --}}
+  <table class="dte-table">
+    <thead>
+      <tr>
+        <th colspan="3" class="section-title">RECEPTOR</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="width:60%"><strong>Nombre:</strong> {{ $venta->cliente->nombre ?? 'FARID ALBERTO FUENTES APARICIO' }}</td>
+        <td style="width:20%"><strong>DUI:</strong> {{ $venta->cliente->dui ?? '06864884-6' }}</td>
+        <td style="width:20%"><strong>NRC:</strong> {{ $venta->cliente->nrc ?? '—' }}</td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Actividad:</strong> {{ $venta->cliente->giro ?? 'Particular / Consumidor Final' }}</td>
+        <td><strong>Teléfono:</strong> {{ $venta->cliente->telefono ?? '2662-4765' }}</td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Dirección:</strong> {{ $venta->cliente->direccion ?? 'COLONIA PUERTA DEL SOL, FINAL DEL SEGUNDO PASAJE CASA #87' }}</td>
+        <td><strong>Correo:</strong> {{ $venta->cliente->email ?? 'cliente@gmail.com' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  {{-- 3. Venta a Cuenta de Terceros --}}
+  <table class="dte-table">
+    <thead>
+      <tr><th colspan="2" class="section-title">VENTA A CUENTA DE TERCEROS</th></tr>
+      <tr>
+        <th style="width:30%">NIT</th>
+        <th>Nombre, denominación o razón social:</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  {{-- 4. Documentos Relacionados --}}
+  <table class="dte-table">
+    <thead>
+      <tr><th colspan="3" class="section-title">DOCUMENTOS RELACIONADOS</th></tr>
+      <tr>
+        <th>Tipo de Documento</th>
+        <th>No. de Documento</th>
+        <th>Fecha de Documento</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  {{-- 5. Otros Documentos Asociados --}}
+  <table class="dte-table">
+    <thead>
+      <tr><th colspan="3" class="section-title">OTROS DOCUMENTOS ASOCIADOS</th></tr>
+      <tr>
+        <th>Documento asociado</th>
+        <th>Identificación</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  {{-- 6. Tabla de Items / Productos (Exacto a la Imagen 2) --}}
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th style="width:24px">No.</th>
+        <th style="width:40px">Cant.</th>
+        <th style="width:45px">Unidad</th>
+        <th>Descripción</th>
+        <th style="width:65px">Precio Unitario</th>
+        <th style="width:55px">Descuento por item</th>
+        <th style="width:65px">Otros montos no afectos</th>
+        <th style="width:55px">Ventas no Sujetas</th>
+        <th style="width:55px">Ventas Exentas</th>
+        <th style="width:65px">Ventas Gravadas</th>
+      </tr>
+    </thead>
+    <tbody>
+      @php
+        $num = 1;
+        $totalGravado = 0;
+        $totalExento = 0;
+      @endphp
+      @foreach($venta->items as $item)
+        @php
+          $subItem = (float)$item->subtotal;
+          $descItem = (float)($item->descuento ?? 0);
+          $esExento = !empty($item->exento);
+          if ($esExento) {
+            $totalExento += $subItem;
+          } else {
+            $totalGravado += $subItem;
+          }
+        @endphp
         <tr>
-          <td>Sumas (Ventas Gravadas):</td>
-          <td class="text-right"><strong>${{ number_format($venta->subtotal, 2) }}</strong></td>
-        </tr>
-        <tr>
-          <td>Ventas No Sujetas:</td>
+          <td class="text-center">{{ $num++ }}</td>
+          <td class="text-center">{{ number_format($item->cantidad, 2) }}</td>
+          <td class="text-center">Unidad</td>
+          <td>{{ $item->nombre_producto }}</td>
+          <td class="text-right">${{ number_format($item->precio_unitario, 2) }}</td>
+          <td class="text-right">${{ number_format($descItem, 2) }}</td>
           <td class="text-right">$0.00</td>
-        </tr>
-        <tr>
-          <td>Ventas Exentas:</td>
           <td class="text-right">$0.00</td>
+          <td class="text-right">{{ $esExento ? '$'.number_format($subItem, 2) : '$0.00' }}</td>
+          <td class="text-right">{{ !$esExento ? '$'.number_format($subItem, 2) : '$0.00' }}</td>
         </tr>
-        @if($venta->descuento > 0)
+      @endforeach
+
+      {{-- Filas vacías para completar la estructura estética de la página como en la imagen real --}}
+      @for($f = count($venta->items); $f < 8; $f++)
         <tr>
-          <td>Descuento Otorgado:</td>
-          <td class="text-right" style="color:#ef4444">-${{ number_format($venta->descuento, 2) }}</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
         </tr>
-        @endif
-        <tr>
-          <td>IVA (13%):</td>
-          <td class="text-right">${{ number_format($venta->impuesto ?? 0, 2) }}</td>
-        </tr>
-        <tr>
-          <td>Sub-Total:</td>
-          <td class="text-right">${{ number_format($venta->total, 2) }}</td>
-        </tr>
-        <tr class="grand-total">
-          <td>TOTAL A PAGAR:</td>
-          <td class="text-right">${{ number_format($venta->total, 2) }}</td>
-        </tr>
+      @endfor
+    </tbody>
+  </table>
+
+  {{-- 7. Bloque de Totales y Resumen Inferior (Exacto a la Imagen 2) --}}
+  <div class="bottom-grid">
+    <div class="bottom-left">
+      <div>
+        <div class="monto-letras">
+          @php
+            $entero = floor($venta->total);
+            $centavos = round(($venta->total - $entero) * 100);
+            if (class_exists('\NumberFormatter')) {
+              $fmt = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
+              $letras = strtoupper($fmt->format($entero)) . ' ' . str_pad($centavos, 2, '0', STR_PAD_LEFT) . '/100 DÓLARES';
+            } else {
+              $unidades = ['', 'UN', 'DOS', 'TRES', 'CUATRO', 'CINCO', 'SEIS', 'SIETE', 'OCHO', 'NUEVE'];
+              $decenas = ['', 'DIEZ', 'VEINTE', 'TREINTA', 'CUARENTA', 'CINCUENTA', 'SESENTA', 'SETENTA', 'OCHENTA', 'NOVENTA'];
+              $especiales = [11=>'ONCE', 12=>'DOCE', 13=>'TRECE', 14=>'QUINCE', 16=>'DIECISÉIS', 17=>'DIECISIETE', 18=>'DIECIOCHO', 19=>'DIECINUEVE', 20=>'VEINTE', 21=>'VEINTIUNO', 22=>'VEINTIDÓS', 23=>'VEINTITRÉS', 24=>'VEINTICUATRO', 25=>'VEINTICINCO'];
+              $numStr = '';
+              if ($entero == 0) $numStr = 'CERO';
+              elseif (isset($especiales[$entero])) $numStr = $especiales[$entero];
+              elseif ($entero < 10) $numStr = $unidades[$entero];
+              elseif ($entero < 100) {
+                $d = floor($entero / 10);
+                $u = $entero % 10;
+                $numStr = $decenas[$d] . ($u > 0 ? ' Y ' . $unidades[$u] : '');
+              } else {
+                $numStr = (string)$entero;
+              }
+              $letras = $numStr . ' ' . str_pad($centavos, 2, '0', STR_PAD_LEFT) . '/100 DÓLARES';
+            }
+          @endphp
+          {{ $letras }}
+        </div>
+
+        <table class="extension-table">
+          <thead>
+            <tr><th colspan="2" style="text-align:center; font-weight:bold">EXTENSIÓN</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width:30%"><strong>Nombre Entrega:</strong></td>
+              <td>{{ $venta->usuario->nombre ?? 'Administrador' }}</td>
+            </tr>
+            <tr>
+              <td><strong>No. Documento:</strong></td>
+              <td>0614-110682-101-6</td>
+            </tr>
+            <tr>
+              <td><strong>Nombre Recibe:</strong></td>
+              <td>{{ $venta->cliente->nombre ?? 'Clientes Varios' }}</td>
+            </tr>
+            <tr>
+              <td><strong>No. Documento:</strong></td>
+              <td>{{ $venta->cliente->dui ?? '00000000-0' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <div class="condicion-op">CONTADO</div>
+        <div class="condicion-sub">Condición de Operación: Efectivo</div>
+      </div>
+    </div>
+
+    <div class="bottom-right">
+      <table class="bottom-right-table">
+        <tbody>
+          <tr>
+            <td style="font-weight:bold">SUMAS</td>
+            <td class="text-right" style="width:65px">$0.00</td>
+            <td class="text-right" style="width:65px">${{ number_format($totalExento, 2) }}</td>
+            <td class="text-right" style="width:65px">${{ number_format($totalGravado, 2) }}</td>
+          </tr>
+          <tr>
+            <td colspan="3">Suma Total de Ventas:</td>
+            <td class="text-right"><strong>${{ number_format($venta->total, 2) }}</strong></td>
+          </tr>
+          <tr>
+            <td colspan="3">Monto global Desc., Rebajas y otros a ventas no sujetas:</td>
+            <td class="text-right">$0.00</td>
+          </tr>
+          <tr>
+            <td colspan="3">Monto global Desc., Rebajas y otros a ventas exentas:</td>
+            <td class="text-right">$0.00</td>
+          </tr>
+          <tr>
+            <td colspan="3">Monto global Desc., Rebajas y otros a ventas gravadas:</td>
+            <td class="text-right">${{ number_format($venta->descuento, 2) }}</td>
+          </tr>
+          <tr>
+            <td colspan="3">Sub-Total:</td>
+            <td class="text-right"><strong>${{ number_format($venta->subtotal, 2) }}</strong></td>
+          </tr>
+          <tr>
+            <td colspan="3">IVA (13% integrado en precio):</td>
+            <td class="text-right">${{ number_format($venta->impuesto, 2) }}</td>
+          </tr>
+          <tr>
+            <td colspan="3">IVA Retenido (1%):</td>
+            <td class="text-right">${{ number_format($venta->retencion, 2) }}</td>
+          </tr>
+          <tr>
+            <td colspan="3">Retención Renta:</td>
+            <td class="text-right">$0.00</td>
+          </tr>
+          <tr>
+            <td colspan="3">Monto Total de la Operación:</td>
+            <td class="text-right"><strong>${{ number_format($venta->total, 2) }}</strong></td>
+          </tr>
+          <tr>
+            <td colspan="3">Total Otros Montos No Afectos:</td>
+            <td class="text-right">$0.00</td>
+          </tr>
+          <tr style="background:#f8fafc">
+            <td colspan="3" style="font-size:10px; font-weight:900">Total a Pagar:</td>
+            <td class="text-right" style="font-size:11px; font-weight:900; color:#000">${{ number_format($venta->total, 2) }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
 
-  <div class="pdf-footer">
-    Este Documento Tributario Electrónico ha sido emitido y transmitido bajo la normativa legal vigente del Ministerio de Hacienda.<br>
-    Gracias por su preferencia. Documento válido para fines fiscales y comerciales.
+  {{-- 8. Observaciones y Pie de Firma --}}
+  <div class="obs-box">
+    <strong>- OBSERVACIONES -</strong><br>
+    Cajero: <strong>{{ $venta->usuario->nombre ?? 'gamador' }}</strong> &nbsp;|&nbsp;
+    Sucursal: <strong>{{ $venta->caja->sucursal ?? 'Sucursal Central' }}</strong> &nbsp;|&nbsp;
+    Turno: <strong>{{ $venta->caja->turno ?? 'Turno 1' }}</strong> &nbsp;|&nbsp;
+    Ciclo: Ciclo I - 2026 &nbsp;|&nbsp;
+    Comprobante emitido según disposiciones del Ministerio de Hacienda de El Salvador.
   </div>
 </div>
 

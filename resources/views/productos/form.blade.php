@@ -2,7 +2,7 @@
 @section('title', $producto ? 'Editar Producto' : 'Nuevo Producto')
 @section('content')
 <div class="page-header">
-  <h1>{{ $producto ? '<i class="fa-solid fa-pen"></i> Editar Producto' : '<i class="fa-solid fa-plus"></i> Nuevo Producto' }}</h1>
+  <h1>{!! $producto ? '<i class="fa-solid fa-pen"></i> Editar Producto' : '<i class="fa-solid fa-plus"></i> Nuevo Producto' !!}</h1>
   <a href="{{ route('productos.index') }}" class="btn btn-light">← Volver</a>
 </div>
 <div class="card">

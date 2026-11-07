@@ -31,6 +31,7 @@ class InventarioController extends Controller
     // ── Tabla de Márgenes (Rentabilidad) ─────────────────────
     public function margenes()
     {
+        $this->requireAdmin();
         $productos = Producto::activo()
             ->with(['categoria'])
             ->orderBy('nombre')

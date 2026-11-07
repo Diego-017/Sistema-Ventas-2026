@@ -16,7 +16,7 @@ function toggleDarkMode() {
   const btn = document.getElementById('monochromeToggleBtn');
   if (btn) {
     btn.classList.toggle('active-dark', isDark);
-    btn.innerHTML = isDark ? '☀️' : '🌙';
+    btn.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
     btn.title = isDark ? 'Cambiar a Modo Claro' : 'Cambiar a Modo Oscuro';
   }
 }
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const darkBtn = document.getElementById('monochromeToggleBtn');
     if (darkBtn) {
       darkBtn.classList.add('active-dark');
-      darkBtn.innerHTML = '☀️';
+      darkBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
       darkBtn.title = 'Cambiar a Modo Claro';
     }
   }

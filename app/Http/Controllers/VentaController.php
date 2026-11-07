@@ -7,11 +7,23 @@ use Illuminate\Support\Facades\DB;
 
 class VentaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $ventas = Venta::with(['cliente','usuario'])
-            ->latest('created_at')->paginate(25);
-        return view('ventas.index', compact('ventas'));
+        $perPage = (int) $request->input('per_page', 25);
+        if (!in_array($perPage, [10, 25, 50, 100])) $perPage = 25;
+
+        $query = Venta::with(['cliente','usuario','items'])->latest('created_at');
+
+        if ($request->filled('q')) {
+            $q = $request->input('q');
+            $query->where(function($b) use ($q) {
+                $b->where('codigo', 'like', "%{$q}%")
+                  ->orWhereHas('cliente', fn($c) => $c->where('nombre', 'like', "%{$q}%"));
+            });
+        }
+
+        $ventas = $query->paginate($perPage)->withQueryString();
+        return view('ventas.index', compact('ventas', 'perPage'));
     }
 
     public function nueva()
@@ -39,18 +51,27 @@ class VentaController extends Controller
         DB::transaction(function () use ($request, $items, &$ventaId) {
             $cliente = $request->filled('cliente_id') ? Cliente::find($request->input('cliente_id')) : null;
 
-            // Gravado = base de productos NO exentos. Exenta = base de productos exentos.
-            $gravado = collect($items)->filter(fn($i) => empty($i['exento']))->sum('subtotal');
-            $exenta  = collect($items)->filter(fn($i) => !empty($i['exento']))->sum('subtotal');
-            $subtotal  = $gravado + $exenta;
+            // El precio de venta ya incluye el IVA (13%) integrado para que el cliente pague el precio exhibido.
             $descuento = (float) $request->input('descuento', 0);
-            $impuesto  = round($gravado * 0.13, 2); // IVA 13% sobre lo gravado (los precios base ya no lo incluyen)
+            $montoBrutoTotal = collect($items)->sum(function($i) {
+                return (float)($i['subtotal'] ?? ((float)$i['precio'] * (int)$i['cantidad']));
+            });
+            $montoConDescuento = max(0, $montoBrutoTotal - $descuento);
 
-            // Percepción (1%) y Retención (1%) sólo si el cliente fiscal seleccionado las tiene activas.
+            // Separación de productos exentos y gravados
+            $exenta = collect($items)->filter(fn($i) => !empty($i['exento']))->sum(fn($i) => (float)($i['subtotal'] ?? ((float)$i['precio'] * (int)$i['cantidad'])));
+            $montoGravadoConIva = max(0, $montoConDescuento - $exenta);
+
+            // Desglose fiscal de IVA 13% integrado: Base = Total / 1.13 | IVA = Total - Base
+            $gravado = round($montoGravadoConIva / 1.13, 2);
+            $impuesto = round($montoGravadoConIva - $gravado, 2);
+            $subtotal = $gravado + $exenta;
+
             $percepcion = ($cliente && $cliente->aplica_percepcion) ? round($gravado * 0.01, 2) : 0;
             $retencion  = ($cliente && $cliente->retiene_iva)       ? round($gravado * 0.01, 2) : 0;
 
-            $total    = max(0, $subtotal - $descuento + $impuesto + $percepcion - $retencion);
+            // Total exacto a pagar (precio neto con IVA integrado)
+            $total = max(0, $montoConDescuento + $percepcion - $retencion);
             $tipoPago = $request->input('tipo_venta','contado');
 
             $venta = Venta::create([

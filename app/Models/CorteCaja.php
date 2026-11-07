@@ -6,7 +6,7 @@ class CorteCaja extends Model
 {
     protected $table    = 'cortes_caja';
     protected $fillable = [
-        'caja_id','usuario_id','efectivo_esperado','efectivo_contado',
+        'caja_id','usuario_id', 'sucursal', 'turno','efectivo_esperado','efectivo_contado',
         'diferencia','ventas_efectivo','ventas_tarjeta','ventas_transferencia',
         'ventas_credito','denominaciones','notas'
     ];

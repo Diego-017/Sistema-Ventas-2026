@@ -16,7 +16,7 @@ class ProductoController extends Controller
 
     public function create()
     {
-        $this->requireAdmin();
+        // Permitido para admin y vendedor
         return view('productos.form', [
             'producto'       => null,
             'categorias'     => Categoria::orderBy('nombre')->get(),
@@ -28,7 +28,7 @@ class ProductoController extends Controller
 
     public function store(Request $request)
     {
-        $this->requireAdmin();
+        // Permitido para admin y vendedor
         $data = $this->validatedData($request);
         if ($request->hasFile('imagen')) {
             $data['imagen'] = $request->file('imagen')->store('productos','public');
@@ -40,7 +40,7 @@ class ProductoController extends Controller
 
     public function edit(int $id)
     {
-        $this->requireAdmin();
+        // Permitido para admin y vendedor
         $producto = Producto::with(['categoria','subcategoria','proveedor','comboItems.componente','presentaciones'])->findOrFail($id);
         $subcategorias = $producto->categoria_id
             ? Subcategoria::where('categoria_id', $producto->categoria_id)->orderBy('nombre')->get()
@@ -56,7 +56,7 @@ class ProductoController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $this->requireAdmin();
+        // Permitido para admin y vendedor
         $producto = Producto::findOrFail($id);
         $data = $this->validatedData($request, $id);
 
@@ -83,7 +83,7 @@ class ProductoController extends Controller
 
     public function destroy(int $id)
     {
-        $this->requireAdmin();
+        // Permitido para admin y vendedor
         Producto::findOrFail($id)->update(['activo' => 0]);
         return response()->json(['ok' => true]);
     }

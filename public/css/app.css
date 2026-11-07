@@ -2636,3 +2636,83 @@ body.monochrome-mode .f2-payment-row {
 .sys-watermark { font-size: 3rem !important; opacity: .25 !important; color: #fff !important; }
 .nav-icon { width: 22px; text-align: center; display: inline-flex; justify-content: center; align-items: center; }
 .brand-icon i { font-size: 1.5rem; }
+
+/* ============================================================
+   CONVERSIÓN DE MODO OSCURO Y FONDOS BLANCOS
+   "en lo blanco, que si se miren las letras pero en negro"
+   ============================================================ */
+html.dark-mode, body.dark-mode, .dark-mode {
+  background-color: #0f172a !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark-mode .table, body.dark-mode .table, .dark-mode .table,
+html.dark-mode table, body.dark-mode table, .dark-mode table {
+  color: #f1f5f9 !important;
+  border-color: #2c3244 !important;
+}
+
+html.dark-mode .table thead th, body.dark-mode .table thead th, .dark-mode .table thead th {
+  background: #202534 !important;
+  color: #94a3b8 !important;
+  border-color: #2c3244 !important;
+}
+
+html.dark-mode .table tbody tr, body.dark-mode .table tbody tr, .dark-mode .table tbody tr {
+  background: #1a1e29 !important;
+  color: #f1f5f9 !important;
+  border-bottom: 1px solid #282d3c !important;
+}
+
+html.dark-mode .table tbody td, body.dark-mode .table tbody td, .dark-mode .table tbody td {
+  background: #1a1e29 !important;
+  color: #f1f5f9 !important;
+  border-color: #282d3c !important;
+}
+
+html.dark-mode .table tbody tr:hover, body.dark-mode .table tbody tr:hover, .dark-mode .table tbody tr:hover {
+  background: #242938 !important;
+}
+
+html.dark-mode .card, body.dark-mode .card, .dark-mode .card,
+html.dark-mode .panel, body.dark-mode .panel, .dark-mode .panel {
+  background: #1a1e29 !important;
+  border-color: #2c3244 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Letras negras/oscuras garantizadas para cualquier elemento blanco o claro */
+.bg-white, .table-white, .card-white,
+[style*="background: #fff"], [style*="background:#fff"],
+[style*="background: white"], [style*="background:white"],
+[style*="background: #f8fafc"], [style*="background:#f8fafc"],
+[style*="background: #ffffff"], [style*="background:#ffffff"] {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.bg-white *, .table-white *, .card-white *,
+[style*="background: #fff"] *:not(.btn):not(.badge):not(i),
+[style*="background:#fff"] *:not(.btn):not(.badge):not(i),
+[style*="background: white"] *:not(.btn):not(.badge):not(i),
+[style*="background:white"] *:not(.btn):not(.badge):not(i),
+[style*="background: #f8fafc"] *:not(.btn):not(.badge):not(i),
+[style*="background:#f8fafc"] *:not(.btn):not(.badge):not(i),
+[style*="background: #ffffff"] *:not(.btn):not(.badge):not(i),
+[style*="background:#ffffff"] *:not(.btn):not(.badge):not(i) {
+  color: #0f172a !important;
+}
+
+/* Modales e inputs */
+html.dark-mode .form-control, body.dark-mode .form-control, .dark-mode .form-control,
+html.dark-mode select.form-control, body.dark-mode select.form-control, .dark-mode select.form-control {
+  background: #12141c !important;
+  color: #f1f5f9 !important;
+  border-color: #2c3244 !important;
+}
+
+html.dark-mode .form-control:focus, body.dark-mode .form-control:focus, .dark-mode .form-control:focus {
+  background: #151822 !important;
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
+}

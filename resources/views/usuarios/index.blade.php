@@ -1,47 +1,84 @@
 @extends('layouts.main')
-@section('title','Usuarios')
+@section('title','Gestión de Usuarios')
 @section('content')
-
-<div class="page-header">
-  <h1><i class="fa-solid fa-user"></i> Gestión de Usuarios</h1>
-  <button onclick="abrirModal()" class="btn btn-primary">+ Nuevo Usuario</button>
+<div class="page-header" style="margin-bottom:20px">
+  <div>
+    <h1 style="color:#38bdf8; font-size:1.75rem; font-weight:800; margin:0">
+      <i class="fa-solid fa-users-gear"></i> Gestión de Usuarios
+    </h1>
+    <p class="page-sub" style="color:#94a3b8; margin-top:4px">Control de accesos, roles, sucursales y permisos del personal</p>
+  </div>
+  <a href="{{ route('usuarios.crear') }}" class="btn btn-primary" style="display:flex; align-items:center; gap:6px; font-weight:800">
+    <i class="fa-solid fa-user-plus"></i> Nuevo Usuario
+  </a>
 </div>
 
-<div class="card">
+<div class="card" style="border-radius:10px;">
   <div class="card-body p-0">
     <table class="table">
-      <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Estado</th><th>Creado</th><th>Acciones</th></tr></thead>
+      <thead>
+        <tr>
+          <th style="width:40px"></th>
+          <th>Nombre</th>
+          <th>Email / Login</th>
+          <th>Rol</th>
+          <th>Sucursal</th>
+          <th>Estado</th>
+          <th>Creado</th>
+          <th style="text-align:right">Acciones</th>
+        </tr>
+      </thead>
       <tbody>
         @foreach($usuarios as $u)
-        <tr class="{{ !$u->activo ? 'row-inactive':'' }}">
-          <td>
-            <div style="display:flex;align-items:center;gap:10px">
-              <span class="user-avatar-sm" style="background:{{ $u->rol==='admin'?'#4f46e5':'#059669' }}">
-                {{ strtoupper(substr($u->nombre,0,1)) }}
-              </span>
-              <strong>{{ $u->nombre }}</strong>
-            </div>
-          </td>
-          <td>{{ $u->email }}</td>
-          <td>
-            <span class="badge badge-{{ $u->rol==='admin'?'primary':'success' }}">
-              {{ $u->rol === 'admin' ? '<i class="fa-solid fa-crown"></i> Admin' : '<i class="fa-solid fa-user-tie"></i> Vendedor' }}
+        <tr>
+          <td style="text-align:center">
+            <span class="user-avatar" style="width:34px; height:34px; font-size:0.85rem">
+              {{ strtoupper(substr($u->nombre,0,1)) }}
             </span>
           </td>
           <td>
-            <span class="badge badge-{{ $u->activo?'success':'danger' }}">
+            <strong>{{ $u->nombre }}</strong>
+            @if($u->cargo)
+              <div style="font-size:0.75rem; color:#94a3b8">{{ $u->cargo }}</div>
+            @endif
+          </td>
+          <td><code>{{ $u->email }}</code></td>
+          <td>
+            @php
+              $roleMap = [
+                'admin'      => ['label' => 'Admin', 'icon' => 'fa-crown', 'color' => '#eab308'],
+                'vendedor'   => ['label' => 'Vendedor', 'icon' => 'fa-user-tie', 'color' => '#38bdf8'],
+                'supervisor' => ['label' => 'Supervisor', 'icon' => 'fa-user-shield', 'color' => '#f97316'],
+                'bodeguero'  => ['label' => 'Bodeguero', 'icon' => 'fa-boxes-stacked', 'color' => '#10b981'],
+                'contador'   => ['label' => 'Contador', 'icon' => 'fa-calculator', 'color' => '#a855f7'],
+              ];
+              $rInfo = $roleMap[$u->rol] ?? ['label' => ucfirst($u->rol), 'icon' => 'fa-user', 'color' => '#94a3b8'];
+            @endphp
+            <span style="display:inline-flex; align-items:center; gap:6px; font-weight:700; color:{{ $rInfo['color'] }}">
+              <i class="fa-solid {{ $rInfo['icon'] }}"></i> {{ $rInfo['label'] }}
+            </span>
+          </td>
+          <td><span style="font-size:0.85rem; color:#94a3b8">{{ $u->sucursal ?? 'Sucursal Central' }}</span></td>
+          <td>
+            <span class="badge badge-{{ $u->activo ? 'success':'danger' }}">
               {{ $u->activo ? 'Activo':'Inactivo' }}
             </span>
           </td>
-          <td>{{ $u->created_at->format('d/m/Y') }}</td>
-          <td class="actions">
-            <button onclick="editarUsuario({{ $u->id }},'{{ addslashes($u->nombre) }}','{{ $u->email }}','{{ $u->rol }}')"
-                    class="btn btn-sm btn-secondary"><i class="fa-solid fa-pen"></i></button>
+          <td style="color:#94a3b8; font-size:0.82rem">{{ $u->created_at->format('d/m/Y') }}</td>
+          <td style="text-align:right; white-space:nowrap">
+            <a href="{{ route('usuarios.editar', $u->id) }}" class="btn btn-sm btn-light" title="Editar Usuario">
+              <i class="fa-solid fa-pen"></i>
+            </a>
             @if($u->id !== session('user_id'))
-            <button onclick="toggleUsuario({{ $u->id }},this,{{ $u->activo }})"
-                    class="btn btn-sm btn-{{ $u->activo?'warning':'success' }}">
-              {{ $u->activo ? '<i class="fa-solid fa-ban"></i> Desactivar':'<i class="fa-solid fa-circle-check"></i> Activar' }}
-            </button>
+              <button onclick="toggleActivo({{ $u->id }}, this)" class="btn btn-sm btn-{{ $u->activo ? 'warning':'success' }}" title="{{ $u->activo ? 'Desactivar':'Activar' }}">
+                <i class="fa-solid fa-{{ $u->activo ? 'ban' : 'circle-check' }}"></i>
+                <span>{{ $u->activo ? 'Desactivar':'Activar' }}</span>
+              </button>
+              <a href="{{ route('usuarios.confirmar_eliminar', $u->id) }}" class="btn btn-sm btn-danger" title="Eliminar Usuario">
+                <i class="fa-solid fa-trash"></i>
+              </a>
+            @else
+              <span class="badge badge-secondary" style="font-size:0.75rem">Tú</span>
             @endif
           </td>
         </tr>
@@ -51,124 +88,27 @@
   </div>
 </div>
 
-{{-- Modal crear / editar --}}
-<div id="userModal" class="modal-overlay" style="display:none" onclick="if(event.target===this)cerrarModal()">
-  <div class="modal">
-    <div class="modal-header"><h3 id="modalTitle">Nuevo Usuario</h3><button onclick="cerrarModal()"><i class="fa-solid fa-xmark"></i></button></div>
-    <div class="modal-body">
-      <input type="hidden" id="userId">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Nombre <span class="req">*</span></label>
-          <input id="u_nombre" class="form-control" placeholder="Nombre completo">
-        </div>
-        <div class="form-group">
-          <label>Rol <span class="req">*</span></label>
-          <select id="u_rol" class="form-control">
-            <option value="vendedor"><i class="fa-solid fa-user-tie"></i> Vendedor</option>
-            <option value="admin"><i class="fa-solid fa-crown"></i> Administrador</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Email <span class="req">*</span></label>
-        <input id="u_email" type="email" class="form-control" placeholder="correo@ejemplo.com">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label id="passLabel">Contraseña <span class="req">*</span></label>
-          <input id="u_password" type="password" class="form-control" placeholder="Mínimo 6 caracteres">
-        </div>
-        <div class="form-group">
-          <label>Confirmar Contraseña</label>
-          <input id="u_password_confirmation" type="password" class="form-control" placeholder="Repetir contraseña">
-        </div>
-      </div>
-      <p id="passHint" class="text-muted small" style="display:none">Deja en blanco para no cambiar la contraseña.</p>
-      <div id="userError" class="alert alert-error" style="display:none"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
-      <button class="btn btn-primary" id="btnGuardar" onclick="guardar()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
-    </div>
-  </div>
-</div>
-
 @push('scripts')
 <script>
-const CSRF = document.querySelector('meta[name=csrf-token]').content;
-
-function abrirModal() {
-  document.getElementById('userId').value='';
-  document.getElementById('u_nombre').value='';
-  document.getElementById('u_email').value='';
-  document.getElementById('u_password').value='';
-  document.getElementById('u_password_confirmation').value='';
-  document.getElementById('u_rol').value='vendedor';
-  document.getElementById('modalTitle').textContent='Nuevo Usuario';
-  document.getElementById('passLabel').innerHTML='Contraseña <span class="req">*</span>';
-  document.getElementById('passHint').style.display='none';
-  document.getElementById('userError').style.display='none';
-  document.getElementById('userModal').style.display='flex';
-}
-
-function editarUsuario(id,nombre,email,rol) {
-  document.getElementById('userId').value=id;
-  document.getElementById('u_nombre').value=nombre;
-  document.getElementById('u_email').value=email;
-  document.getElementById('u_rol').value=rol;
-  document.getElementById('u_password').value='';
-  document.getElementById('u_password_confirmation').value='';
-  document.getElementById('modalTitle').textContent='Editar Usuario';
-  document.getElementById('passLabel').innerHTML='Nueva Contraseña';
-  document.getElementById('passHint').style.display='block';
-  document.getElementById('userError').style.display='none';
-  document.getElementById('userModal').style.display='flex';
-}
-
-function cerrarModal(){ document.getElementById('userModal').style.display='none'; }
-
-async function guardar() {
-  const id  = document.getElementById('userId').value;
-  const btn = document.getElementById('btnGuardar');
-  btn.disabled = true;
-
-  const body = new URLSearchParams({
-    nombre:   document.getElementById('u_nombre').value,
-    email:    document.getElementById('u_email').value,
-    rol:      document.getElementById('u_rol').value,
-    password: document.getElementById('u_password').value,
-    password_confirmation: document.getElementById('u_password_confirmation').value,
-    _token:   CSRF,
-  });
-
-  const url = id ? `/usuarios/${id}` : '{{ route("usuarios.guardar") }}';
-  if (id) body.append('_method','PUT');
-
+async function toggleActivo(id, btn){
+  if (!confirm('¿Deseas cambiar el estado de este usuario?')) return;
   try {
-    const r = await fetch(url,{method:'POST',body,headers:{'X-CSRF-TOKEN':CSRF,'Accept':'application/json'}});
-    const d = await r.json();
-    if (d.ok || r.redirected) { location.reload(); }
-    else {
-      const msg = d.message || (d.errors ? Object.values(d.errors).flat().join(', ') : 'Error.');
-      document.getElementById('userError').textContent = msg;
-      document.getElementById('userError').style.display = 'flex';
+    const res = await fetch(`/usuarios/${id}/toggle`, {
+      method: 'PATCH',
+      headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        'Accept': 'application/json'
+      }
+    });
+    const d = await res.json();
+    if(d.ok){
+      location.reload();
+    } else {
+      alert(d.error || 'No se pudo cambiar el estado.');
     }
   } catch(e) {
-    document.getElementById('userError').textContent = 'Error de conexión.';
-    document.getElementById('userError').style.display = 'flex';
-  } finally { btn.disabled=false; }
-}
-
-async function toggleUsuario(id, btn, activo) {
-  if (!confirm(activo ? '¿Desactivar este usuario?' : '¿Activar este usuario?')) return;
-  btn.disabled=true;
-  const r = await fetch(`/usuarios/${id}/toggle`,{
-    method:'PATCH', headers:{'X-CSRF-TOKEN':CSRF,'Accept':'application/json'}
-  });
-  const d = await r.json();
-  if(d.ok) location.reload();
-  else { alert(d.error||'Error.'); btn.disabled=false; }
+    alert('Error al comunicar con el servidor.');
+  }
 }
 </script>
 @endpush

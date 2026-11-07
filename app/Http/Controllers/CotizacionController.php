@@ -15,7 +15,7 @@ class CotizacionController extends Controller
             ->where('valida_hasta','<', today())
             ->update(['estado' => 'vencida']);
 
-        $cotizaciones = Cotizacion::with(['cliente','usuario'])
+        $cotizaciones = Cotizacion::with(['cliente','usuario','items.producto'])
             ->latest('created_at')
             ->paginate(20);
         return view('cotizaciones.index', compact('cotizaciones'));

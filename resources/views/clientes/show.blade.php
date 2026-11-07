@@ -15,7 +15,7 @@
           <div class="info-item"><span>NIT</span><strong>{{ $cliente->nit ?? '—' }}</strong></div>
           <div class="info-item"><span>Tipo</span>
             <span class="badge badge-{{ $cliente->tipo==='credito'?'warning':'success' }}">
-              {{ $cliente->tipo === 'credito' ? '<i class="fa-solid fa-credit-card"></i> Crédito' : '<i class="fa-solid fa-money-bill-wave"></i> Contado' }}
+              {!! $cliente->tipo === 'credito' ? '<i class="fa-solid fa-credit-card"></i> Crédito' : '<i class="fa-solid fa-money-bill-wave"></i> Contado' !!}
             </span>
           </div>
           <div class="info-item"><span>Teléfono</span><strong>{{ $cliente->telefono ?? '—' }}</strong></div>

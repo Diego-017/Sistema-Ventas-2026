@@ -16,7 +16,7 @@
           <td><strong>{{ $i->nombre }}</strong></td>
           <td>
             <span class="badge badge-{{ $i->tipo==='termica'?'info':'primary' }}">
-              {{ $i->tipo === 'termica' ? '<i class="fa-solid fa-receipt"></i> Térmica' : ($i->tipo === 'laser' ? '<i class="fa-solid fa-bolt"></i> Láser' : '<i class="fa-solid fa-droplet"></i> Inkjet') }}
+              {!! $i->tipo === 'termica' ? '<i class="fa-solid fa-receipt"></i> Térmica' : ($i->tipo === 'laser' ? '<i class="fa-solid fa-bolt"></i> Láser' : '<i class="fa-solid fa-droplet"></i> Inkjet') !!}
             </span>
           </td>
           <td>{{ $i->conexion ?? '—' }}</td>

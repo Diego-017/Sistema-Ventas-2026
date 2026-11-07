@@ -119,6 +119,7 @@ Route::middleware('auth.session')->group(function () {
     // ── CAJA Y CORTE ─────────────────────────────────────────────
     Route::get('/caja',                  [CajaController::class, 'index'])->name('caja.index');
     Route::get('/caja/corte-admin',      [CajaController::class, 'administrarCorte'])->name('caja.administrar_corte');
+    Route::get('/caja/apertura',         [CajaController::class, 'formApertura'])->name('caja.form_apertura');
     Route::get('/caja/corte-x/{id}',     [CajaController::class, 'corteX'])->name('caja.corte_x');
     Route::post('/caja/abrir',           [CajaController::class, 'abrir'])->name('caja.abrir');
     Route::post('/caja/cerrar',          [CajaController::class, 'cerrar'])->name('caja.cerrar');
@@ -141,6 +142,10 @@ Route::middleware('auth.session')->group(function () {
 
     // ── ADMIN ─────────────────────────────────────────────────────
     Route::get('/usuarios',               [UsuarioController::class, 'index'])->name('usuarios.index');
+    Route::get('/usuarios/crear',         [UsuarioController::class, 'create'])->name('usuarios.crear');
+    Route::get('/usuarios/{id}/editar',   [UsuarioController::class, 'edit'])->name('usuarios.editar');
+    Route::get('/usuarios/{id}/eliminar', [UsuarioController::class, 'confirmDelete'])->name('usuarios.confirmar_eliminar');
+    Route::delete('/usuarios/{id}',       [UsuarioController::class, 'destroy'])->name('usuarios.eliminar');
     Route::post('/usuarios',              [UsuarioController::class, 'store'])->name('usuarios.guardar');
     Route::put('/usuarios/{id}',          [UsuarioController::class, 'update'])->name('usuarios.actualizar');
     Route::patch('/usuarios/{id}/toggle', [UsuarioController::class, 'toggle'])->name('usuarios.toggle');

@@ -9,14 +9,14 @@ class CompraController extends Controller
 {
     public function index()
     {
-        $this->requireAdmin();
-        $compras = Compra::with(['proveedor','usuario'])->latest('created_at')->paginate(20);
+        // Permitido para admin y empleado
+        $compras = Compra::with(['proveedor','usuario','items.producto'])->latest('created_at')->paginate(20);
         return view('compras.index', compact('compras'));
     }
 
     public function create()
     {
-        $this->requireAdmin();
+        // Permitido para admin y empleado
         $proveedores = Proveedor::orderBy('nombre')->get();
         $productos   = Producto::activo()->orderBy('nombre')->get(['id','nombre','sku','precio_compra','stock']);
         return view('compras.form', compact('proveedores','productos'));
@@ -24,7 +24,7 @@ class CompraController extends Controller
 
     public function store(Request $request)
     {
-        $this->requireAdmin();
+        // Permitido para admin y empleado
         $items = json_decode($request->input('items','[]'), true);
         if (empty($items)) {
             return response()->json(['error' => 'Agrega al menos un producto.'], 422);
@@ -72,14 +72,14 @@ class CompraController extends Controller
 
     public function show(int $id)
     {
-        $this->requireAdmin();
+        // Permitido para admin y empleado
         $compra = Compra::with(['proveedor','usuario','items'])->findOrFail($id);
         return view('compras.show', compact('compra'));
     }
 
     public function anular(int $id)
     {
-        $this->requireAdmin();
+        // Permitido para admin y empleado
         $compra = Compra::with('items')->findOrFail($id);
         DB::transaction(function () use ($compra) {
             foreach ($compra->items as $item) {

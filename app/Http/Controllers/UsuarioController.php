@@ -13,23 +13,69 @@ class UsuarioController extends Controller
         return view('usuarios.index', compact('usuarios'));
     }
 
+    public function create()
+    {
+        $this->requireAdmin();
+        $usuario = null;
+        $roles = [
+            'admin'      => 'Administrador General',
+            'vendedor'   => 'Vendedor / Cajero',
+            'supervisor' => 'Supervisor de Ventas y Caja',
+            'bodeguero'  => 'Encargado de Inventario / Bodega',
+            'contador'   => 'Auditor / Contador',
+        ];
+        $sucursales = ['Sucursal Central', 'Sucursal Norte', 'Sucursal Sur', 'Bodega Principal'];
+        return view('usuarios.form', compact('usuario', 'roles', 'sucursales'));
+    }
+
     public function store(Request $request)
     {
         $this->requireAdmin();
         $request->validate([
-            'nombre'   => 'required|string|max:100',
-            'email'    => 'required|email|unique:usuarios,email',
-            'password' => 'required|min:6|confirmed',
-            'rol'      => 'required|in:admin,vendedor',
+            'nombre'    => 'required|string|max:100',
+            'email'     => 'required|email|unique:usuarios,email',
+            'password'  => 'required|min:6|confirmed',
+            'rol'       => 'required|in:admin,vendedor,supervisor,bodeguero,contador',
+            'telefono'  => 'nullable|string|max:50',
+            'cargo'     => 'nullable|string|max:100',
+            'sucursal'  => 'nullable|string|max:100',
+            'direccion' => 'nullable|string|max:255',
+            'notas'     => 'nullable|string',
         ]);
-        Usuario::create([
-            'nombre'   => $request->nombre,
-            'email'    => $request->email,
-            'password' => bcrypt($request->password),
-            'rol'      => $request->rol,
-            'activo'   => 1,
+
+        $usuario = Usuario::create([
+            'nombre'    => $request->nombre,
+            'email'     => $request->email,
+            'password'  => bcrypt($request->password),
+            'rol'       => $request->rol,
+            'telefono'  => $request->telefono,
+            'cargo'     => $request->cargo,
+            'sucursal'  => $request->sucursal ?? 'Sucursal Central',
+            'direccion' => $request->direccion,
+            'notas'     => $request->notas,
+            'activo'    => $request->has('activo') ? 1 : ($request->input('activo', 1) ? 1 : 0),
         ]);
-        return back()->with('success', 'Usuario creado correctamente.');
+
+        if ($request->ajax() || $request->expectsJson()) {
+            return response()->json(['ok' => true, 'id' => $usuario->id]);
+        }
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario registrado correctamente.');
+    }
+
+    public function edit(int $id)
+    {
+        $this->requireAdmin();
+        $usuario = Usuario::findOrFail($id);
+        $roles = [
+            'admin'      => 'Administrador General',
+            'vendedor'   => 'Vendedor / Cajero',
+            'supervisor' => 'Supervisor de Ventas y Caja',
+            'bodeguero'  => 'Encargado de Inventario / Bodega',
+            'contador'   => 'Auditor / Contador',
+        ];
+        $sucursales = ['Sucursal Central', 'Sucursal Norte', 'Sucursal Sur', 'Bodega Principal'];
+        return view('usuarios.form', compact('usuario', 'roles', 'sucursales'));
     }
 
     public function update(Request $request, int $id)
@@ -37,15 +83,47 @@ class UsuarioController extends Controller
         $this->requireAdmin();
         $user = Usuario::findOrFail($id);
         $request->validate([
-            'nombre' => 'required|string|max:100',
-            'email'  => 'required|email|unique:usuarios,email,'.$id,
-            'rol'    => 'required|in:admin,vendedor',
-            'password' => 'nullable|min:6|confirmed',
+            'nombre'    => 'required|string|max:100',
+            'email'     => 'required|email|unique:usuarios,email,'.$id,
+            'rol'       => 'required|in:admin,vendedor,supervisor,bodeguero,contador',
+            'password'  => 'nullable|min:6|confirmed',
+            'telefono'  => 'nullable|string|max:50',
+            'cargo'     => 'nullable|string|max:100',
+            'sucursal'  => 'nullable|string|max:100',
+            'direccion' => 'nullable|string|max:255',
+            'notas'     => 'nullable|string',
         ]);
-        $data = $request->only(['nombre','email','rol']);
-        if ($request->filled('password')) $data['password'] = bcrypt($request->password);
+
+        $data = $request->only(['nombre','email','rol','telefono','cargo','sucursal','direccion','notas']);
+        $data['activo'] = $request->has('activo') ? 1 : 0;
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
         $user->update($data);
-        return response()->json(['ok' => true]);
+
+        if ($request->ajax() || $request->expectsJson()) {
+            return response()->json(['ok' => true]);
+        }
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
+    }
+
+    public function confirmDelete(int $id)
+    {
+        $this->requireAdmin();
+        $usuario = Usuario::findOrFail($id);
+        return view('usuarios.eliminar', compact('usuario'));
+    }
+
+    public function destroy(int $id)
+    {
+        $this->requireAdmin();
+        $user = Usuario::findOrFail($id);
+        if ($user->id === $this->userId()) {
+            return redirect()->route('usuarios.index')->with('error', 'No puedes eliminar tu propio usuario de sesión.');
+        }
+        $user->delete();
+        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
     }
 
     public function toggle(int $id)

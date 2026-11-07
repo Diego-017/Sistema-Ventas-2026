@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Caja extends Model
 {
     protected $table    = 'cajas';
-    protected $fillable = ['nombre','usuario_id','monto_apertura','monto_cierre','total_ventas','total_gastos','estado','notas_apertura','notas_cierre','cerrada_at'];
+    protected $fillable = ['nombre','usuario_id','sucursal', 'turno', 'monto_apertura','monto_cierre','total_ventas','total_gastos','estado','notas_apertura','notas_cierre','cerrada_at'];
     const UPDATED_AT    = null;
     const CREATED_AT    = 'abierta_at';
 

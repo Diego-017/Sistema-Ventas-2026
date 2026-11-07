@@ -43,6 +43,9 @@ class AuthController extends Controller
     public function actualizarPerfil(Request $request)
     {
         $user = Usuario::find($this->userId()) ?? Usuario::first() ?? new Usuario(['nombre' => 'Usuario', 'email' => 'admin@ventaspro.com', 'rol' => 'admin']);
+        if ($user->rol !== 'admin') {
+            return back()->with('error', 'Acceso solo para administradores: No tiene permisos para modificar la información de perfil.');
+        }
         $request->validate([
             'nombre'   => 'required|string|max:100',
             'email'    => 'required|email|unique:usuarios,email,' . ($user->id ?? 0),

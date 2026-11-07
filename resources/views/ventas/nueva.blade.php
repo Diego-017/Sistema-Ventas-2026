@@ -2516,9 +2516,9 @@ body.monochrome-mode .f2-payment-row {
                     </div>
 
 
-                    <!-- TARJETA -->
+                    <!-- TARJETA (Oculto: exclusivo efectivo) -->
 
-                    <div class="f2-payment-section">
+                    <div class="f2-payment-section" style="display:none">
 
                         <label class="f2-payment-label">
                             TARJETA
@@ -2545,9 +2545,9 @@ body.monochrome-mode .f2-payment-row {
                     </div>
 
 
-                    <!-- TRANSFERENCIA -->
+                    <!-- TRANSFERENCIA (Oculto: exclusivo efectivo) -->
 
-                    <div class="f2-payment-section">
+                    <div class="f2-payment-section" style="display:none">
 
                         <label class="f2-payment-label">
                             TRANSFERENCIA
@@ -3321,25 +3321,24 @@ function recalc(sub){
         ) || 0;
 
 
-    const base =
+    const totalVenta =
         Math.max(
             0,
             sub - descuento
         );
+    const base = totalVenta;
 
+    // IVA 13% integrado en el precio de venta (El Salvador):
+    const gravado =
+        totalVenta > 0 ? (totalVenta / 1.13) : 0;
 
     const iva =
-        base * 0.13;
-
-
-    const gravado =
-        base - iva;
-
+        totalVenta - gravado;
 
     const total =
         Math.max(
             0,
-            base - retencion
+            totalVenta - retencion
         );
 
 

@@ -5,7 +5,7 @@
 <div class="page-header" style="margin-bottom: 20px">
   <div>
     <h1 style="color: #38bdf8; font-size: 1.6rem; font-weight: 800; margin:0">
-      {{ $cliente ? '<i class="fa-solid fa-pen"></i> Editar Cliente Avanzado' : '<i class="fa-solid fa-plus"></i> Registrar Nuevo Cliente' }}
+      {!! $cliente ? '<i class="fa-solid fa-pen"></i> Editar Cliente Avanzado' : '<i class="fa-solid fa-plus"></i> Registrar Nuevo Cliente' !!}
     </h1>
     <p class="page-sub" style="color: #94a3b8; margin-top:4px">
       {{ $cliente ? 'Modifica la ficha técnica y fiscal del cliente seleccionado' : 'Ingresa la información general, comercial y tributaria del cliente' }}

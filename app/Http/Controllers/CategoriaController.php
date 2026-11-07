@@ -34,7 +34,9 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         $request->validate(['nombre' => 'required|string|max:100|unique:categorias,nombre']);
-        $c = Categoria::create(['nombre' => $request->nombre, 'descripcion' => $request->descripcion]);
+        $data = $request->only(['codigo','nombre','descripcion','color','icono','margen_sugerido','orden']);
+        $data['activo'] = $request->has('activo') ? 1 : ($request->input('activo', 1) ? 1 : 0);
+        $c = Categoria::create($data);
 
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json(['ok' => true, 'id' => $c->id]);
@@ -46,7 +48,9 @@ class CategoriaController extends Controller
     {
         $request->validate(['nombre' => 'required|string|max:100|unique:categorias,nombre,'.$id]);
         $c = Categoria::findOrFail($id);
-        $c->update(['nombre' => $request->nombre, 'descripcion' => $request->descripcion]);
+        $data = $request->only(['codigo','nombre','descripcion','color','icono','margen_sugerido','orden']);
+        $data['activo'] = $request->has('activo') ? 1 : 0;
+        $c->update($data);
 
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json(['ok' => true]);

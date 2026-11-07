@@ -12,11 +12,17 @@
 <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ @filemtime(public_path('css/app.css')) ?: time() }}">
 <script>
   (function() {
-    var isDark = localStorage.getItem('digitalspos_dark_mode') === '1' || localStorage.getItem('digitalspos_monochrome_mode') === '1';
+    var stored = localStorage.getItem('digitalspos_dark_mode');
+    var isDark = stored === null || stored === '1' || localStorage.getItem('digitalspos_monochrome_mode') === '1';
     if (isDark) {
       document.documentElement.classList.add('dark-mode', 'monochrome-mode');
     }
   })();
+  document.addEventListener('DOMContentLoaded', function() {
+    if (document.documentElement.classList.contains('dark-mode')) {
+      document.body.classList.add('dark-mode', 'monochrome-mode');
+    }
+  });
 </script>
 @stack('head')
 </head>
@@ -163,9 +169,11 @@
           <a href="{{ route('inventario.stock_lote') }}" class="nav-subitem {{ request()->is('inventario/stock-lote') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Consulta de Stock Lote</span>
           </a>
+          @if($esAdmin)
           <a href="{{ route('inventario.margenes') }}" class="nav-subitem {{ request()->is('inventario/margenes') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Tabla de Márgenes</span>
           </a>
+          @endif
           <a href="{{ route('inventario.vencimientos') }}" class="nav-subitem {{ request()->is('inventario/vencimientos') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Vencimientos</span>
           </a>
@@ -211,18 +219,17 @@
           <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
         <div class="nav-group-wrap"><div class="nav-group-body">
-          <a href="{{ route('caja.administrar_corte') }}" class="nav-subitem {{ request()->routeIs('caja.administrar_corte') ? 'active':'' }}">
-            <span class="nav-dot"></span><span>Corte Caja (Corte X / Z)</span>
+          <a href="{{ route('caja.administrar_corte') }}" class="nav-subitem {{ request()->routeIs(['caja.administrar_corte','caja.index','caja.form_apertura','caja.form_cierre']) ? 'active':'' }}">
+            <span class="nav-dot"></span><span>Administrar Corte</span>
           </a>
-          <a href="{{ route('caja.index') }}" class="nav-subitem {{ request()->is('caja') ? 'active':'' }}">
-            <span class="nav-dot"></span><span>Administrar Cajas</span>
-          </a>
-          <a href="{{ route('caja.movimientos') }}" class="nav-subitem {{ request()->is('caja/movimientos') ? 'active':'' }}">
+          <a href="{{ route('caja.movimientos') }}" class="nav-subitem {{ request()->is('caja/movimientos*') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Administrar Movimientos</span>
           </a>
-          <a href="{{ route('caja.historial') }}" class="nav-subitem {{ request()->is('caja/historial') ? 'active':'' }}">
+          @if($esAdmin)
+          <a href="{{ route('caja.historial') }}" class="nav-subitem {{ request()->is('caja/historial*') ? 'active':'' }}">
             <span class="nav-dot"></span><span>Historial de Cortes</span>
           </a>
+          @endif
         </div></div>
       </div>
 
