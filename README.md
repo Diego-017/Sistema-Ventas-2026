@@ -1,7 +1,6 @@
 # Sistema de Ventas 2026 Julio - Noviembre 2026
 
-<img width="959" height="539" alt="image" src="https://github.com/user-attachments/assets/df656bd0-e4ca-40fc-b6ce-1114f63c0b0f" />
-
+<img width="959" height="539" alt="image" src="https://github.com/user-attachments/assets/d12c10a5-6725-4aef-a5f6-74766725f8b3" />
 
 ## Instalación (5 pasos)
 
